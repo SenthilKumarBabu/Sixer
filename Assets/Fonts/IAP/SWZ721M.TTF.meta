@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: c7df0936126a7d24ba7969bb47acddc7
+timeCreated: 1508762428
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Swis721 Md BT
+  fontNames:
+  - Swis721 Md BT
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 648fc2b2eaef14c4ab4f02afbe74d384, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,307 @@
+fileFormatVersion: 2
+guid: 4b812ff7c5e19e545b3b05cfe1c9f340
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: nee_r
+    100002: fi_r
+    100004: fm_ik_l
+    100006: fight_r
+    100008: shin_l
+    100010: food_r
+    100012: fod_r
+    100014: fms_r
+    100016: ftt_l
+    100018: hand_l
+    100020: shin_r
+    100022: food_ik_l
+    100024: aims_l
+    100026: solder_l
+    100028: head
+    100030: neck
+    100032: elpow_r
+    100034: ft_r
+    100036: fmt_l
+    100038: fmm_l
+    100040: //RootNode
+    100042: heal_ik_l
+    100044: just
+    100046: spin
+    100048: hip
+    100050: fight_l
+    100052: foraim_r
+    100054: aims_r
+    100056: food_ik_r
+    100058: Bone
+    100060: Armature
+    100062: Sphere
+    100064: fts_r
+    100066: fmt_r
+    100068: elpow_l
+    100070: fts_l
+    100072: ft_l
+    100074: Bowler
+    100076: fi_l
+    100078: food_l
+    100080: fmm_r
+    100082: fod_l
+    100084: ftt_r
+    100086: ftm_r
+    100088: nee_l
+    100090: fm_ik_r
+    100092: heal_ik_r
+    100094: solder_r
+    100096: foraim_l
+    100098: ft_ik_l
+    100100: fms_l
+    100102: ft_ik_r
+    100104: ftm_l
+    100106: hand_r
+    400000: nee_r
+    400002: fi_r
+    400004: fm_ik_l
+    400006: fight_r
+    400008: shin_l
+    400010: food_r
+    400012: fod_r
+    400014: fms_r
+    400016: ftt_l
+    400018: hand_l
+    400020: shin_r
+    400022: food_ik_l
+    400024: aims_l
+    400026: solder_l
+    400028: head
+    400030: neck
+    400032: elpow_r
+    400034: ft_r
+    400036: fmt_l
+    400038: fmm_l
+    400040: //RootNode
+    400042: heal_ik_l
+    400044: just
+    400046: spin
+    400048: hip
+    400050: fight_l
+    400052: foraim_r
+    400054: aims_r
+    400056: food_ik_r
+    400058: Bone
+    400060: Armature
+    400062: Sphere
+    400064: fts_r
+    400066: fmt_r
+    400068: elpow_l
+    400070: fts_l
+    400072: ft_l
+    400074: Bowler
+    400076: fi_l
+    400078: food_l
+    400080: fmm_r
+    400082: fod_l
+    400084: ftt_r
+    400086: ftm_r
+    400088: nee_l
+    400090: fm_ik_r
+    400092: heal_ik_r
+    400094: solder_r
+    400096: foraim_l
+    400098: ft_ik_l
+    400100: fms_l
+    400102: ft_ik_r
+    400104: ftm_l
+    400106: hand_r
+    4300000: Bowler
+    4300002: Sphere
+    7400000: Default Take
+    7400002: BowlerIdle
+    7400004: BowlerRunupEdit
+    7400006: IdleAction1
+    7400008: IdleAction2
+    7400010: IdleAction3
+    11100000: //RootNode
+    13700000: Sphere
+    13700002: Bowler
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: BowlerIdle
+      takeName: 
+      firstFrame: 125
+      lastFrame: 126
+      wrapMode: 1
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: BowlerRunupEdit
+      takeName: 
+      firstFrame: 150
+      lastFrame: 310
+      wrapMode: 1
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: IdleAction1
+      takeName: 
+      firstFrame: 320
+      lastFrame: 460
+      wrapMode: 1
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: IdleAction2
+      takeName: 
+      firstFrame: 76
+      lastFrame: 100
+      wrapMode: 1
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: IdleAction3
+      takeName: 
+      firstFrame: 101
+      lastFrame: 125
+      wrapMode: 1
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1.10000002
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  additionalBone: 1
+  userData: 

@@ -1,0 +1,40 @@
+<cricket>
+  <team name="Chennai Super Kings" abbrevation="CSK">
+	 <PlayerDetails>
+    <player name="KL Rehul" sname="KL Rehul" num="1" batHand="R" batStyle="Right Hand Batsman" lp="1" dp="1"/>
+    <player name="S Dhawen" sname="S Dhawen" num="42" batHand="L" batStyle="Left Hand Batsman" lp="0" dp="1"/>
+    <player name="V Koli" sname="V Koli" num="18" batHand="R" batStyle="Right Hand Batsman" lp="1" dp="1"/>
+	  <player name="S Iyar" sname="S Iyar" num="8" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="1"/>
+	  <player name="MS Doni" sname="MS Doni" num="41" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="1"/>
+    <player name="R Jadaja" sname="R Jadaja" num="8" batHand="L" batStyle="Left Hand Batsman" lp="1" dp="1"/>
+	  <player name="H Pandea" sname="H Pandea" num="33" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="1"/>
+     <player name="B Kumer" sname="B Kumer" num="15" batHand="R" batStyle="Right Hand Batsman" lp="1" dp="1"/>
+     <player name="M Sami" sname="M Sami" num="11" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="1"/>
+     <player name="Y Chahel" sname="Y Chahel" num="3" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="1"/>
+     <player name="J Bumreh" sname="J Bumreh" num="93" batHand="L" batStyle="Left Hand Batsman" lp="1" dp="1"/>
+    <player name="R Sherma" sname="R Sherma" num="45" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="0"/>
+     <player name="K Yadev" sname="K Yadev" num="90" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="0"/>
+     <player name="M Panday" sname="M Panday" num="22" batHand="R" batStyle="Right Hand Batsman" lp="1" dp="0"/>
+     <player name="D Karthi" sname="D Karthi" num="18" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="0"/>
+     <player name="A Rahene" sname="A Rahene" num="96" batHand="L" batStyle="Left Hand Batsman" lp="0" dp="0"/>
+     <player name="S Gell" sname="S Gell" num="36" batHand="L" batStyle="Left Hand Batsman" lp="0" dp="0"/>
+     <player name="P Shew" sname="P Shew" num="24" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="0"/>
+     <player name="U Yadev" sname="U Yadev" num="74" batHand="L" batStyle="Left Hand Batsman" lp="1" dp="0"/>
+     <player name="R Gaikwed" sname="R Gaikwed" num="31" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="0"/>
+     <player name="R Pent" sname="R Pent" num="10" batHand="L" batStyle="Left Hand Batsman" lp="1" dp="0"/>
+     <player name="I Sherma" sname="I Sherma" num="79" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="0"/>
+     <player name="R Aswin" sname="R Aswin" num="46" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="0"/>
+     <player name="S Takur" sname="S Takur" num="16" batHand="L" batStyle="Left Hand Batsman" lp="0" dp="0"/>
+     <player name="M Agerwal" sname="M Agerwal" num="27" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="0"/>
+     
+     <!--<player name="Shane Watson" sname="S Watson" num="33" batHand="R" batStyle="Right Hand Batsman" lp="1" dp="1"/>-->
+     <!--<player name="Murali Vijay" sname="M Vijay" num="1" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="1"/>-->
+     <!--<player name="Harbhajan Singh" sname="H Singh" num="27" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="1"/>-->
+     <!--<player name="Piyush Chawla" sname="P Chawla" num="21" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="1"/>-->
+     <!--<player name="Kedar Jadhav" sname="K Jadhav" num="81" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="0"/>-->
+     <!--<player name="Mohit Sharma" sname="M Sharma" num="18" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="0"/>-->
+     <!--<player name="Monu Kumar" sname="M Kumar" num="2" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="0"/>-->
+	</PlayerDetails>
+  </team>
+</cricket>
+

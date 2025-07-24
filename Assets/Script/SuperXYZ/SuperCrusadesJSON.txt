@@ -1,0 +1,252 @@
+{
+	"SuperXYZ": [
+	  {
+		"name": "CHENNAI-2008",
+		"matches":[
+		            { "primary": {"objective": "score|240","reward": "1"},"secondary": {"objective": "wicket|5","reward": "1"},"tertiary": {"objective": "six|15","reward": "2"},"opp":"PUNJAB"},
+					{ "primary": {"objective": "score|208","reward": "1"},"secondary": {"objective": "wicket|5","reward": "1"},"tertiary": {"objective": "four|30","reward": "2"},"opp":"MUMBAI" },
+					{ "primary": {"objective": "score|152","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "wicket|1","reward": "2"} ,"opp":"KOLKATA"},
+					{ "primary": {"objective": "score|178","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "overs|15","reward": "2"} ,"opp":"BANGALORE"},
+					{ "primary": {"objective": "score|169","reward": "1"},"secondary": {"objective": "wicket|5","reward": "1"},"tertiary": {"objective": "halfcentury|2","reward": "2"} ,"opp":"DELHI"},
+					{ "primary": {"objective": "score|109","reward": "1"},"secondary": {"objective": "wicket|0","reward": "1"},"tertiary": {"objective": "overs|5","reward": "2"} ,"opp":"RAJASTHAN"},
+					{ "primary": {"objective": "score|144","reward": "1"},"secondary": {"objective": "six|5","reward": "1"},"tertiary": {"objective": "wicket|1","reward": "2"} ,"opp":"DECCAN"},
+					{ "primary": {"objective": "score|188","reward": "1"},"secondary": {"objective": "wicket|5","reward": "1"},"tertiary": {"objective": "halfcentury|2","reward": "2"} ,"opp":"DELHI"},
+					{ "primary": {"objective": "score|181","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"} ,"opp":"PUNJAB"},
+					{ "primary": {"objective": "score|156","reward": "1"},"secondary": {"objective": "overs|10","reward": "1"},"tertiary": {"objective": "wicket|1","reward": "2"} ,"opp":"MUMBAI"},
+					{ "primary": {"objective": "score|55","reward": "1"},"secondary": {"objective": "wicket|0","reward": "1"},"tertiary": {"objective": "overs|3","reward": "2"} ,"opp":"KOLKATA"},
+					{ "primary": {"objective": "score|112","reward": "1"},"secondary": {"objective": "wicket|5","reward": "1"},"tertiary": {"objective": "six|15","reward": "2"} ,"opp":"BANGALORE"},
+					{ "primary": {"objective": "score|201","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "sixFour|10-20","reward": "2"} ,"opp":"RAJASTHAN"},
+					{ "primary": {"objective": "score|148","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "century|1","reward": "2"} ,"opp":"DECCAN"},
+					{ "primary": {"objective": "score|116","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"} ,"opp":"PUNJAB"},
+					{ "primary": {"objective": "score|163","reward": "1"},"secondary": {"objective": "wicket|5","reward": "1"},"tertiary": {"objective": "sixFour|5-10","reward": "2"},"opp":"RAJASTHAN" }					
+				  ]
+	  },
+																		
+	  	  {
+		"name": "CHENNAI-2009",
+		"matches":[
+		            { "primary": {"objective": "score|146","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "boundary|20","reward": "2"},"opp":"MUMBAI" },
+					{ "primary": {"objective": "score|179","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"BANGALORE" },
+					{ "primary": {"objective": "score|180","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "wicket|0","reward": "2"},"opp":"DELHI" },
+					{ "primary": {"objective": "score|205","reward": "1"},"secondary": {"objective": "wicket|5","reward": "1"},"tertiary": {"objective": "century|1","reward": "2"},"opp":"KOLKATA" },
+					{ "primary": {"objective": "score|165","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"DECCAN" },
+					{ "primary": {"objective": "score|164","reward": "1"},"secondary": {"objective": "six|10","reward": "1"},"tertiary": {"objective": "150runs|1","reward": "2"},"opp":"RAJASTHAN" },
+					{ "primary": {"objective": "score|163","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "four|20","reward": "2"},"opp":"DELHI" },
+					{ "primary": {"objective": "score|178","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"DECCAN" },
+					{ "primary": {"objective": "score|185","reward": "1"},"secondary": {"objective": "six|10","reward": "1"},"tertiary": {"objective": "century|1","reward": "2"},"opp":"PUNJAB" },
+					{ "primary": {"objective": "score|141","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"RAJASTHAN" },
+					{ "primary": {"objective": "score|129","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "overs|5","reward": "2"},"opp":"BANGALORE" },			
+					{ "primary": {"objective": "score|151","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "wicket|0","reward": "2"},"opp":"MUMBAI" },				
+					{ "primary": {"objective": "score|188","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"KOLKATA" },				
+					{ "primary": {"objective": "score|116","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "wicket|0","reward": "2"},"opp":"PUNJAB" },				
+					{ "primary": {"objective": "score|146","reward": "1"},"secondary": {"objective": "six|10","reward": "1"},"tertiary": {"objective": "century|1","reward": "2"},"opp":"BANGALORE" },				
+					{ "primary": {"objective": "score|143","reward": "1"},"secondary": {"objective": "boundary|15","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"DECCAN" }				
+									
+				  ]
+	  },
+	  
+	  
+	  	  {
+		"name": "CHENNAI-2010",
+		"matches":[
+				    { "primary": {"objective": "score|159","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "six|10","reward": "2"},"opp":"DECCAN" },
+					{ "primary": {"objective": "score|164","reward": "1"},"secondary": {"objective": "wicket|3","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"KOLKATA" },
+					{ "primary": {"objective": "score|190","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "boundary|30","reward": "2"},"opp":"DELHI" },
+					{ "primary": {"objective": "score|136","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "boundary|15","reward": "2"},"opp":"PUNJAB" },
+					{ "primary": {"objective": "score|135","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"BANGALORE" },
+					{ "primary": {"objective": "score|180","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"MUMBAI" },
+					{ "primary": {"objective": "score|160","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"},"opp":"RAJASTHAN" }, 
+					{ "primary": {"objective": "score|162","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"BANGALORE" },
+					{ "primary": {"objective": "score|246","reward": "1"},"secondary": {"objective": "wicket|5","reward": "1"},"tertiary": {"objective": "doublecentury|1","reward": "2"},"opp":"RAJASTHAN" },
+					{ "primary": {"objective": "score|165","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "boundary|15","reward": "2"},"opp":"MUMBAI" },
+					{ "primary": {"objective": "score|138","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "six|15","reward": "2"},"opp":"DECCAN" },
+					{ "primary": {"objective": "score|143","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"KOLKATA" },
+					{ "primary": {"objective": "score|112","reward": "1"},"secondary": {"objective": "six|10","reward": "1"},"tertiary": {"objective": "wicket|0","reward": "2"},"opp":"DELHI" },
+					{ "primary": {"objective": "score|195","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"PUNJAB" },
+					{ "primary": {"objective": "score|142","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"},"opp":"DECCAN" },
+					{ "primary": {"objective": "score|168","reward": "1"},"secondary": {"objective": "wicket|5","reward": "1"},"tertiary": {"objective": "six|10","reward": "2"},"opp":"MUMBAI" }            
+		]
+	  },
+	  
+	  
+	  	  {
+		"name": "CHENNAI-2011",																		
+		"matches":[
+		            { "primary": {"objective": "score|153","reward": "1"},"secondary": {"objective": "boundary|10","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"KOLKATA" },
+					{ "primary": {"objective": "score|188","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "four|20","reward": "2"},"opp":"PUNJAB" },
+					{ "primary": {"objective": "score|183","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"BANGALORE" },
+					{ "primary": {"objective": "score|131","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"KOCHI" },
+					{ "primary": {"objective": "score|156","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"MUMBAI" },
+					{ "primary": {"objective": "score|142","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "boundary|15","reward": "2"},"opp":"PUNE" },
+					{ "primary": {"objective": "score|145","reward": "1"},"secondary": {"objective": "overs|10","reward": "1"},"tertiary": {"objective": "wicket|0","reward": "2"},"opp":"PUNE" },
+					{ "primary": {"objective": "score|165","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"DECCAN" },
+					{ "primary": {"objective": "score|149","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "boundary|15","reward": "2"},"opp":"RAJASTHAN" },
+					{ "primary": {"objective": "score|114","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "wicket|0","reward": "2"},"opp":"KOLKATA" },		
+					{ "primary": {"objective": "score|196","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"RAJASTHAN" },				
+					{ "primary": {"objective": "score|176","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"},"opp":"DELHI" },				
+					{ "primary": {"objective": "score|152","reward": "1"},"secondary": {"objective": "wicket|5","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"KOCHI" },	
+					{ "primary": {"objective": "score|128","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "century|1","reward": "2"},"opp":"BANGALORE" },				
+					{ "primary": {"objective": "score|177","reward": "1"},"secondary": {"objective": "boundary|20","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"BANGALORE" },				
+					{ "primary": {"objective": "score|205","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "150runs|1","reward": "2"},"opp":"BANGALORE" }								  
+				  ]
+	  },
+	  
+	  
+	  
+	  	  {
+																									
+		"name": "CHENNAI-2012",
+		"matches":[
+		            { "primary": {"objective": "score|112","reward": "1"},"secondary": {"objective": "boundary|10","reward": "1"},"tertiary": {"objective": "overs|5","reward": "2"},"opp":"MUMBAI" },
+		            { "primary": {"objective": "score|193","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"DECCAN" },
+		            { "primary": {"objective": "score|110","reward": "1"},"secondary": {"objective": "boundary|10","reward": "1"},"tertiary": {"objective": "halfcentury|1","reward": "2"},"opp":"DELHI" },
+		            { "primary": {"objective": "score|208","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "sixFour|10-15","reward": "2"},"opp":"BANGALORE" },
+		            { "primary": {"objective": "score|155","reward": "1"},"secondary": {"objective": "overs|10","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"PUNJAB" },
+		            { "primary": {"objective": "score|164","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"},"opp":"PUNJAB" },
+		            { "primary": {"objective": "score|147","reward": "1"},"secondary": {"objective": "six|10","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"RAJASTHAN" },
+		            { "primary": {"objective": "score|234","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"BANGALORE" },
+		            { "primary": {"objective": "score|149","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "sixFour|5-15","reward": "2"},"opp":"PUNJAB" },
+		            { "primary": {"objective": "score|139","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"KOLKATA" },
+		            { "primary": {"objective": "score|160","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "wicket|0","reward": "2"},"opp":"DECCAN" },
+		            { "primary": {"objective": "score|173","reward": "1"},"secondary": {"objective": "six|10","reward": "1"},"tertiary": {"objective": "century|1","reward": "2"},"opp":"MUMBAI" },
+		            { "primary": {"objective": "score|127","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "overs|5","reward": "2"},"opp":"RAJASTHAN" },
+		            { "primary": {"objective": "score|115","reward": "1"},"secondary": {"objective": "overs|10","reward": "1"},"tertiary": {"objective": "wicket|0","reward": "2"},"opp":"DELHI" },
+		            { "primary": {"objective": "score|160","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"KOLKATA" },
+		            { "primary": {"objective": "score|120","reward": "1"},"secondary": {"objective": "six|15","reward": "1"},"tertiary": {"objective": "wicket|0","reward": "2"},"opp":"PUNJAB" },
+		            { "primary": {"objective": "score|187","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "four|25","reward": "2"},"opp":"MUMBAI" },
+		            { "primary": {"objective": "score|222","reward": "1"},"secondary": {"objective": "boundary|30","reward": "1"},"tertiary": {"objective": "150runs|1","reward": "2"},"opp":"DELHI" },
+		            { "primary": {"objective": "score|190","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "four|25","reward": "2"},"opp":"KOLKATA" }
+					]
+	  },
+	  {
+		"name": "CHENNAI-2013",																		
+		"matches":[
+		            { "primary": {"objective": "score|139","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "six|10","reward": "2"},"opp":"MUMBAI"  },
+		            { "primary": {"objective": "score|139","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"},"opp":"PUNJAB"  },
+		            { "primary": {"objective": "score|166","reward": "1"},"secondary": {"objective": "boundary|15","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"BANGALORE"  },
+		            { "primary": {"objective": "score|135","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"},"opp":"PUNE"  },
+		            { "primary": {"objective": "score|169","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"DELHI"  },
+		            { "primary": {"objective": "score|124","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "six|10","reward": "2"},"opp":"KOLKATA"  },
+		            { "primary": {"objective": "score|186","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"RAJASTHAN"  },
+		            { "primary": {"objective": "score|160","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"},"opp":"HYDERABAD"  },
+		            { "primary": {"objective": "score|200","reward": "1"},"secondary": {"objective": "boundary|25","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"KOLKATA"  },
+		            { "primary": {"objective": "score|164","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "four|10","reward": "2"},"opp":"PUNE"  },
+		            { "primary": {"objective": "score|186","reward": "1"},"secondary": {"objective": "boundary|20","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"PUNJAB"  },
+		            { "primary": {"objective": "score|79","reward": "1"},"secondary": {"objective": "six|5","reward": "1"},"tertiary": {"objective": "wicket|0","reward": "2"},"opp":"MUMBAI"  },
+		            { "primary": {"objective": "score|223","reward": "1"},"secondary": {"objective": "six|10","reward": "1"},"tertiary": {"objective": "150runs|1","reward": "2"},"opp":"HYDERABAD"  },
+		            { "primary": {"objective": "score|141","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "four|10","reward": "2"},"opp":"RAJASTHAN"  },
+		            { "primary": {"objective": "score|168","reward": "1"},"secondary": {"objective": "six|5","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"DELHI"  },
+		            { "primary": {"objective": "score|82","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "wicket|0","reward": "2"},"opp":"BANGALORE"  },
+		            { "primary": {"objective": "score|192","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"MUMBAI"  },
+		            { "primary": {"objective": "score|125","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "sixFour|5-10","reward": "2"},"opp":"MUMBAI"  }
+					]
+	  },
+	  	  	  {
+																									
+		"name": "CHENNAI-2014",																		
+		"matches":[
+		            { "primary": {"objective": "score|205","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"},"opp":"PUNJAB" },
+		            { "primary": {"objective": "score|177","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "overs|15","reward": "2"},"opp":"DELHI" },
+		            { "primary": {"objective": "score|140","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"RAJASTHAN" },
+		            { "primary": {"objective": "score|142","reward": "1"},"secondary": {"objective": "six|5","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"MUMBAI" },
+		            { "primary": {"objective": "score|146","reward": "1"},"secondary": {"objective": "boundary|15","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"HYDERABAD" },
+		            { "primary": {"objective": "score|148","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"KOLKATA" },
+		            { "primary": {"objective": "score|181","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"DELHI" },
+		            { "primary": {"objective": "score|187","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"PUNJAB" },
+		            { "primary": {"objective": "score|160","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "overs|15","reward": "2"},"opp":"MUMBAI" },
+		            { "primary": {"objective": "score|149","reward": "1"},"secondary": {"objective": "six|10","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"RAJASTHAN" },
+		            { "primary": {"objective": "score|138","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"CHENNAI" },
+		            { "primary": {"objective": "score|154","reward": "1"},"secondary": {"objective": "six|10","reward": "1"},"tertiary": {"objective": "wicket|0","reward": "2"},"opp":"KOLKATA" },
+		            { "primary": {"objective": "score|185","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "boundary|20","reward": "2"},"opp":"HYDERABAD" },
+		            { "primary": {"objective": "score|160","reward": "1"},"secondary": {"objective": "six|10","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"BANGALORE" },
+		            { "primary": {"objective": "score|176","reward": "1"},"secondary": {"objective": "overs|10","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"MUMBAI" },
+		            { "primary": {"objective": "score|202","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "boundary|30","reward": "2"},"opp":"PUNJAB" }
+					]
+	  },
+	  	  	  {
+																									
+		"name": "CHENNAI-2015",															
+		"matches":[																	
+		{ "primary": {"objective": "score|150","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "boundary|15","reward": "2"},"opp":"DELHI" },
+		{ "primary": {"objective": "score|209","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"},"opp":"HYDERABAD" },
+		{ "primary": {"objective": "score|189","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"MUMBAI" },
+		{ "primary": {"objective": "score|156","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"RAJASTHAN" },
+		{ "primary": {"objective": "score|181","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "sixFour|10-10","reward": "2"},"opp":"BANGALORE" },
+		{ "primary": {"objective": "score|192","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"PUNJAB" },
+		{ "primary": {"objective": "score|134","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"KOLKATA" },
+		{ "primary": {"objective": "score|165","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "boundary|20","reward": "2"},"opp":"KOLKATA" },
+		{ "primary": {"objective": "score|170","reward": "1"},"secondary": {"objective": "six|10","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"HYDERABAD" },
+		{ "primary": {"objective": "score|148","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"BANGALORE" },
+		{ "primary": {"objective": "score|158","reward": "1"},"secondary": {"objective": "wicket|5","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"MUMBAI" },
+		{ "primary": {"objective": "score|157","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"},"opp":"RAJASTHAN" },
+		{ "primary": {"objective": "score|119","reward": "1"},"secondary": {"objective": "wicket|0","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"DELHI" },
+		{ "primary": {"objective": "score|134","reward": "1"},"secondary": {"objective": "boundary|15","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"PUNJAB" },
+		{ "primary": {"objective": "score|162","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "overs|15","reward": "2"},"opp":"MUMBAI" },
+		{ "primary": {"objective": "score|140","reward": "1"},"secondary": {"objective": "boundary|10","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"BANGALORE" },
+		{ "primary": {"objective": "score|161","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "wicket|0","reward": "2"},"opp":"MUMBAI" }
+]
+	  },
+	  	{																									
+		"name": "CHENNAI-2018",										
+		"matches":[
+		{ "primary": {"objective": "score|169","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "overs|15","reward": "2"},"opp":"MUMBAI" },
+		{ "primary": {"objective": "score|205","reward": "1"},"secondary": {"objective": "boundary|20","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"KOLKATA" },
+		{ "primary": {"objective": "score|193","reward": "1"},"secondary": {"objective": "six|15","reward": "1"},"tertiary": {"objective": "century|1","reward": "2"},"opp":"PUNJAB" },
+		{ "primary": {"objective": "score|204","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "overs|15","reward": "2"},"opp":"RAJASTHAN" },
+		{ "primary": {"objective": "score|182","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"HYDERABAD" },
+		{ "primary": {"objective": "score|207","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"BANGALORE" },
+		{ "primary": {"objective": "score|169","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "four|10","reward": "2"},"opp":"MUMBAI" },
+		{ "primary": {"objective": "score|211","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "six|15","reward": "2"},"opp":"DELHI" },
+		{ "primary": {"objective": "score|177","reward": "1"},"secondary": {"objective": "boundary|25","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"KOLKATA" },
+		{ "primary": {"objective": "score|128","reward": "1"},"secondary": {"objective": "six|10","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"BANGALORE" },
+		{ "primary": {"objective": "score|176","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"},"opp":"RAJASTHAN" },
+		{ "primary": {"objective": "score|180","reward": "1"},"secondary": {"objective": "halfcentury|2","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"HYDERABAD" },
+		{ "primary": {"objective": "score|128","reward": "1"},"secondary": {"objective": "boundary|15","reward": "1"},"tertiary": {"objective": "overs|5","reward": "2"},"opp":"DELHI" },
+		{ "primary": {"objective": "score|159","reward": "1"},"secondary": {"objective": "six|10","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"PUNJAB" },
+		{ "primary": {"objective": "score|140","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"},"opp":"HYDERABAD" },
+		{ "primary": {"objective": "score|181","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "sixFour|10-15","reward": "2"},"opp":"HYDERABAD" }	           
+		]
+	  },	 
+	  {
+		"name": "CHENNAI-2019",
+		"matches":[
+				    { "primary": {"objective": "score|71","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "six|5","reward": "2"},"opp":"BANGALORE" },
+					{ "primary": {"objective": "score|150","reward": "1"},"secondary": {"objective": "wicket|3","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"DELHI" },
+					{ "primary": {"objective": "score|175","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "boundary|15","reward": "2"},"opp":"RAJASTHAN" },
+					{ "primary": {"objective": "score|133","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "boundary|10","reward": "2"},"opp":"MUMBAI" },
+					{ "primary": {"objective": "score|160","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"PUNJAB" },
+					{ "primary": {"objective": "score|111","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"KOLKATA" },
+					{ "primary": {"objective": "score|155","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "four|10","reward": "2"},"opp":"RAJASTHAN" }, 
+					{ "primary": {"objective": "score|162","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"KOLKATA" },
+					{ "primary": {"objective": "score|132","reward": "1"},"secondary": {"objective": "wicket|5","reward": "1"},"tertiary": {"objective": "century|1","reward": "2"},"opp":"HYDERABAD" },
+					{ "primary": {"objective": "score|160","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "boundary|15","reward": "2"},"opp":"BANGALORE" },
+					{ "primary": {"objective": "score|176","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "six|10","reward": "2"},"opp":"HYDERABAD" },
+					{ "primary": {"objective": "score|109","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"MUMBAI" },
+					{ "primary": {"objective": "score|179","reward": "1"},"secondary": {"objective": "six|10","reward": "1"},"tertiary": {"objective": "wicket|0","reward": "2"},"opp":"DELHI" },
+					{ "primary": {"objective": "score|170","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"PUNJAB" },
+					{ "primary": {"objective": "score|131","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"},"opp":"MUMBAI" },
+					{ "primary": {"objective": "score|151","reward": "1"},"secondary": {"objective": "wicket|5","reward": "1"},"tertiary": {"objective": "six|10","reward": "2"},"opp":"DELHI" },  
+                    { "primary": {"objective": "score|148","reward": "1"},"secondary": {"objective": "wicket|5","reward": "1"},"tertiary": {"objective": "six|10","reward": "2"},"opp":"MUMBAI" }  					
+		]
+	  },
+	  {
+		"name": "CHENNAI-2020",
+		"matches":[
+				    { "primary": {"objective": "score|166","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "six|5","reward": "2"},"opp":"MUMBAI" },
+					{ "primary": {"objective": "score|200","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"},"opp":"RAJASTHAN" },
+					{ "primary": {"objective": "score|131","reward": "1"},"secondary": {"objective": "boundary|15","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"DELHI" },
+					{ "primary": {"objective": "score|157","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"},"opp":"HYDERABAD" },
+					{ "primary": {"objective": "score|181","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"PUNJAB" },
+					{ "primary": {"objective": "score|157","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "six|10","reward": "2"},"opp":"KOLKATA" },
+					{ "primary": {"objective": "score|132","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "wicket|5","reward": "2"},"opp":"BANGALORE" }, 
+					{ "primary": {"objective": "score|167","reward": "1"},"secondary": {"objective": "century|1","reward": "1"},"tertiary": {"objective": "four|15","reward": "2"},"opp":"HYDERABAD" },
+					{ "primary": {"objective": "score|179","reward": "1"},"secondary": {"objective": "boundary|15","reward": "1"},"tertiary": {"objective": "wicket|3","reward": "2"},"opp":"DELHI" },
+					{ "primary": {"objective": "score|125","reward": "1"},"secondary": {"objective": "halfcentury|1","reward": "1"},"tertiary": {"objective": "four|5","reward": "2"},"opp":"RAJASTHAN" },
+					{ "primary": {"objective": "score|114","reward": "1"},"secondary": {"objective": "boundary|10","reward": "1"},"tertiary": {"objective": "overs|10","reward": "2"},"opp":"MUMBAI" },
+					{ "primary": {"objective": "score|150","reward": "1"},"secondary": {"objective": "six|5","reward": "1"},"tertiary": {"objective": "wicket|0","reward": "2"},"opp":"BANGALORE" },
+					{ "primary": {"objective": "score|178","reward": "1"},"secondary": {"objective": "six|5","reward": "1"},"tertiary": {"objective": "150runs|1","reward": "2"},"opp":"KOLKATA" },
+					{ "primary": {"objective": "score|154","reward": "1"},"secondary": {"objective": "overs|15","reward": "1"},"tertiary": {"objective": "four|10","reward": "2"},"opp":"PUNJAB" }				
+		]
+	  }
+	]
+}

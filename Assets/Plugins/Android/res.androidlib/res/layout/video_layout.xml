@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true">
+
+    <VideoView
+        android:id="@id/id_videoview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true" />
+
+    <ImageButton
+        android:id="@+id/id_btn_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:visibility="invisible"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:background="@null" />
+
+    <TextView
+        android:id="@id/id_skiptext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="video_skip_message"
+        android:textColor="#ffffffff"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="true"
+        android:visibility="invisible" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true">
+
+        <ProgressBar
+            android:id="@+id/id_progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:indeterminate="false"
+            android:progressDrawable="@drawable/progress_bar"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:id="@id/id_tvduration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:textColor="#ffffffff"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <TextView
+            android:id="@id/id_incent_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="incent_message"
+            android:textColor="#ffffffff"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="false"
+            android:layout_marginLeft="32dp"
+            android:visibility="invisible" />
+
+</RelativeLayout>

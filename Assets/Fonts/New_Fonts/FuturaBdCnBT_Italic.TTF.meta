@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 934f8731057e7e148bb07d4acb7f837b
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Futura BdCn BT
+  fontNames:
+  - Futura BdCn BT
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 347468151c3875f4e9892fe87fbc4b06, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

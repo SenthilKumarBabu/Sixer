@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="id_videoview" />
+    <item type="id" name="id_tvduration" />
+    <item type="id" name="id_btn_skip" />
+    <item type="id" name="id_skiptext" />
+    <item type="id" name="id_imageview" />
+    <item type="id" name="id_closebutton" />
+    <item type="id" name="id_web" />
+    <item type="id" name="id_progress" />
+    <item type="id" name="id_progress_bar" />
+    <item type="id" name="id_incent_text" />
+</resources>
