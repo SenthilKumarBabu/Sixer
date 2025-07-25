@@ -35,6 +35,10 @@ public class SignInPanel : MonoBehaviour
     {
         AudioPlayer.instance.PlayButtonSnd();
 
+        Hide();
+        GameModeSelector._instance.ShowLandingPage(true);
+        return;
+
         if (AdIntegrate.instance.checkTheInternet())
         {
             switch (idx)

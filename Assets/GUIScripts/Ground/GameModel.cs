@@ -501,11 +501,11 @@ public class GameModel : Singleton<GameModel>
 		}
 		else if (CONTROLLER.gameMode == "slogover" )
 		{
-            CONTROLLER.totalOvers = 20;
-			if (CONTROLLER.EnableHardcodes == 1) //hardcode-gopi  
-			{
-				CONTROLLER.totalOvers = 1;
-			}
+            CONTROLLER.totalOvers = CONTROLLER.totalOversPracticeMode;
+			//if (CONTROLLER.EnableHardcodes == 1) //hardcode-gopi  
+			//{
+			//	CONTROLLER.totalOvers = 1;
+			//}
 			BattingScoreCard.instance.ShowMe ();
 		}
 		else if (CONTROLLER.gameMode == "chasetarget")
@@ -662,13 +662,7 @@ public class GameModel : Singleton<GameModel>
 		CONTROLLER.BowlingTeamIndex = CONTROLLER.opponentTeamIndex;
 
 		ScoreStr = CONTROLLER.currentMatchScores + "/" + CONTROLLER.currentMatchWickets;
-		if (CONTROLLER.gameMode != "multiplayer")
 		OversStr = GetOverStr () + " (" + CONTROLLER.totalOvers + ")";
-		else
-		{
-			OversStr = GetOverStr ();
-			ScoreBoardMultiPlayer.instance.UpdateScoreCard (); 
-		}
         CONTROLLER.SixDistance = 0;
 		Scoreboard.instance.UpdateScoreCard ();
 		BattingScoreCard.instance.UpdateScoreCard ();
@@ -727,15 +721,6 @@ public class GameModel : Singleton<GameModel>
 	{
 		if(CONTROLLER.CurrentPage == "" || CONTROLLER.CurrentPage != "ingame")
 		{
-			return;
-		}
-		if (CONTROLLER.gameMode == "multiplayer")
-		{
-			ServerManager.Instance.ExitRoom ();
-			if(GroundScriptHandler.Instance!=null)
-				GroundScriptHandler.Instance.ShowServerDisconnectedPopup (); 
-
-
 			return;
 		}
 
@@ -857,25 +842,17 @@ public class GameModel : Singleton<GameModel>
 		CanPauseGame = true;
 	}
 
-	public void  BowlNextBall ()
+	public void BowlNextBall()
 	{
-		NewBall ();
+		NewBall();
 		CONTROLLER.NewInnings = false;//April1
-		BatsmanInfo.instance.UpdateStrikerInfo ();//29march
-		BatsmanInfo.instance.ShowMe ();//29march
+		BatsmanInfo.instance.UpdateStrikerInfo();//29march
+		BatsmanInfo.instance.ShowMe();//29march
 
-		if (CONTROLLER.gameMode != "multiplayer")
-		{
-			Scoreboard.instance.HidePause (false);//29march
-			Scoreboard.instance.Hide (false);//29march	
-		}
-		else
-		{			
-			Scoreboard .instance .Hide (true );
-			ScoreBoardMultiPlayer.instance.Hide (false); 
-			BattingScoreCard.instance .HideMe ();
-		}
-		GroundController.instance.BowlNextBall ("user", "computer");
+		Scoreboard.instance.HidePause(false);//29march
+		Scoreboard.instance.Hide(false);//29march	
+
+		GroundController.instance.BowlNextBall("user", "computer");
 	}
 	public void  NewBall ()
 	{
@@ -971,13 +948,7 @@ public class GameModel : Singleton<GameModel>
 
         CONTROLLER.currentMatchScores += runsScored;
 		ScoreStr = CONTROLLER.currentMatchScores + "/" + CONTROLLER.currentMatchWickets;
-		if (CONTROLLER.gameMode == "multiplayer")
-		{
-			OversStr = GetOverStr ();
-			ScoreBoardMultiPlayer.instance.UpdateMultiplayerBallsLeft ();
-		} 
-		else
-			OversStr = GetOverStr () + " (" + CONTROLLER.totalOvers + ")";
+		OversStr = GetOverStr () + " (" + CONTROLLER.totalOvers + ")";
 		// 26march
 		if (currentBall < CONTROLLER.totalBallInOver)
 		{
@@ -1077,18 +1048,6 @@ public class GameModel : Singleton<GameModel>
 			CONTROLLER.StrikerIndex = CONTROLLER.NonStrikerIndex;
 			CONTROLLER.NonStrikerIndex = temp;
 		}
-        if (CONTROLLER.gameMode == "multiplayer")
-		{
-            //Ticket consuming
-            if (DBTracking.instance.isTicketUsed == true)
-            {
-                DBTracking.instance.ConsumeTicket();
-            }
-
-            //			Debug.Log ("2 - Score :: " + CONTROLLER.currentMatchScores + "/" + CONTROLLER.currentMatchWickets + " - Overs :: " + GetOverStr ());
-            ScoreBoardMultiPlayer .instance .UpdateScoreCard (); 
-			ServerManager.Instance.SendMatchScore (CONTROLLER.currentMatchScores.ToString (), CONTROLLER.currentMatchWickets, runsScored);
-		}
     }
     public void PlayCommentarySound (string  SoundType )
 	{
@@ -1167,8 +1126,6 @@ public class GameModel : Singleton<GameModel>
 				CONTROLLER.fielderChangeIndex = 1;
 				CONTROLLER.computerFielderChangeIndex = 0;
 				Scoreboard.instance.Hide (true);
-				if (CONTROLLER.gameMode == "multiplayer")
-					ScoreBoardMultiPlayer.instance.Hide (true); 
 				BatsmanInfo.instance.HideMe ();
 				PreviewScreen.instance.Hide (true);
 				if(CONTROLLER.gameMode != "multiplayer")
@@ -1221,8 +1178,6 @@ public class GameModel : Singleton<GameModel>
 				CONTROLLER.fielderChangeIndex = 1;
 				CONTROLLER.computerFielderChangeIndex = 0;
 				Scoreboard.instance.Hide (true);
-				if (CONTROLLER.gameMode == "multiplayer")
-					ScoreBoardMultiPlayer.instance.Hide (true); 
 				BatsmanInfo.instance.HideMe ();
 				PreviewScreen.instance.Hide (true);
 				CONTROLLER.InningsCompleted = true;
@@ -1715,11 +1670,6 @@ public class GameModel : Singleton<GameModel>
 	{
 		CheckForOverComplete ();
 		AnimationScreen.instance.resetAnimation();
-		if (CONTROLLER.gameMode == "multiplayer")
-		{
-			if (ScoreBoardMultiPlayer.instance.WaitForOthersPanel.activeSelf || ScoreBoardMultiPlayer.instance.WaitForOthersWicketsOverPanel.activeSelf)
-				GroundController.instance.ResetAll_BatMP();
-		}
 	}
 	// Game Pause View
 	public void GamePaused(bool boolean,bool FromAppPause=false)
