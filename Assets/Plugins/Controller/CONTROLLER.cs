@@ -6,7 +6,10 @@ using System;
 
 public class CONTROLLER
 {
-	public static bool isUserSyncCalled = false;
+    public static int totalOversPracticeMode=5;
+
+
+    public static bool isUserSyncCalled = false;
 	public static bool isAdminUser = false;
 
 	public static string FCM_Token = "fNKtqY0aR7qK1xRU72EdIs:APA91bHd3PiGt0LFAE76edKXN3eu6ykw8aFAfEUDSrw83d8n0wMkiMOFweBpo5BqYJucdAljzkVyEJwCoEl-KmK7Kq4x2ICHipQ67_nWRbSshmYGbMo_TGBL5A28kF-a24JOXFVQh0ju";
@@ -39,8 +42,8 @@ public class CONTROLLER
 	public static string BaseURLStag = "http://stage.ludocricket.in/cricminis_stage/";
 	public static string ServerConfigURLStag = "https://cricminis.s3.ap-south-1.amazonaws.com/stage/android/configv1.json";
 
-	public static string BaseURLProd = "https://crickminis.worldcricketchampionship.com/";
-	public static string ServerConfigURLPrd = "https://config-crickminis.worldcricketchampionship.com/prod/android/configv1.json";
+	public static string BaseURLProd = "https://xcrickminis.worldcricketchampionship.com/";
+	public static string ServerConfigURLPrd = "https://xconfig-crickminis.worldcricketchampionship.com/prod/android/configv1.json";
 #endif
 
 	public static string BASE_URL = BaseURLProd;

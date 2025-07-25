@@ -96,8 +96,6 @@ public class BattingLineup : Singleton<BattingLineup> {
 		PlayerPrefsManager.SetTeamList ();
 		//InterfaceHandler._instance.GameModeSelGO.SetActive (false); 
 		GameModeSelector.inTeamSelectionPage = false;
-		MultiplayerPage.instance.multiplayerPageNumber = 0;
-		MultiplayerPage.instance.CheckPage (); 
 		this.gameObject.SetActive (false);
 		AdIntegrate.instance.ShowBannerAd();
 	}

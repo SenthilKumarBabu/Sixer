@@ -31,7 +31,6 @@ public class GameModeSelector : MonoBehaviour
 
     public Image splashScreen;
 
-    public MP_LeaderBoard mpLeaderboardScript;
 
     void Awake() 
 	{
@@ -106,17 +105,10 @@ public class GameModeSelector : MonoBehaviour
 
 		signoutToast.SetActive (false); 
 
-        if (AdIntegrate.instance != null && CONTROLLER.launchInternetAdEvent == false)
-        {
-            StartCoroutine(AdIntegrate.instance.initAdmob());
-        }
-
 		LoadingScreen.instance.Hide();
 		stopShineAnimation();
 		shineCoroutine = StartCoroutine(PlayShineAnimation());
 
-		if (ServerManager.Instance.CanReplay())
-			SelectGameMode(4);
 	}
 
 	public void ShowLandingPage(bool flag)
@@ -196,10 +188,6 @@ public class GameModeSelector : MonoBehaviour
 		userTickets.text = UserProfile.Tickets.ToString();
 		userName.text = CONTROLLER.UserName;
 		userpoints.text = CONTROLLER.gameTotalPoints.ToString();
-
-		if (MultiplayerPage.instance != null)
-			MultiplayerPage.instance.TicketsCount_have.text = /*MultiplayerPage.instance.TicketsCount_Donthave.text =*/ "TICKETS LEFT "+UserProfile.Tickets.ToString();
-
 
 		if (StorePanel.instance != null && !isUnSyncedPurchasedSyncCalled)
         {
@@ -310,8 +298,12 @@ public class GameModeSelector : MonoBehaviour
 				ShowLandingPage(false);
 				modeInstruction.SetActive (true);
 				CONTROLLER.CurrentPage = "instructionpage";
-				ShowInstructionPage (2);
-                AudioPlayer.instance.PlayLandingPageIntoGameSFX(true);
+
+				//ShowInstructionPage (2);
+				//            AudioPlayer.instance.PlayLandingPageIntoGameSFX(true);
+
+				Continue();
+				resetScroll();
 
             }
             else
@@ -353,7 +345,7 @@ public class GameModeSelector : MonoBehaviour
 		}
 		else if(index==4)	//super multiplayer
 		{
-			StartCoroutine(MultiplayerPage.instance.checkTheStatus());
+			//StartCoroutine(MultiplayerPage.instance.checkTheStatus());
 		}
 		else if(index==5)
         {            
@@ -431,7 +423,6 @@ public class GameModeSelector : MonoBehaviour
 	{
 		AdIntegrate.instance.SystemSleepSettings(1);
 		AudioPlayer.instance.PlayButtonSnd();
-		MultiplayerPage.instance.HideMultiplayerMode ();
         modeInstruction.SetActive(false);
 		ShowLandingPage(true);
 		UpdateLandingPageTopBars();
@@ -489,30 +480,9 @@ public class GameModeSelector : MonoBehaviour
 
 	public void Continues()
 	{
-		if (CONTROLLER.gameMode != "multiplayer")
-		{
 			PlayerPrefsManager.SetTeamList();
 			StartCoroutine(LoadGroundScene());
-		}
-		else
-		{
-			CONTROLLER.PlayingTeam = new ArrayList();
-			for (int i = 0; i < CONTROLLER.TeamList.Length; i++)
-			{
-				for (int j = 0; j < CONTROLLER.TeamList[i].PlayerList.Length; j++)
-				{
-					if (CONTROLLER.TeamList[i].PlayerList[j].DefaultPlayer == "1")
-					{
-						CONTROLLER.PlayingTeam.Add(j);
-					}
-				}
-			}
-			PlayerPrefsManager.SetTeamList();
-			GameModeSelector.inTeamSelectionPage = false;
-			MultiplayerPage.instance.ShowMe(true);
-			MultiplayerPage.instance.multiplayerPageNumber = 0;
-			MultiplayerPage.instance.CheckPage();
-		}
+
 		if (CONTROLLER.gameMode != "superover" && CONTROLLER.gameMode != CONTROLLER.SUPER_Crusade_GameMode && CONTROLLER.gameMode != "slogover" && CONTROLLER.gameMode != "chasetarget")
 		{
 			AdIntegrate.instance.HideAd();
@@ -576,7 +546,11 @@ public class GameModeSelector : MonoBehaviour
         if (CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode)
             ShowInstructionPage (5);
         else
-            ShowInstructionPage (gameMode);
+		{
+            //ShowInstructionPage (gameMode);
+            Continue();
+            resetScroll();
+        }
 
         AudioPlayer.instance.PlayLandingPageIntoGameSFX(true);
     }

@@ -28,7 +28,7 @@ public class NavigationBack : Singleton<NavigationBack>
 				{
 					if (SignInPanel.instance.Holder.activeSelf)
 					{
-						MultiplayerPage.instance.ShowGameExitPopup();
+						//MultiplayerPage.instance.ShowGameExitPopup();
 						return;
 					}
 					else if(CONTROLLER.CurrentPage== "deeplinking")
@@ -56,10 +56,6 @@ public class NavigationBack : Singleton<NavigationBack>
 					{
 						GameModeSelector._instance.close (2);
 						CONTROLLER.CurrentPage = "splashpage";
-					}
-					else if (CONTROLLER.CurrentPage == "multiplayerpage")
-					{
-						MultiplayerPage.instance.ClickedBack ();
 					}
 					else if (CONTROLLER.CurrentPage == "storepage")
 					{
@@ -96,7 +92,7 @@ public class NavigationBack : Singleton<NavigationBack>
 					}
 					else if (CONTROLLER.CurrentPage == "splashpage")
 					{
-                       MultiplayerPage.instance.ShowGameExitPopup();
+                      // MultiplayerPage.instance.ShowGameExitPopup();
 					}
 				}
 				else if (ManageScene.CurScene == Scenes.Ground && CONTROLLER .gameMode !="multiplayer")
@@ -203,13 +199,7 @@ public class NavigationBack : Singleton<NavigationBack>
 						CONTROLLER.CurrentPage = "splashpage";
 					}
 				}
-				else if (ManageScene.CurScene == Scenes.Ground && CONTROLLER.gameMode  == "multiplayer")
-				{
-					if(ScoreBoardMultiPlayer.instance.MultiplayerGameOverPage.activeSelf)
-					{
-						ScoreBoardMultiPlayer.instance.GoToMainMenu(0);
-					}
-				}
+				
 			}
 		}
 	}

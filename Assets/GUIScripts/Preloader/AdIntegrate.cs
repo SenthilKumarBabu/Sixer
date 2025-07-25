@@ -3,15 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
-using GoogleMobileAds;
-using GoogleMobileAds.Api;
-using GoogleMobileAds.Common;
-using GoogleMobileAds.Api.Mediation;
-using GoogleMobileAds.Api.Mediation.UnityAds;
-using GoogleMobileAds.Api.Mediation.InMobi;
-using GoogleMobileAds.Api.Mediation.IronSource;
-using GoogleMobileAds.Api.Mediation.AppLovin;
-using GoogleMobileAds.Api.Mediation.AdColony;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
@@ -20,9 +11,6 @@ using UnityEngine.SceneManagement;
 public class AdIntegrate : MonoBehaviour
 {
 	public static AdIntegrate instance;
-    private BannerView bannerView;
-    private InterstitialAd interstitial;
-    private RewardedAd rewardBasedVideo;
     private bool adshown = true;
     public bool isInterstitialAvailable = false;
     //public bool isRewardedVideoAvailable = false;
@@ -97,16 +85,6 @@ public class AdIntegrate : MonoBehaviour
     public void Start()
 	{
         SceneManager.sceneLoaded += OnSceneLoaded;
-        AdColonyAppOptions.SetGDPRRequired(true);
-        AdColonyAppOptions.SetGDPRConsentString("1");
-        UnityAds.SetGDPRConsentMetaData(true);
-        Dictionary<string, string> consentObject = new Dictionary<string, string>();
-        consentObject.Add("gdpr_consent_available", "true");
-        consentObject.Add("gdpr", "1");
-        InMobi.UpdateGDPRConsent(consentObject);
-        IronSource.SetConsent(true);
-        AppLovin.SetHasUserConsent(true);
-        StartCoroutine(initAdmob());
 	}
 
     private void OnDestroy()
@@ -177,21 +155,6 @@ public class AdIntegrate : MonoBehaviour
 #endif
     }
 
-    private void HandleInitCompleteAction(InitializationStatus initstatus)
-    {
-        if (checkTheInternet())
-        {
-            MobileAdsEventExecutor.ExecuteInUpdate(() =>
-        {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            //RequestBanner();
-            StartCoroutine(requestRewardedVideo());
-            //StartCoroutine(RequestInterestialAd());
-             CONTROLLER.receivedAdEvent = true;
-#endif
-        });
-        }
-    }
     public void RequestBanner()
 	{
         //if (CurrentSceneIndex == 1 || (CurrentSceneIndex == 2 && CONTROLLER.gameMode == "multiplayer"))
@@ -471,10 +434,7 @@ public class AdIntegrate : MonoBehaviour
     }
     public void ShowRewardedVideo ()
 	{
-#if UNITY_EDITOR
-        VideoRewarded();
         return;
-#endif
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
         if (Achievements .instance !=null)
 			Achievements.instance.RewardedVideoEvent(0);
@@ -506,210 +466,6 @@ public class AdIntegrate : MonoBehaviour
             InterstialAdLoadingScript.instance.ShowTapToContinue();
         }
     }
-    #region Banner callback handlers
-
-    public void HandleAdLoaded(object sender, EventArgs args)
-    {
-        CONTROLLER.receivedAdEvent = true;
-
-        if (CurrentSceneIndex == 1 || (CurrentSceneIndex == 2 && CONTROLLER.gameMode == "multiplayer"))
-        {
-            HideAd();
-            return; //as per karthik statement fully banner ad is stopped
-        }
-        else
-        {
-            if (CONTROLLER.CurrentPage == "splashpage" || CONTROLLER.CurrentPage == "")
-            {
-                HideAd();
-                return;
-            }
-        }
-        MonoBehaviour.print("Banner AdLoaded event received");
-        //if (objNative != null && CONTROLLER.CanShowAdToast)
-        //{
-        //    objNative.Call("showTheToast", "BannerAd Loaded");
-        //}
-    }
-    public void HandleAdFailedToLoad(object sender, AdFailedToLoadEventArgs args)
-    {
-        MonoBehaviour.print("HandleFailedToReceiveAd event received with message: " + args.ToString());
-    }
-
-    public void HandleAdOpened(object sender, EventArgs args)
-    {
-        MonoBehaviour.print("HandleAdOpened event received");
-    }
-
-    public void HandleAdClosed(object sender, EventArgs args)
-    {
-        MonoBehaviour.print("HandleAdClosed event received");
-    }
-#endregion
-
-#region Interstitial callback handlers
-    public void HandleInterstitialLoaded(object sender, EventArgs args)
-    {
-        MonoBehaviour.print("HandleInterstitialLoaded event received: " + Time.timeScale);
-        CONTROLLER.receivedAdEvent = true;
-        isInterstitialAvailable = true;
-        if (objNative != null && CONTROLLER.CanShowAdToast)
-        {
-            objNative.Call("showTheToast", "InterstitialAd Loaded");
-        }
-    }
-   public void HandleInterstitialFailedToLoad(object sender, AdFailedToLoadEventArgs args)
-	{
-		isInterstitialAvailable = false;
-		MonoBehaviour.print("HandleInterstitialFailedToLoad event received with message: " + args.ToString());
-	}
-    public void HandleInterstitialOpened(object sender, EventArgs args)
-    {
-        isInterstitialAvailable = false;
-        //if (InterstialAdLoadingScript.instance != null)
-        //{
-        //    InterstialAdLoadingScript.instance.ShowTapToContinue();
-        //}
-        //  SetTimeScale(1);
-        if (CurrentSceneIndex == 2 && CONTROLLER.CurrentPage == "ingame" && CONTROLLER.gameMode!= "multiplayer")
-        {
-            MonoBehaviour.print("HandleInterstitialOpened isadstartstoplay set TRUE: " + Time.timeScale);
-
-            InterstialAdLoadingScript.instance.isAdStartsToPlay = true;
-        }
-        MonoBehaviour.print("HandleInterstitialOpened event received: " + Time.timeScale);
-    }
-    public void HandleInterstitialClosed(object sender, EventArgs args)
-    {
-        if (CurrentSceneIndex == 2 && CONTROLLER.CurrentPage == "ingame" && CONTROLLER.gameMode != "multiplayer")
-        {
-            MonoBehaviour.print("HandleInterstitialClosed isadstartstoplay set FALSE: " + Time.timeScale);
-
-            InterstialAdLoadingScript.instance.isAdStartsToPlay = false;
-        }
-        // SetTimeScale(0);
-        MonoBehaviour.print("HandleInterstitialClosed event received: " + Time.timeScale);
-        isInterstitialAvailable = false;
-        StartCoroutine(call_interstitial_close());
-        StartCoroutine(RequestInterestialAd());
-        
-        //if (SuperCardsUI.instance != null && SuperCardsUI.instance.GameOverScreen.gameObject.activeInHierarchy)
-        //{
-        //    SuperCardsUI.instance.GotoGameOverscreen();
-        //}
-    }
-#endregion
-#region RewardBasedVideo callback handlers
-
-    public void HandleRewardBasedVideoLoaded(object sender, EventArgs args)
-    {
-        //isRewardedVideoAvailable = true;
-        CONTROLLER.receivedAdEvent = true;
-        MonoBehaviour.print("HandleRewardBasedVideoLoaded event received: "+ Time.timeScale);
-        if (objNative != null && CONTROLLER.CanShowAdToast)
-        {
-            objNative.Call("showTheToast", "RewardedVideoAd Loaded");
-        }
-    }
-    public void HandleRewardBasedVideoFailedToLoad(object sender, AdFailedToLoadEventArgs args)
-    {
-        MonoBehaviour.print("HandleRewardBasedVideoFailedToLoad event received: " + Time.timeScale);
-
-        //isRewardedVideoAvailable = false;
-    }
-    public void HandleRewardBasedVideoOpened(object sender, EventArgs args)
-    {
-        MonoBehaviour.print("HandleRewardBasedVideoOpened event received: "+ Time.timeScale);
-    }
-    public void HandleRewardBasedVideoStarted(object sender, EventArgs args)
-    {
-        MonoBehaviour.print("HandleRewardBasedVideoStarted event received: " + Time.timeScale);
-    }
-    public void HandleRewardBasedVideoClosed(object sender, EventArgs args)
-    {
-        MonoBehaviour.print("HandleRewardBasedVideoClosed event received: " + Time.timeScale);
-        StartCoroutine(requestRewardedVideo());
-    }
-    public void HandleRewardBasedVideoRewarded(object sender, Reward args)
-    {
-        MonoBehaviour.print("HandleRewardBasedVideoRewarded event received: " + Time.timeScale);
-
-        string type = args.Type;
-        double amount = args.Amount;
-        StartCoroutine(App_VideoRewarded());
-	}
-    IEnumerator App_VideoRewarded()
-    {
-        if( CONTROLLER.gameMode == "multiplayer")
-            yield return new WaitForSecondsRealtime(0.5f);
-        else
-            yield return new WaitForSecondsRealtime(0.2f);
-
-        VideoRewarded();
-    }
-    public void VideoRewarded()
-    {
-        if (CONTROLLER.RewardedVideoClickedState == 2 || CONTROLLER.RewardedVideoClickedState == 3)
-        {
-            if (ProgressBar.instance != null)
-            {
-                ProgressBar.instance.Success();
-            }
-
-           // FirebaseAnalyticsManager.instance.logEvent("IAP", new string[] { "IAP_Action", "RV_Wicket" });
-        }
-        else if (CONTROLLER.RewardedVideoClickedState == 1)
-        {
-            if (SOLevelSelectionPage.instance != null)
-            {
-                SOLevelSelectionPage.instance.WatchVideoSuccessEvent();
-            }
-        }
-        else if (CONTROLLER.RewardedVideoClickedState == 4)
-        {
-            if (ExtraBall.instance != null)
-            {
-                ExtraBall.instance.Success();
-            }
-        }
-        else if (CONTROLLER.RewardedVideoClickedState == 5)
-        {
-            if (HeadStart.instance != null)
-            {
-                HeadStart.instance.Success();
-            }
-        }
-        else if (CONTROLLER.RewardedVideoClickedState == 6)
-        {
-            if (CTLevelSelectionPage.instance != null)
-            {
-                CTLevelSelectionPage.instance.WatchVideoSuccessEvent();
-            }
-        }
-        else    // Normal ticket adding scenario
-        {
-            /* UserProfile.EarnedTickets += 1;
-             UserProfile.Tickets += 1;
-             PlayerPrefsManager.SaveCoins();
-             if (GameModeSelector._instance != null)
-             {
-                 GameModeSelector._instance.UpdateLandingPageTopBars();
-             }
-             Popup.instance.showTicketPopup();
-             StartCoroutine(CricMinisWebRequest.instance.UserSync());
-            */
-            if (CONTROLLER.gameMode == "multiplayer")
-            {
-                
-            }
-
-            DBTracking.instance.AddTicket();
-        }
-        CONTROLLER.RewardedVideoClickedState = -1;
-
-
-    }
-    #endregion
     public void ShowToast(string text)
 	{
 #if UNITY_ANDROID && !UNITY_EDITOR

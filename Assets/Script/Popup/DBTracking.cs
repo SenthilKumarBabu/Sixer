@@ -85,10 +85,6 @@ public class DBTracking : Singleton<DBTracking>
         if (AdIntegrate.instance.CurrentSceneIndex == 1)
         {
             GameModeSelector._instance.UpdateLandingPageTopBars();
-            if (CONTROLLER.gameMode == "multiplayer" && MultiplayerPage.instance != null)
-            {
-                MultiplayerPage.instance.updateTicketsPage();
-            }
         }
     }
     #endregion
