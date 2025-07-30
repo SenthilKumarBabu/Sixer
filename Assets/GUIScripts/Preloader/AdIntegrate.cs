@@ -500,6 +500,7 @@ public class AdIntegrate : MonoBehaviour
 #elif UNITY_IOS && !UNITY_EDITOR
 		return ShareThisGame.checkTheInternet ();
 #endif
+        return false;
 	}
 
     public static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace };
