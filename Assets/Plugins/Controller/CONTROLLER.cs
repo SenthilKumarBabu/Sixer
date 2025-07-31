@@ -3,11 +3,17 @@ using System.Collections;
 using CodeStage.AntiCheat.ObscuredTypes;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 public class CONTROLLER
 {
     public static int totalOversPracticeMode=5;
-
+    public static string CURRENT_MULTIPLAYER_VERSION = "0.1";
+    public static int MP_RoomType = 0;       //0-public  1-private
+    public static string MP_OpponentName = string.Empty; // Unique Username
+    public static string MP_Opponent_ud_uID;
+	public static string[] userBallbyBallData = new string[6];
+	public static string[] oppBallbyBallData = new string[6];
 
     public static bool isUserSyncCalled = false;
 	public static bool isAdminUser = false;
@@ -23,8 +29,8 @@ public class CONTROLLER
 	public static string BaseURLStag = "http://stage.ludocricket.in/cricminis_stage/";
 	public static string ServerConfigURLStag = "https://cricminis.s3.ap-south-1.amazonaws.com/stage/android/configv1.json";
 
-	public static string BaseURLProd = "https://crickminis.worldcricketchampionship.com/";
-	public static string ServerConfigURLPrd = "https://config-crickminis.worldcricketchampionship.com/prod/android/configv1.json";
+	public static string BaseURLProd = "https://xcrickminis.worldcricketchampionship.com/";
+	public static string ServerConfigURLPrd = "https://xconfig-crickminis.worldcricketchampionship.com/prod/android/configv1.json";
 
 #elif UNITY_IOS
     public static string BaseURLDev = "https://stage.ludocricket.in/cricminis_development/";
@@ -70,7 +76,7 @@ public class CONTROLLER
 	public static int CanShowAdtoNewUser_Inter = 1; // 0- off 1- on
 	public static int CanShowAdtoNewUser_Banner = 1; // 0- off 1- on
 
-	public static int CURRENT_VERSION;
+	//public static int CURRENT_VERSION;
 	public static int TutorialShowCount = 0;
 	public static bool forceSync = true;
 #if UNITY_ANDROID
