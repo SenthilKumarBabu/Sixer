@@ -3,54 +3,21 @@ using System.Collections;
 using CodeStage.AntiCheat.ObscuredTypes;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 public class CONTROLLER
 {
     public static int totalOversPracticeMode=5;
-
+    public static string CURRENT_MULTIPLAYER_VERSION = "0.1";
+    public static int MP_RoomType = 0;       //0-public  1-private
+    public static string MP_OpponentName = string.Empty; // Unique Username
+    public static string MP_Opponent_ud_uID;
+	public static string[] userBallbyBallData = new string[6];
+	public static string[] oppBallbyBallData = new string[6];
 
     public static bool isUserSyncCalled = false;
 	public static bool isAdminUser = false;
 
-	public static string FCM_Token = "fNKtqY0aR7qK1xRU72EdIs:APA91bHd3PiGt0LFAE76edKXN3eu6ykw8aFAfEUDSrw83d8n0wMkiMOFweBpo5BqYJucdAljzkVyEJwCoEl-KmK7Kq4x2ICHipQ67_nWRbSshmYGbMo_TGBL5A28kF-a24JOXFVQh0ju";
-
-	//FOR URL TESTING
-	public static int BaseUrlIndex = -1;//1-DEVELOPMENT URL,2-STAGING,3-PRODUCTION
-#if UNITY_ANDROID
-	public static string BaseURLDev = "https://stage.ludocricket.in/cricminis_development/";
-	public static string ServerConfigURLDev = "https://cricminis.s3.ap-south-1.amazonaws.com/dev/android/configv1.json";
-
-	public static string BaseURLStag = "http://stage.ludocricket.in/cricminis_stage/";
-	public static string ServerConfigURLStag = "https://cricminis.s3.ap-south-1.amazonaws.com/stage/android/configv1.json";
-
-	public static string BaseURLProd = "https://crickminis.worldcricketchampionship.com/";
-	public static string ServerConfigURLPrd = "https://config-crickminis.worldcricketchampionship.com/prod/android/configv1.json";
-
-#elif UNITY_IOS
-    public static string BaseURLDev = "https://stage.ludocricket.in/cricminis_development/";
-	public static string ServerConfigURLDev = "https://cricminis.s3.ap-south-1.amazonaws.com/dev/android/configv1.json";
-
-	public static string BaseURLStag = "http://stage.ludocricket.in/cricminis_stage/";
-    public static string ServerConfigURLStag = "https://cricminis.s3.ap-south-1.amazonaws.com/stage/android/configv1.json";
-
-	public static string BaseURLProd = "http://stage.ludocricket.in/cricminis_prod/";
-	public static string ServerConfigURLPrd = "https://cricminis.s3.ap-south-1.amazonaws.com/stage/android/configv1.json";
-#else
-	public static string BaseURLDev = "https://stage.ludocricket.in/cricminis_development/";
-	public static string ServerConfigURLDev = "https://cricminis.s3.ap-south-1.amazonaws.com/dev/android/configv1.json";
-
-	public static string BaseURLStag = "http://stage.ludocricket.in/cricminis_stage/";
-	public static string ServerConfigURLStag = "https://cricminis.s3.ap-south-1.amazonaws.com/stage/android/configv1.json";
-
-	public static string BaseURLProd = "https://xcrickminis.worldcricketchampionship.com/";
-	public static string ServerConfigURLPrd = "https://xconfig-crickminis.worldcricketchampionship.com/prod/android/configv1.json";
-#endif
-
-	public static string BASE_URL = BaseURLProd;
-	public static string ServerConfigURL = ServerConfigURLPrd;
-
-	public static ServerConfig serverConfig = new ServerConfig();
-	public static bool isServerConfigSynced = false;
 	public static int BmpMaintenance = -1;
 	public static string BmpMaintenanceText = string.Empty;
 
@@ -67,10 +34,7 @@ public class CONTROLLER
 	public static int M_USERID = -1;
 	public static string DeviceID = string.Empty;
 	public static bool isAdRemoved = false; // 0- ads 1- removed 
-	public static int CanShowAdtoNewUser_Inter = 1; // 0- off 1- on
-	public static int CanShowAdtoNewUser_Banner = 1; // 0- off 1- on
 
-	public static int CURRENT_VERSION;
 	public static int TutorialShowCount = 0;
 	public static bool forceSync = true;
 #if UNITY_ANDROID
@@ -79,17 +43,14 @@ public class CONTROLLER
 #elif UNITY_IOS
     public static string Version = "1.0";
     	public static int CURRENT_VERSION = 1;
+#else
+	public static int CURRENT_VERSION=1;
 #endif
 	public static string STORE = "googleplay";      //mac, intel, ios, googleplay, kindle, samsung, chrome, facebook
 	public static string TargetPlatform = "";   //standalone, android, ios, web
 	public static string Platform = TargetPlatform;
 
-	public static string AppName = "WCC Cricket Blitz";
-	public static string AppLink = "https://bit.ly/cricketblitz";//"https://bit.ly/cricketminis";    
-	public static string TC_Link = "https://www.cricketbuddies.com/term-of-use";
-	public static string PP_Link = "https://www.cricketbuddies.com/privacy-policy";
-	public static string FbpageLink = "https://www.facebook.com/WorldCricketChampionship/";
-	public static string InstagramLink = "https://www.instagram.com/worldcricchampofficial/";
+	public static string AppName = "SixR";
 	public static bool IsUserLoggedIn()
 	{
 		if (string.IsNullOrEmpty(UserID))
@@ -106,9 +67,6 @@ public class CONTROLLER
 	public static bool isUserInitiatedThePurchase = false;
     public static bool CanShowFBPersonalizedAds;
     public static bool  Squadupdatednotify = false;
-    //public static int zaprAdmobEnabled = 0;
-    public static bool PLAYMULTIPLAYER = false;
-    //public static int greedyEnabled = 0, greedyMain=0, greedyGround=0;
 	public static string current_Season = "IPL14";
 	public const float DefaultWidth = 1024.0f;
 	public const float DefaultHeight = 768.0f;
@@ -266,7 +224,6 @@ public class CONTROLLER
 	public static bool billingSupported;
 	public static int AdHeight;
 	
-	public static string ContestDetailURL = "https://www.cricketbuddies.com/battleofchepauk.html";
 	public static bool isupdatePopup = false;
 	
 	// For Custom ad
@@ -434,20 +391,6 @@ public class CONTROLLER
 		}
 
 	}
-}
-
-public class ServerConfig
-{
-	[JsonIgnore] public bool isReady;
-	public string BP;//Base Path
-	public int MV;//minimum version check
-	public int I;//info-whats new update 
-	public int M;//maintainance
-	public int IM;//Individual maintenance
-	public int IBO;//Interstitial ads betwwen overs
-	public int IGQ;//Intersstitial game quit- Home button ads
-	public int IGR;//Intersstitial game Replay- replay button ads
-	public int IGN;//Intersstitial game Next- Next button ads
 }
 
 public enum ShotStatus : byte
