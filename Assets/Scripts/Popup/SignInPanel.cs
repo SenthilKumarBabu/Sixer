@@ -37,31 +37,5 @@ public class SignInPanel : MonoBehaviour
 
         Hide();
         GameModeSelector._instance.ShowLandingPage(true);
-        return;
-
-        if (AdIntegrate.instance.checkTheInternet())
-        {
-            switch (idx)
-            {
-                case 0: //google login
-#if UNITY_ANDROID
-                  //  GoogleManagerScript.instance.signIn();
-#endif
-                    break;
-                case 1: //apple login
-#if UNITY_IPHONE || UNITY_IOS
-                GameCenterManager.instance.Login();
-#endif
-                    break;
-                case 2: //guest login
-                    CONTROLLER.LoginType = 2;
-                    CricMinisWebRequest.instance.CheckForLogin();
-                    break;
-            }
-        }
-        else
-        {
-            Popup.instance.ShowNoInternetPopup();
-        }        
     }
 }

@@ -193,46 +193,6 @@ public class GameModeSelector : MonoBehaviour
         AdIntegrate.instance.HideAd();
     }
 
-    public IEnumerator SyncCPpoints()
-    {
-
-        if (!AdIntegrate.instance.checkTheInternet()|| !CONTROLLER.IsUserLoggedIn())
-        {
-            // No Internet
-        }
-        else
-        {
-            WWWForm form = new WWWForm();
-            WWW download;
-
-            form.AddField("action", "CPUpdate");
-            form.AddField("user_id", CONTROLLER.UserID);
-            form.AddField("bv", CONTROLLER.CURRENT_VERSION);
-            form.AddField("platform", CONTROLLER.TargetPlatform);
-            form.AddField("deviceid", CONTROLLER.DeviceID);           
-            form.AddField("players", -1);
-            form.AddField("rank", -1);
-            form.AddField("state", "abort");
-
-            download = new WWW(CONTROLLER.BASE_URL, form);
-            yield return download;
-
-            if (!string.IsNullOrEmpty(download.error))
-            {
-            }
-            else
-            {
-                SimpleJSON.JSONNode node = SimpleJSON.JSONNode.Parse(download.text);
-                if ("" + node["CPUpdate"]["status"] == "1")
-                {
-                    PlayerPrefs.DeleteKey(CONTROLLER.BatMpCpSavedName);
-                    CONTROLLER.CricketPoints = node["CPUpdate"]["cp"].AsInt;
-                    PlayerPrefsManager.SaveCoins();
-                }
-            }            
-        }
-    }
-	
 	public void SelectGameMode(int index)
     {
         CONTROLLER.GameIsOnFocus = true;
@@ -565,7 +525,7 @@ public class GameModeSelector : MonoBehaviour
 			{
 				if (CONTROLLER.IsUserLoggedIn())
 				{
-					getLeaderboard();
+					//getLeaderboard();
 				}
 				else
 				{
@@ -660,17 +620,6 @@ public class GameModeSelector : MonoBehaviour
 	{
 		players.transform.position = startPos;
 		//instructions.transform.position = instructionsResetPos;
-	}
-
-	
-	public void MerchandiseStore()
-	{
-		Application.OpenURL ("https://www.chennaisuperkings.com/CSK_WEB/Merchandise/index.html#/merchandiseLanding");
-	}
-
-	public void getLeaderboard()
-	{
-		StartCoroutine (CricMinisWebRequest.instance.getPointsfromLeaderBoard () ); 
 	}
 
 	public void ForceCloseLeaderboard(bool flag)
@@ -769,51 +718,6 @@ public class GameModeSelector : MonoBehaviour
 				break;
 		}
 	}
-
-
-	#region MODAPK-HARDCODE
-	private void SetModApkHardcode()
-	{
-#if UNITY_ANDROID
-		if (CONTROLLER.isAdminUser)
-		{
-			if (NextwaveMarshmallowPermission.instance != null)
-			{
-				NextwaveMarshmallowPermission.instance.printTheAndroidLog("SetModApkHardcode called");
-			}
-		}
-#endif
-		ObscuredPrefs.SetInt("impk", 3); //Not called to check this is mod apk or not
-#if !UNITY_EDITOR && UNITY_ANDROID
-        if(NextwaveMarshmallowPermission.instance != null)
-            NextwaveMarshmallowPermission.instance.CheckToShowModApkBlocker();
-#endif
-#if UNITY_EDITOR
-		CheckToShowModApkBlocker();
-#endif
-	}
-	private void CheckToShowModApkBlocker()
-	{
-		int impkValue = ObscuredPrefs.GetInt("impk", 0); //Yes this is mod apk
-#if UNITY_ANDROID && !UNITY_EDITOR
-        if (CONTROLLER.isAdminUser)
-        {
-            if (NextwaveMarshmallowPermission.instance != null)
-            {
-                NextwaveMarshmallowPermission.instance.printTheAndroidLog("CheckToShowModApkBlocker called:" + impkValue);
-            }
-        }
-#endif
-		if (impkValue == 3)
-		{
-			if (NextwaveMarshmallowPermission.instance != null)
-				NextwaveMarshmallowPermission.instance.showTheAlertDialogToExit("INFORMATION", "YOU ARE USING A MOD VERSION OF THE GAME,SO ARE NOT ALLOWED TO PLAY,TRY INSTALLING FROM GOOGLE PLAY STORE", "EXIT");
-			else
-				Popup.instance.showGenericPopup("INFORMATION", "YOU ARE USING A MOD VERSION OF THE GAME,SO ARE NOT ALLOWED TO PLAY,TRY INSTALLING FROM GOOGLE PLAY STORE", AdIntegrate.instance.GameExit);
-		}
-	}
-    #endregion
-
 
     public Text publicRoomTimeText;
     float currCountdownValue = 30;

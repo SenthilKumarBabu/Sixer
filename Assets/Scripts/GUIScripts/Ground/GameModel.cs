@@ -898,10 +898,10 @@ public class GameModel : Singleton<GameModel>
 		{
 			return;
 		}
-        if (CONTROLLER.gameMode == "slogover" && !PlayerPrefs.HasKey("slogovermatchid"))
-        {
-            DBTracking.instance.GetSlogModeMatchID();
-        }
+        //if (CONTROLLER.gameMode == "slogover" && !PlayerPrefs.HasKey("slogovermatchid"))
+        //{
+        //    DBTracking.instance.GetSlogModeMatchID();
+        //}
 
         if (CanShowTutorial())
 		{
@@ -1121,10 +1121,10 @@ public class GameModel : Singleton<GameModel>
 			inningsCompleted = CheckForInningsComplete ();
 			if(inningsCompleted == true)
 			{
-				if (CONTROLLER.gameMode == "slogover")
-                {
-                    DBTracking.instance.SuperSlogLevelCompletion(CONTROLLER.currentMatchScores.ToString(), CONTROLLER.currentMatchWickets.ToString(),GetOverStr());
-                }
+				//if (CONTROLLER.gameMode == "slogover")
+    //            {
+    //                DBTracking.instance.SuperSlogLevelCompletion(CONTROLLER.currentMatchScores.ToString(), CONTROLLER.currentMatchWickets.ToString(),GetOverStr());
+    //            }
 
                 userAction = 0;
 				CONTROLLER.CurrentPage = "";
@@ -1189,7 +1189,7 @@ public class GameModel : Singleton<GameModel>
 			}
 			else if(currentBall == (CONTROLLER.totalBallInOver - 1) || CONTROLLER.currentMatchWickets >= CONTROLLER.totalWickets)
 			{
-				if (CONTROLLER.currentMatchWickets == CONTROLLER.totalWickets && PlayerPrefs .GetInt ("SOwicketGainUsed")==0 && AdIntegrate.instance.checkTheInternet() && AdIntegrate .instance .isRewardedReadyToPlay ())	
+				/*if (CONTROLLER.currentMatchWickets == CONTROLLER.totalWickets && PlayerPrefs .GetInt ("SOwicketGainUsed")==0 && AdIntegrate.instance.checkTheInternet() && AdIntegrate .instance .isRewardedReadyToPlay ())	
 				{					
 					GameModel.isGamePaused = true;
 					AdIntegrate.instance.SetTimeScale(0f);
@@ -1200,11 +1200,9 @@ public class GameModel : Singleton<GameModel>
                         PlayerPrefs.DeleteKey("SuperOverDetail");
                         PlayerPrefs.DeleteKey("superoverPlayerDetails");
                     }
-
                     ProgressBar.instance.setProgress (); 
-
 				}
-				else
+				else*/
 				{
 					if (CONTROLLER.CurrentLevelCompleted <= CONTROLLER.LevelId)
 					{
@@ -1255,7 +1253,7 @@ public class GameModel : Singleton<GameModel>
 	{
 		if(CONTROLLER .LevelId <18)
 		{
-			DBTracking.instance.SuperOverLevelCompletion(1);
+			//DBTracking.instance.SuperOverLevelCompletion(1);
 			if (CONTROLLER.LevelCompletedArray[CONTROLLER.LevelId] == 0)
 			{
                 WriteSuperOverEachLevelCompData ();
@@ -1314,8 +1312,7 @@ public class GameModel : Singleton<GameModel>
 
 	public void SaveSoFailedLevelDetails()
 	{
-        //gopi  v1.1.2 for saving level failed array 
-        DBTracking.instance.SuperOverLevelCompletion(0);
+        //DBTracking.instance.SuperOverLevelCompletion(0);
 
         if (!PlayerPrefs .HasKey ("SoRVlevID"))
 		{
@@ -1352,7 +1349,7 @@ public class GameModel : Singleton<GameModel>
 			{
 				CurrentSubLevel = CONTROLLER.CTSubLevelCompleted;
 
-				DBTracking.instance.SuperChaseLevelCompletion(SuccessfulChase == true ? 1 : 0);
+				//DBTracking.instance.SuperChaseLevelCompletion(SuccessfulChase == true ? 1 : 0);
 				if (SuccessfulChase == true && CONTROLLER.SubLevelCompletedArray[CONTROLLER.CTSubLevelCompleted] == 0 && CONTROLLER.MainLevelCompletedArray[CONTROLLER.CTLevelCompleted] == 0)
 				{
 					SuccessfulChase = false;

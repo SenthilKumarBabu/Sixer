@@ -7164,11 +7164,11 @@ public class GroundController : MonoBehaviour
 			//groundFlashGO.SetActive (true);
 
 			StartCoroutine (PlayUltraSlowMotion ());		//remove this for multiplayer alone
-			if(AdIntegrate.instance != null && CONTROLLER .gameMode !="multiplayer")
-			{
-				isTimeToShowAd = true;
-				AdIntegrate.instance.ShowBannerAd ();
-			}
+			//if(AdIntegrate.instance != null && CONTROLLER .gameMode !="multiplayer")
+			//{
+			//	isTimeToShowAd = true;
+			//	AdIntegrate.instance.ShowBannerAd ();
+			//}
 			//Before adding ultra slow motion for bowled
 			/*if(interfaceConnector != null)
 		{
@@ -7298,8 +7298,7 @@ public class GroundController : MonoBehaviour
 			}
 			yield return new WaitForSeconds (delayTime);
 			pauseTheBall = true;
-			BowledReplayCamera.enabled = true;
-			//ManojAdded
+			/*BowledReplayCamera.enabled = true;
 			midpoint = (stump1Spot.transform.position+ batsman.transform.position) * 0.5f;
 			
 			if (currentBatsmanHand == "left")
@@ -7312,7 +7311,7 @@ public class GroundController : MonoBehaviour
 				BowledReplayCamera.transform.position = new Vector3(-3.5f, 0.5f, midpoint.z);
 				BowledReplayCamera.transform.eulerAngles = new Vector3(-10, 45, 0);
 			}
-			BowledReplayCamera.transform.LookAt(midpoint);
+			BowledReplayCamera.transform.LookAt(midpoint);*/
 			//ManojAdded
 			fielder10AnimationComponent["appeal"].speed = 0;
 			wicketKeeperAnimationComponent["appealFast"].speed = 0;
@@ -7328,17 +7327,12 @@ public class GroundController : MonoBehaviour
 				stump1.GetComponent<Animation>()[stumpAnim].time = 0.22f;
 			}
 
-			mainCamera.enabled = false;
-			action = 22;
-			if(CONTROLLER .gameMode !="multiplayer")
-				yield return new WaitForSeconds (3);
-			else
-				yield return new WaitForSeconds (1.5f);
-			
-			CONTROLLER.CurrentPage = "ingame";//shankar 08April
+			mainCamera.enabled = true;
+			//action = 22;
+			yield return new WaitForSeconds (0.1f);			
+			CONTROLLER.CurrentPage = "ingame";
 			pauseTheBall = false;
 			fielder10AnimationComponent["appeal"].speed = 1;
-			//batsmanAnimationComponent[batsmanAnimation].speed = 1;
 			wicketKeeperAnimationComponent["appealFast"].speed = 1;
 			stump1.GetComponent<Animation>()[stumpAnim].speed = 1;
 			ShowBall (true);
@@ -8073,18 +8067,18 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 						if (distanceBtwBatsmanAndBall >= -0.15f && distanceBtwBatsmanAndBall <= 0.2f)
 						{
 
-							randomId = Random.Range(0, 5);
+							/*randomId = Random.Range(0, 5);
 							if (randomId >= 3)
-							{
+							{*/
 								batsmanAnimation = "DownTheTrackStraightSlog";
 								shotPlayed = "DownTheTrackStraightSlog";
-							}
+							/*}
 							else
 							{
 
 								batsmanAnimation = "MoisesHenriques_DownTheTrack"; //BigBash
 								shotPlayed = "MoisesHenriques_DownTheTrack";
-							}
+							}*/
 						}
 						else if (distanceBtwBatsmanAndBall < 0.5f)
 						{
@@ -8094,17 +8088,17 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 						else
 						{
 
-							randomId = Random.Range(0, 5);
+							/*randomId = Random.Range(0, 5);
 							if (randomId >= 3)
-							{
+							{*/
 								batsmanAnimation = "LoftedStraightDrive";
 								shotPlayed = "LoftedStraightDrive";
-							}
+							/*}
 							else
 							{
 								batsmanAnimation = "MichaelKlinger_LongOffSlog";//BigBash
 								shotPlayed = "MichaelKlinger_LongOffSlog";
-							}
+							}*/
 
 
 						}
@@ -8119,7 +8113,7 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 
 								if (randomId >= 2)
 								{
-									batsmanAnimation = "DownTheTrackSpin_StraightDrive";//nija batsman
+									batsmanAnimation = "DownTheTrackSpin_StraightDrive";
 									shotPlayed = "DownTheTrackSpin_StraightDrive";
 								}
 								else
@@ -8466,11 +8460,11 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 				else if (ballLength == "GoodLength" || ballLength == "ShortPitch")
 				{
 					randomId = Random.Range(0, 10);
-					if (distanceBtwBatsmanAndBall <= 0.0f && distanceBtwBatsmanAndBall >= -0.4f && randomId >= 5)
-					{
-						batsmanAnimation = "DavidWarner_Switch_Hit";
-						shotPlayed = "DavidWarner_Switch_Hit";
-					}
+					//if (distanceBtwBatsmanAndBall <= 0.0f && distanceBtwBatsmanAndBall >= -0.4f && randomId >= 5)
+					//{
+					//	batsmanAnimation = "DavidWarner_Switch_Hit";
+					//	shotPlayed = "DavidWarner_Switch_Hit";
+					//}
 					if (ballLength == "GoodLength" && distanceBtwBatsmanAndBall > 0.75f)
 					{
 						randomId = Random.Range(0, 20);
@@ -8580,23 +8574,23 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 								batsmanAnimation = "LoftedReverseSweep";
 								shotPlayed = "LoftedReverseSweep";
 							}
-							else if (randomId < 40)
-							{
-								batsmanAnimation = "GlennMaxwell_SwitchHit2"; //BigBash
-								shotPlayed = "GlennMaxwell_SwitchHit2";
+							//else if (randomId < 40)
+							//{
+							//	batsmanAnimation = "GlennMaxwell_SwitchHit2"; //BigBash
+							//	shotPlayed = "GlennMaxwell_SwitchHit2";
 
-							}
+							//}
 							else
 							{
 								batsmanAnimation = "LoftedReverseSweep2";
 								shotPlayed = "LoftedReverseSweep2";
 							}
 						}
-						else if (distanceBtwBatsmanAndBall >= 0.4f)
-						{
-							batsmanAnimation = "GlennMaxwell_SwitchHit"; // BigBash
-							shotPlayed = "GlennMaxwell_SwitchHit";
-						}
+						//else if (distanceBtwBatsmanAndBall >= 0.4f)
+						//{
+						//	batsmanAnimation = "GlennMaxwell_SwitchHit"; // BigBash
+						//	shotPlayed = "GlennMaxwell_SwitchHit";
+						//}
 						else
 						{
 							//////       //CONTROLLER.GameLog("Fill the blank 2");
@@ -8742,12 +8736,12 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 							randomId = Random.Range(0, 40);//24Feb
 							if (randomId > 15)
 							{
-								if (distanceBtwBatsmanAndBall <= 0.0f && distanceBtwBatsmanAndBall >= -0.4f && randomId > 25)
-								{
-									batsmanAnimation = "DavidWarner_Switch_Hit";
-									shotPlayed = "DavidWarner_Switch_Hit";
-								}
-								else
+								//if (distanceBtwBatsmanAndBall <= 0.0f && distanceBtwBatsmanAndBall >= -0.4f && randomId > 25)
+								//{
+								//	batsmanAnimation = "DavidWarner_Switch_Hit";
+								//	shotPlayed = "DavidWarner_Switch_Hit";
+								//}
+								//else
 								{
 									batsmanAnimation = "LateCut";
 									shotPlayed = "LateCut";
@@ -8820,12 +8814,12 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 						{
 							//wicket-downthetrack
 							randomId = Random.Range(0, 12);
-							if (distanceBtwBatsmanAndBall <= 0.0f && distanceBtwBatsmanAndBall >= -0.4f && randomId >= 5)
-							{
-								batsmanAnimation = "DavidWarner_Switch_Hit";
-								shotPlayed = "DavidWarner_Switch_Hit";
-							}
-							else if (distanceBtwBatsmanAndBall >= -0.15f && distanceBtwBatsmanAndBall <= 0.3f)
+							//if (distanceBtwBatsmanAndBall <= 0.0f && distanceBtwBatsmanAndBall >= -0.4f && randomId >= 5)
+							//{
+							//	batsmanAnimation = "DavidWarner_Switch_Hit";
+							//	shotPlayed = "DavidWarner_Switch_Hit";
+							//}
+							 if (distanceBtwBatsmanAndBall >= -0.15f && distanceBtwBatsmanAndBall <= 0.3f)
 							{
 								batsmanAnimation = "DownTheTrackOffSideLoft";
 								shotPlayed = "DownTheTrackOffSideLoft";
@@ -8881,17 +8875,17 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 							}
 							else if (randomId < 17)
 							{
-								randomId = Random.Range(0, 5);
-								if (randomId < 2)
-								{
+								//randomId = Random.Range(0, 5);
+								//if (randomId < 2)
+								//{
 									batsmanAnimation = "UpperCut";
 									shotPlayed = "UpperCut";
-								}
-								else
-								{
-									batsmanAnimation = "Thirdman_UpperCut";//BigBash
-									shotPlayed = "Thirdman_UpperCut";
-								}
+								//}
+								//else
+								//{
+								//	batsmanAnimation = "Thirdman_UpperCut";//BigBash
+								//	shotPlayed = "Thirdman_UpperCut";
+								//}
 							}
 							else
 							{
@@ -8906,17 +8900,17 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 						}
 						else
 						{
-							randomId = Random.Range(0, 5);
-							if (randomId < 2)
-							{
+							//randomId = Random.Range(0, 5);
+							//if (randomId < 2)
+							//{
 								batsmanAnimation = "UpperCut";
 								shotPlayed = "UpperCut";
-							}
-							else
-							{
-								batsmanAnimation = "Thirdman_UpperCut";//BigBash
-								shotPlayed = "Thirdman_UpperCut";
-							}
+							//}
+							//else
+							//{
+							//	batsmanAnimation = "Thirdman_UpperCut";//BigBash
+							//	shotPlayed = "Thirdman_UpperCut";
+							//}
 
 
 						}
@@ -8927,21 +8921,21 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 			case -1://defense
 				if (ballLength == "Yorker" || ballLength == "FullPitch")
 				{
-					randomId = Random.Range(0, 20);
-					if (distanceBtwBatsmanAndBall >= -0.15f && distanceBtwBatsmanAndBall <= 0.2f)
-					{
-						if (randomId > 17 && ballLength == "Yorker" && distanceBtwBatsmanAndBall >= -0.1f && distanceBtwBatsmanAndBall <= 0.1f)
-						{
-							batsmanAnimation = "DownTheTrackDefensiveShot";
-							shotPlayed = "DownTheTrackDefensiveShot";
-						}
-						else
-						{
-							batsmanAnimation = "FrontFootDefense";
-							shotPlayed = "FrontFootDefense";
-						}
-					}
-					else
+					//randomId = Random.Range(0, 20);
+					//if (distanceBtwBatsmanAndBall >= -0.15f && distanceBtwBatsmanAndBall <= 0.2f)
+					//{
+					//	if (randomId > 17 && ballLength == "Yorker" && distanceBtwBatsmanAndBall >= -0.1f && distanceBtwBatsmanAndBall <= 0.1f)
+					//	{
+					//		batsmanAnimation = "DownTheTrackDefensiveShot";
+					//		shotPlayed = "DownTheTrackDefensiveShot";
+					//	}
+					//	else
+					//	{
+					//		batsmanAnimation = "FrontFootDefense";
+					//		shotPlayed = "FrontFootDefense";
+					//	}
+					//}
+					//else
 					{
 						batsmanAnimation = "FrontFootDefense";
 						shotPlayed = "FrontFootDefense";
@@ -8962,18 +8956,18 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 					{
 						if (distanceBtwBatsmanAndBall < 0.6f && currentBowlerType != "spin")
 						{
-							randomId = Random.Range(0, 12);
-							if (randomId < 5)
+							//randomId = Random.Range(0, 12);
+							//if (randomId < 5)
 							{
 								batsmanAnimation = "HelicoptorShot";
 								shotPlayed = "HelicoptorShot";
 
 							}
-							else
-							{
-								batsmanAnimation = "DhoniHeliCopter_New";//BigBash
-								shotPlayed = "DhoniHeliCopter_New";
-							}
+							//else
+							//{
+							//	batsmanAnimation = "DhoniHeliCopter_New";//BigBash
+							//	shotPlayed = "DhoniHeliCopter_New";
+							//}
 						}
 						else if (distanceBtwBatsmanAndBall <= 0.0f && distanceBtwBatsmanAndBall >= -0.3f)
 						{
@@ -9028,19 +9022,17 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 						}
 						else if (distanceBtwBatsmanAndBall >= -0.15f && distanceBtwBatsmanAndBall <= 0.2f)//wicket-downthetrack
 						{
-							randomId = Random.Range(0, 10);
-							if (randomId < 4)
-							{
+							//randomId = Random.Range(0, 10);
+							//if (randomId < 4)
+							//{
 								batsmanAnimation = "DownTheTrackHittingLegSide";
 								shotPlayed = "DownTheTrackHittingLegSide";
-							}
-							else
-							{
-								batsmanAnimation = "DownTheTrackSpin_LongOn";//BigBash
-								shotPlayed = "DownTheTrackSpin_LongOn";
-							}
-
-
+							//}
+							//else
+							//{
+							//	batsmanAnimation = "DownTheTrackSpin_LongOn";//BigBash
+							//	shotPlayed = "DownTheTrackSpin_LongOn";
+							//}
 						}
 						else
 						{
@@ -9051,11 +9043,11 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 								shotPlayed = "LoftedStraightDrive";
 
 							}
-							else if (ballLength == "GoodLength")
-							{
-								batsmanAnimation = "ShortPitch_ LongOnSlog";//BigBash
-								shotPlayed = "ShortPitch_ LongOnSlog";
-							}
+							//else if (ballLength == "GoodLength")
+							//{
+							//	batsmanAnimation = "ShortPitch_ LongOnSlog";//BigBash
+							//	shotPlayed = "ShortPitch_ LongOnSlog";
+							//}
 							else
 							{
 								batsmanAnimation = "LoftedStraightDrive";
@@ -9124,16 +9116,16 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 						}
 						else if (distanceBtwBatsmanAndBall >= 0.4f)
 						{
-							if (randomId < 30)
-							{
+							//if (randomId < 30)
+							//{
 								batsmanAnimation = "UnOrthodoxShot2";
 								shotPlayed = "UnOrthodoxShot2";
-							}
-							else
-							{
-								batsmanAnimation = "UnOrthodoxShot1";
-								shotPlayed = "UnOrthodoxShot1";
-							}
+							//}
+							//else
+							//{
+							//	batsmanAnimation = "UnOrthodoxShot1";
+							//	shotPlayed = "UnOrthodoxShot1";
+							//}
 						}
 						else
 						{
@@ -9158,16 +9150,16 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 						if (ballLength == "Yorker" && distanceBtwBatsmanAndBall < 0.6f && currentBowlerType != "spin")
 						{
 
-							if (distanceBtwBatsmanAndBall < 0.3f)
-							{
+							//if (distanceBtwBatsmanAndBall < 0.3f)
+							//{
 								batsmanAnimation = "HelicoptorShot";
 								shotPlayed = "HelicoptorShot";
-							}
-							else
-							{
-								batsmanAnimation = "DhoniHeliCopter_New";//BigBash
-								shotPlayed = "DhoniHeliCopter_New";
-							}
+							//}
+							//else
+							//{
+							//	batsmanAnimation = "DhoniHeliCopter_New";//BigBash
+							//	shotPlayed = "DhoniHeliCopter_New";
+							//}
 
 						}
 						else if (distanceBtwBatsmanAndBall <= 0.0f && distanceBtwBatsmanAndBall >= -0.3f)
@@ -9292,16 +9284,16 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 						if (distanceBtwBatsmanAndBall > 0.3f)
 						{
 
-							if (randomId > 25)
-							{
-								batsmanAnimation = "ChrisLynn_OnSideHeave"; //BigBash
-								shotPlayed = "ChrisLynn_OnSideHeave";
-							}
-							else
-							{
+							//if (randomId > 25)
+							//{
+							//	batsmanAnimation = "ChrisLynn_OnSideHeave"; //BigBash
+							//	shotPlayed = "ChrisLynn_OnSideHeave";
+							//}
+							//else
+							//{
 								batsmanAnimation = "OnSideSlog";
 								shotPlayed = "OnSideSlog";
-							}
+							//}
 						}
 						else if (distanceBtwBatsmanAndBall > 0.4f && distanceBtwBatsmanAndBall < 0.6f && randomId < 10)
 						{
@@ -9357,20 +9349,16 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 					randomId = Random.Range(0, 40);//20feb
 					if (distanceBtwBatsmanAndBall > 0.0f && distanceBtwBatsmanAndBall < 0.3f)
 					{
-						if (randomId > 30)
-						{
-							batsmanAnimation = "GeorgeBailey_DeepMidWicketSlog";//BigBash
-							shotPlayed = "GeorgeBailey_DeepMidWicketSlog";
-
-
-
-						}
-						else
-						{
-
+						//if (randomId > 30)
+						//{
+						//	batsmanAnimation = "GeorgeBailey_DeepMidWicketSlog";//BigBash
+						//	shotPlayed = "GeorgeBailey_DeepMidWicketSlog";
+						//}
+						//else
+						//{
 							batsmanAnimation = "HookShot";
 							shotPlayed = "HookShot";
-						}
+						//}
 					}
 					else if (currentBowlerType != "spin" && distanceBtwBatsmanAndBall >= 0.3f && distanceBtwBatsmanAndBall < 0.85f)
 					{
@@ -9397,17 +9385,16 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 						}
 						else
 						{
-							if (!powerShot)
-							{
-								batsmanAnimation = "TravisHead_SlapShot";//BigBash
-								shotPlayed = "TravisHead_SlapShot";
-							}
-							else
-							{
+							//if (!powerShot)
+							//{
+							//	batsmanAnimation = "TravisHead_SlapShot";//BigBash
+							//	shotPlayed = "TravisHead_SlapShot";
+							//}
+							//else
+							//{
 								batsmanAnimation = "PullShotChest";
 								shotPlayed = "PullShotChest";
-							}
-
+							//}
 						}
 					}
 					else
@@ -9565,23 +9552,23 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 						else
 						{
 
-							if (Random.Range(0, 7) > 2)
-							{
-								batsmanAnimation = "GeorgeBailey_PullSlog";//BigBash
-								shotPlayed = "GeorgeBailey_PullSlog";
-							}
-							else
-							{
+							//if (Random.Range(0, 7) > 2)
+							//{
+							//	batsmanAnimation = "GeorgeBailey_PullSlog";//BigBash
+							//	shotPlayed = "GeorgeBailey_PullSlog";
+							//}
+							//else
+							//{
 								batsmanAnimation = "LoftedPullShot";
 								shotPlayed = "LoftedPullShot";
-							}
+							//}
 
 						}
 					}
 					else
 					{
 						randomId = Random.Range(0, 70);
-						if (randomId < 30 && distanceBtwBatsmanAndBall > 0f && distanceBtwBatsmanAndBall < 0.5f && (currentBowlerType == "fast" || currentBowlerType == "medium"))
+						/*if (randomId < 30 && distanceBtwBatsmanAndBall > 0f && distanceBtwBatsmanAndBall < 0.5f && (currentBowlerType == "fast" || currentBowlerType == "medium"))
 						{
 
 							randomId = Random.Range(0, 10);
@@ -9595,26 +9582,25 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 								batsmanAnimation = "AaronFinch_FineLegFlick";//BigBash
 								shotPlayed = "AaronFinch_FineLegFlick";
 							}
-
 						}
-						else if (randomId < 10 && distanceBtwBatsmanAndBall > 0.2f)
+						else*/ if (randomId < 10 && distanceBtwBatsmanAndBall > 0.2f)
 						{
 							batsmanAnimation = "MidWicketPush";
 							shotPlayed = "MidWicketPush";
 						}
 						else if (randomId < 20 && distanceBtwBatsmanAndBall > 0.3f && distanceBtwBatsmanAndBall < 0.5f)
 						{
-							randomId = Random.Range(0, 15);
-							if (randomId < 3)
-							{
+							//randomId = Random.Range(0, 15);
+							//if (randomId < 3)
+							//{
 								batsmanAnimation = "UnOrthodoxShot1";
 								shotPlayed = "UnOrthodoxShot1";
-							}
-							else
-							{
-								batsmanAnimation = "DeepSquareLeg_Flick";//BigBash
-								shotPlayed = "DeepSquareLeg_Flick";
-							}
+							//}
+							//else
+							//{
+							//	batsmanAnimation = "DeepSquareLeg_Flick";//BigBash
+							//	shotPlayed = "DeepSquareLeg_Flick";
+							//}
 						}
 						else if (randomId < 30 && distanceBtwBatsmanAndBall >= 0.5f && distanceBtwBatsmanAndBall < 0.7f)
 						{
@@ -9629,11 +9615,11 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 								batsmanAnimation = "MidOnStrike";
 								shotPlayed = "MidOnStrike";
 							}
-							else if (randomId > 4)
-							{
-								batsmanAnimation = "ShaneWatson_PullShot";//BigBash
-								shotPlayed = "ShaneWatson_PullShot";
-							}
+							//else if (randomId > 4)
+							//{
+							//	batsmanAnimation = "ShaneWatson_PullShot";//BigBash
+							//	shotPlayed = "ShaneWatson_PullShot";
+							//}
 							else
 							{
 								if (Random.Range(0, 7) > 2)
@@ -9656,17 +9642,16 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 					randomId = Random.Range(0, 30);
 					if (distanceBtwBatsmanAndBall > 0.0f && distanceBtwBatsmanAndBall < 0.3f)
 					{
-						if (randomId > 10)
-						{
-							batsmanAnimation = "DArcyShort_LongOnSlog";//BigBash
-							shotPlayed = "DArcyShort_LongOnSlog";
-						}
-						else
-						{
-
+						//if (randomId > 10)
+						//{
+						//	batsmanAnimation = "DArcyShort_LongOnSlog";//BigBash
+						//	shotPlayed = "DArcyShort_LongOnSlog";
+						//}
+						//else
+						//{
 							batsmanAnimation = "HookShot";
 							shotPlayed = "HookShot";
-						}
+						//}
 					}
 					else if (distanceBtwBatsmanAndBall >= 0.3f && distanceBtwBatsmanAndBall < 0.85f)
 					{
@@ -9681,16 +9666,16 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 							batsmanAnimation = "PullShotChest01";
 							shotPlayed = "PullShotChest01";
 						}
-						else if (randomId < 30)
+						else //if (randomId < 30)
 						{
 							batsmanAnimation = "PullShotChest";
 							shotPlayed = "PullShotChest";
 						}
-						else
-						{
-							batsmanAnimation = "ShortPitch_LongOnPullShot";//BigBash
-							shotPlayed = "ShortPitch_LongOnPullShot";
-						}
+						//else
+						//{
+						//	batsmanAnimation = "ShortPitch_LongOnPullShot";//BigBash
+						//	shotPlayed = "ShortPitch_LongOnPullShot";
+						//}
 					}
 					else
 					{
@@ -9702,17 +9687,17 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 						}
 						else
 						{
-							randomId = Random.Range(0, 10);
-							if (randomId > 4)
-							{
-								batsmanAnimation = "ShaneWatson_PullShot";//BigBash
-								shotPlayed = "ShaneWatson_PullShot";
-							}
-							else
-							{
+							//randomId = Random.Range(0, 10);
+							//if (randomId > 4)
+							//{
+							//	batsmanAnimation = "ShaneWatson_PullShot";//BigBash
+							//	shotPlayed = "ShaneWatson_PullShot";
+							//}
+							//else
+							//{
 								batsmanAnimation = "PullShotHip";
 								shotPlayed = "PullShotHip";
-							}
+							//}
 						}
 						//aimoveandplay
 					}
@@ -9901,7 +9886,7 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 				else if (ballLength == "GoodLength")
 				{
 					randomId = Random.Range(0, 5);
-					if (randomId < 3 && distanceBtwBatsmanAndBall > 0f && distanceBtwBatsmanAndBall < 0.5f && (currentBowlerType == "fast" || currentBowlerType == "medium"))
+					/*if (randomId < 3 && distanceBtwBatsmanAndBall > 0f && distanceBtwBatsmanAndBall < 0.5f && (currentBowlerType == "fast" || currentBowlerType == "medium"))
 					{
 
 						randomId = Random.Range(0, 10);
@@ -9919,18 +9904,18 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 					}
 					else if (distanceBtwBatsmanAndBall > 0.5f)
 					{
-						if (randomId == 0)
-						{
-							batsmanAnimation = "DilsonScoop";
-							shotPlayed = "DilsonScoop";
-						}
-						else
-						{
+						//if (randomId == 0)
+						//{
+						//	batsmanAnimation = "DilsonScoop";
+						//	shotPlayed = "DilsonScoop";
+						//}
+						//else
+						//{
 							batsmanAnimation = "ScoopShot";//BigBash
 							shotPlayed = "ScoopShot";
-						}
-					}
-					else
+						//}
+					}*/
+					//else
 					{
 						if (distanceBtwBatsmanAndBall > 0.0f)
 						{

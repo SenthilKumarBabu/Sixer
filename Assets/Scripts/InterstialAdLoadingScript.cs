@@ -35,14 +35,8 @@ public class InterstialAdLoadingScript : Singleton<InterstialAdLoadingScript>
     public void ShowMe(int index)
     {
         buttonIndex = index;
-#if GDEBUG
-        DebugLogger.PrintWithColor("############# INTERSTIAL AD LOADING SHOW ME CALLED ############### index: " + index +" TIME.TIME: "+Time.timeScale + " CanShowAdtoNewUser: " + CONTROLLER.CanShowAdtoNewUser_Inter + " IGQ: " + CONTROLLER.serverConfig.IGQ + " isInterstitialReadyToPlay: " + AdIntegrate.instance.isInterstitialReadyToPlay() + " launchInternetAdEvent: " + CONTROLLER.launchInternetAdEvent + " buttonIndex:  "+ buttonIndex);
-#endif
-        if ( AdIntegrate.instance.checkTheInternet() && CONTROLLER.launchInternetAdEvent && AdIntegrate.instance.isInterstitialReadyToPlay() == true && !CONTROLLER.isAdRemoved && CONTROLLER.CanShowAdtoNewUser_Inter == 1)
+        if ( AdIntegrate.instance.checkTheInternet() && CONTROLLER.launchInternetAdEvent && AdIntegrate.instance.isInterstitialReadyToPlay() == true && !CONTROLLER.isAdRemoved )
         {
-#if GDEBUG
-            DebugLogger.PrintWithColor("111111111111111111111111");
-#endif
             countText.text = "3";
             CountTextScorecard.text = "3";
             holder.SetActive(true);
@@ -62,7 +56,7 @@ public class InterstialAdLoadingScript : Singleton<InterstialAdLoadingScript>
             StartCountDown();
             AdIntegrate.instance.SetTimeScale(0f);
         }
-        else if (buttonIndex == 6 && CONTROLLER.CanShowAdtoNewUser_Inter == 1 )
+        else if (buttonIndex == 6  )
         {
 #if GDEBUG
             DebugLogger.PrintWithColor("222222222222222222222222222222");

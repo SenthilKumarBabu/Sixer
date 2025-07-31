@@ -99,14 +99,14 @@ public class AnimationScreen : Singleton<AnimationScreen>
 				}
 				else
 				{
-					if (AdIntegrate.instance.checkTheInternet() && AdIntegrate.instance.isRewardedReadyToPlay())
-					{
-						ProgressBar.instance.setProgress();
-					}
-					else
-					{
+					//if (AdIntegrate.instance.checkTheInternet() && AdIntegrate.instance.isRewardedReadyToPlay())
+					//{
+					//	ProgressBar.instance.setProgress();
+					//}
+					//else
+					//{
                         BattingScoreCard.instance.DisplayNextPlayer();
-					}
+					//}
 				}
 			}
 		}

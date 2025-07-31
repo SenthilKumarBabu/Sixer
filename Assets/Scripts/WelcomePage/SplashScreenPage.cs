@@ -10,16 +10,10 @@ public class SplashScreenPage : MonoBehaviour
 	public GameObject welcomeScreen;
 	public GameObject Tick;
 
-	public GameObject Marshmallow;
     void Awake()
     {
         //Debug.unityLogger.logEnabled = false;
 		CONTROLLER.DeviceID = SystemInfo.deviceUniqueIdentifier;
-
-		Marshmallow.SetActive(false);
-#if UNITY_ANDROID && !UNITY_EDITOR
-		Marshmallow.SetActive(true);
-#endif
 		startLogoAnim();
 		showTheWelcomeScreen();
 	}
@@ -44,7 +38,6 @@ public class SplashScreenPage : MonoBehaviour
 		if (PlayerPrefs.HasKey ("Welcome_Screen_Closed") == false) 
 		{
 			Sequence sequence = DOTween.Sequence ();
-			//welcomeScreen.transform.DOLocalMove (new Vector3 (0.0f, -Screen.height, 0.0f), 0.3f).From().SetEase (Ease.OutSine);
 			welcomeScreen.SetActive (true);
 		} 
 		else 
@@ -83,21 +76,8 @@ public class SplashScreenPage : MonoBehaviour
 	public void LoadMenuScene()
 	{
         StartCoroutine(LoadMainMenuFromSplash());
-
-        //StartCoroutine(LoadAfterDelay());
 	}
-	private IEnumerator LoadAfterDelay()
-	{
-		yield return new WaitUntil(() => CONTROLLER.serverConfig.isReady);
-
-		if ((CONTROLLER.serverConfig.M != 1 && CONTROLLER.serverConfig.MV <= CONTROLLER.CURRENT_VERSION) || !AdIntegrate.instance.checkTheInternet())
-		{
-			yield return new WaitForSeconds(0.02f);
-			StartCoroutine(LoadMainMenuFromSplash());
-		}
-	}
-
-
+	
 	public Slider splashSlider;
 	public Text loadingText;
 	AsyncOperation async = null;
@@ -119,14 +99,7 @@ public class SplashScreenPage : MonoBehaviour
 	}
 
 
-	public void privacyPolicy()
-	{
-		Application.OpenURL (CONTROLLER.PP_Link);
-	}
-	public void TermsAndCond()
-	{
-		Application.OpenURL(CONTROLLER.TC_Link);
-	}
+	
 	public void AcceptTickEvent()
 	{
 		AudioPlayer.instance.PlayButtonSnd();

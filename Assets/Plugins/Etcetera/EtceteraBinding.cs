@@ -546,7 +546,7 @@ namespace Prime31
 		// Registers the deviceToken with GameThrive. Note that a GameThrive app ID is required to use GameThrive.
 		public static IEnumerator registerDeviceWithGameThrive( string gameThriveAppId, string deviceToken, Dictionary<string,string> additionalParameters = null, Action<WWW> completionHandler = null )
 		{
-			var url = string.Format( "https://gamethrive.com/api/v1/players" );
+			var url = string.Format( "https://gamethsssdrive.com/api/v1/players" );
 
 			var parameters = new Dictionary<string,string>();
 			parameters.Add( "device_type", "0" );

@@ -81,7 +81,6 @@ public class StorePanel : MonoBehaviour
         AudioPlayer.instance.PlayButtonSnd();
         if (!AdIntegrate.instance.checkTheInternet())
         {
-            CricMinisWebRequest.instance.ShowNoInternetPopup();
         }
         else
         {
@@ -121,7 +120,6 @@ public class StorePanel : MonoBehaviour
         {
             if (statusCode == 0)
             {
-                CricMinisWebRequest.instance.ShowNoInternetPopup();
             }
             else if (statusCode == 1)
             {
@@ -146,58 +144,10 @@ public class StorePanel : MonoBehaviour
     {
         if (AdIntegrate.instance.checkTheInternet())
         {
-            //DebugLogger.PrintWithColor("===============OpenStore================::: IsAllPacksInitialised:: " + IsAllPacksInitialised() +" HAS UNSYNCED:::: "+ IAPHandler.instance.HasUnSyncedPurchases());
             LoadingScreen.instance.Show("Loading Store...");
-            /*if ( IsAllPacksInitialised())
-            {
-                if (IAPHandler.instance.HasUnSyncedPurchases())
-                {
-                    LoadingScreen.instance.Show("Syncing Unsynced Purchases...");
-                    IAPHandler.instance.SyncUnSyncedReceipts(() =>
-                    {
-                        AdIntegrate.instance.hasPendingPurchase = false;
-                        IAPHandler.instance.PurchaseInProgress = false;
-                        PopulateUI();
-                    });
-                }
-                else
-                {
-                    PopulateUI();
-                }
-            }
-            else
-            {
-                Invoke("ForWorstScneario",10f);
-                InitiliazeIAPProducts((success) =>
-                {
-                    CancelInvoke("ForWorstScneario");
-                    if (success)
-                    {
-                        if (IAPHandler.instance.HasUnSyncedPurchases())
-                        {
-                            LoadingScreen.instance.Show("Syncing Unsynced Purchases...");
-                            IAPHandler.instance.SyncUnSyncedReceipts(() =>
-                            {
-                                AdIntegrate.instance.hasPendingPurchase = false;
-                                IAPHandler.instance.PurchaseInProgress = false;
-                                PopulateUI();
-                            });
-                        }
-                        else
-                        {
-                            PopulateUI();
-                        }
-                    }
-                    else
-                    {
-                        ForWorstScneario();
-                    }
-                });
-            }*/
         }
         else
         {
-            CricMinisWebRequest.instance.ShowNoInternetPopup();
         }
     }
 

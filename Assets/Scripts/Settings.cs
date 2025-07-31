@@ -180,56 +180,6 @@ public class Settings : Singleton<Settings>
             Popup.instance.ShowNoInternetPopup();
     }
 
-    private void OnDeleteCall()
-    {
-        LoadingScreen.instance.Show();
-        Dictionary<string, string> dict = new Dictionary<string, string>();
-        dict.Clear();
-        dict.Add("uid", "" + CONTROLLER.UserID);
-        StartCoroutine(CricMinisWebRequest.instance.SyncData("account/delete", null, (response) =>
-        {
-            JSONNode data = JSON.Parse(response);
-            int status = int.Parse(data["status"]);
-            if (status == 200)
-            {
-                //FirebaseAnalyticsManager.instance.logEvent("Delete_Account");
-                CricMinisWebRequest.instance.ProceedSignout(false);
-                LoadingScreen.instance.Hide();
-                closeSettings();
-                SignInPanel.instance.Show();
-                PlayerPrefsManager.instance.loadData();
-                Popup.instance.showGenericPopup("ACCOUNT DELETED", "Account deleted successfully");
-            }
-            else
-            {
-                LoadingScreen.instance.Hide();
-            }
-        }, ServerRequest.GET));
-    }
-
-	public void signOutButClicked()
-	{
-        AudioPlayer.instance.PlayButtonSnd();
-
-        if (AdIntegrate.instance != null && AdIntegrate.instance.checkTheInternet())
-        {
-            /*if (IAPHandler.instance.deferredProductsList.Count > 0 || IAPHandler.instance.HasUnSyncedPurchases())
-            {
-                Popup.instance.Show(heading:"PURCHASE IN PROCESS", message:"Your recent purchase is still in process. Please try signing out after a while. You can still safely exit the app though.",yesString:"OK",size:1);
-            }
-            else
-                Popup.instance.Show(true, "Are you sure?", "If you sign out, all your progress will be erased on this device.\nYou can login again and recover most of your data. ", "YES", true, "NO", () => { StartCoroutine(proceedToSignOut()); },size:0);*/
-        }
-        else
-            Popup.instance.ShowNoInternetPopup(); 
-	}
-
-    private IEnumerator proceedToSignOut()
-    {
-        LoadingScreen.instance.Show();
-        yield return StartCoroutine(CricMinisWebRequest.instance.UserSync());
-        CricMinisWebRequest.instance.ProceedSignout();
-    }
 
     public GameObject ControlsHolder, AboutHolder,HelpHolder;
     public void OnButtonClicked(int idx)
@@ -240,8 +190,6 @@ public class Settings : Singleton<Settings>
             case 0:
                 AudioPlayer.instance.PlayButtonSnd();
                 ControlsHolder.SetActive(true);
-                //FirebaseAnalyticsManager.instance.logEvent("Controls_Click");
-                //FirebaseAnalyticsManager.instance.logEvent("Button_Click", new string[] { "Button_Action", "Controls_Click" });
                 break;
             case 1:
                 AudioPlayer.instance.PlayButtonSnd();
@@ -252,12 +200,8 @@ public class Settings : Singleton<Settings>
                 HelpHolder.SetActive(true);
                 break;
             case 3:
-                //FirebaseAnalyticsManager.instance.logEvent("Button_Click", new string[] { "Button_Action", "FBlike_Click" });
-                Application.OpenURL(CONTROLLER.FbpageLink);
                 break;
             case 4:
-                //FirebaseAnalyticsManager.instance.logEvent("Button_Click", new string[] { "Button_Action", "Instagram_Click" });
-                Application.OpenURL(CONTROLLER.InstagramLink);
                 break;
             case 5:
                 TextEditor te = new TextEditor();

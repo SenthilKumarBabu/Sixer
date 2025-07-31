@@ -39,53 +39,6 @@ public class DeeplinkPopup : MonoBehaviour
 
     private string folderName = "Deeplinkpopup";
 
-    public void checkForDeeplinking()
-    {
-        if (isFirstTimeShow == true)//|| OnNewIntent.instance.startGameWithIntent == true)
-        {
-            return;
-        }
-        StartCoroutine(CricMinisWebRequest.instance.SyncData("deeplink/popup", null, (_response) =>
-        {
-            if (!string.IsNullOrEmpty(_response))
-            {
-                JSONNode _node = JSON.Parse(_response);
-                _deeplinkdata = new deeplinkData();
-
-                if (_node["data"] != null)//&& OnNewIntent.instance.startGameWithIntent == false)
-                {
-                    _deeplinkdata.type = _node["data"]["type"].AsInt;
-                    _deeplinkdata.data = _node["data"]["data"];
-                    _deeplinkdata.imgURL = _node["data"]["imageurl"];
-                    _deeplinkdata.deeplinkVersion = _node["data"]["dversion"];
-                    _deeplinkdata.deeplinkID = _node["data"]["id"];
-                    _deeplinkdata.buttonString = _node["data"]["bLabel"];
-                    _deeplinkdata.headerString = _node["data"]["text"];
-                    _deeplinkdata.ExternalLinkURL = _node["data"]["elink"];
-
-                    if (PlayerPrefs.GetString("lastshowDeeplinkID" + _deeplinkdata.deeplinkID, "0") == _deeplinkdata.deeplinkID)
-                    {
-                        if (int.Parse(PlayerPrefs.GetString("lastshowDeeplinkVersion" + _deeplinkdata.deeplinkVersion, "0")) == int.Parse(_deeplinkdata.deeplinkVersion))
-                        {
-                                retreiveTextureFromLocal();
-                                doAftertextureDownload();
-                        }
-                        else
-                        {
-                            downloadTextureFromURL();
-                        }
-                    }
-                    else
-                    {
-                        downloadTextureFromURL();
-                    }
-                }
-            }
-        }, ServerRequest.GET, true));
-
-    }
-
-
     private void saveTextureInLocal(Texture _tex)
     {
         byte[] textureBytes = ((Texture2D)_tex).EncodeToPNG();

@@ -82,7 +82,7 @@ public class Scoreboard : Singleton<Scoreboard>
             isRTUpdated = true;
             if (CONTROLLER.gameMode != "multiplayer")
 			{
-				if (CONTROLLER.isAdRemoved || CONTROLLER.CanShowAdtoNewUser_Banner == 0)
+				if (CONTROLLER.isAdRemoved )
 				{
 					RT_ProfileData.anchoredPosition = new Vector2(RT_ProfileData.anchoredPosition.x, RT_ProfileData.anchoredPosition.y + 107);
 					RT_viewScore.anchoredPosition = new Vector2(RT_viewScore.anchoredPosition.x, RT_viewScore.anchoredPosition.y + 107);

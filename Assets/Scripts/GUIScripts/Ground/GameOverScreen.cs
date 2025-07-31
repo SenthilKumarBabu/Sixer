@@ -32,8 +32,6 @@ public class GameOverScreen : Singleton<GameOverScreen>
 		BattingScoreCard.instance.HideMe ();
 		ShowMe ();
 		ValidateText ();
-		StartCoroutine (CricMinisWebRequest.instance.sendPointstoLeaderboard (CONTROLLER.TempPoint) );
-
 	}
 	public void ShowInstertialAdLoadScreen(int index)
 	{
@@ -408,57 +406,16 @@ public class GameOverScreen : Singleton<GameOverScreen>
 	}
 
 
-	public void ShareChallenge ()
-	{
-		AudioPlayer.instance.PlayButtonSnd();
-		string subject = CONTROLLER.AppName;
-		string body ="";
-
-		if(CONTROLLER.gameMode =="slogover")
-			body = CONTROLLER.UserName + " completed Super Slog  with " + (CONTROLLER.totalPoints) + " points in "+CONTROLLER.AppName +" - " + " Can you do better?\nDownload Now! " + CONTROLLER.AppLink; 
-		else			
-            body = CONTROLLER.UserName + " completed level " + (CONTROLLER.CTSubLevelId + 1) + " in " + levelNames[CONTROLLER.CTCurrentPlayingMainLevel] + " of Super Chase in "+CONTROLLER.AppName+" - " + ". Can you beat it?\nDownload Now " + CONTROLLER.AppLink;
-
-		//execute the below lines if being run on a Android device
-		#if UNITY_ANDROID
-		//Refernece of AndroidJavaClass class for intent
-		AndroidJavaClass intentClass = new AndroidJavaClass ("android.content.Intent");
-		//Refernece of AndroidJavaObject class for intent
-		AndroidJavaObject intentObject = new AndroidJavaObject ("android.content.Intent");
-		//call setAction method of the Intent object created
-		intentObject.Call<AndroidJavaObject>("setAction", intentClass.GetStatic<string>("ACTION_SEND"));
-		//set the type of sharing that is happening
-		intentObject.Call<AndroidJavaObject>("setType", "text/plain");
-		//intentObject.Call<AndroidJavaObject>("setType", "message/rfc822");
-		//add data to be passed to the other activity i.e., the data to be sent
-		intentObject.Call<AndroidJavaObject>("putExtra", intentClass.GetStatic<string>("EXTRA_SUBJECT"), subject);
-		intentObject.Call<AndroidJavaObject>("putExtra", intentClass.GetStatic<string>("EXTRA_TEXT"), body);
-		//get the current activity
-		AndroidJavaClass unity = new AndroidJavaClass ("com.unity3d.player.UnityPlayer");
-		AndroidJavaObject currentActivity = unity.GetStatic<AndroidJavaObject>("currentActivity");
-		//start the activity by sending the intent data
-		currentActivity.Call ("startActivity", intentObject);
-		#endif
-		#if UNITY_IOS
-		ShareThisGame.sendTextWithOutPath (body);
-		#endif
-	}
 
 	private void SetButtonAnim(int idx)//0-continue 1-replay
 	{
 		if(idx==1)
 		{
-			//replayButton.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(100f, 100f);
-			//replayButton.GetComponentInChildren<Text>().fontSize =27;
-			//continueButton.GetComponentInChildren<Text>().fontSize =22;
 			Glow_replay.SetActive(true);
 		}
 		else
 		{
-			//continueButton.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(100f, 100f);
 			Glow_continueBtn.SetActive(true);
-			//replayButton.GetComponentInChildren<Text>().fontSize = 22;
-			//continueButton.GetComponentInChildren<Text>().fontSize = 27;
 		}
 	}
 }
