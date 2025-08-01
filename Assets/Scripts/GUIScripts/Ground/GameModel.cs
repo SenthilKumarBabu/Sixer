@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System ;
 using System .Linq ;
-using UnityEditor.Hardware;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -738,6 +737,11 @@ public class GameModel : Singleton<GameModel>
 					{
 						DetectBatsmanMove();
 					}
+#else
+					if(CONTROLLER.BattingTeamIndex == CONTROLLER.myTeamIndex)
+					{
+						DetectBatsmanMoveMouse ();
+					}
 #endif
 					break;
 				case 11:
@@ -746,6 +750,11 @@ public class GameModel : Singleton<GameModel>
 					if (CONTROLLER.BattingTeamIndex == CONTROLLER.myTeamIndex)
 					{
 						DetectBatsmanShot();
+					}
+#else
+					if(CONTROLLER.BattingTeamIndex == CONTROLLER.myTeamIndex)
+					{
+						DetectBatsmanShotMouse ();
 					}
 #endif
 					break;
@@ -785,8 +794,6 @@ public class GameModel : Singleton<GameModel>
 				}
 				break;
 			}
-
-
 		}
 		//if(action == 2 || action == 3 || introAction == 1 || introAction == 2)
 		//{
