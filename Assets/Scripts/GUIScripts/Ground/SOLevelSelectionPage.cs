@@ -158,12 +158,12 @@ public class SOLevelSelectionPage : Singleton<SOLevelSelectionPage>
 		i = CONTROLLER.CurrentLevelCompleted;
 
 		//for video button
-		if((CONTROLLER .CurrentLevelCompleted+1) <18 && AdIntegrate.instance.checkTheInternet() && AdIntegrate .instance .isRewardedReadyToPlay ())	
-		{
-			Challenges[CONTROLLER .CurrentLevelCompleted+1].RightSideImage.sprite = watchVideo;
-			Challenges[CONTROLLER.CurrentLevelCompleted + 1].RightSideBat.SetActive(false);
-			Challenges[CONTROLLER.CurrentLevelCompleted + 1].RightSideImage.SetNativeSize();
-		}
+		//if((CONTROLLER .CurrentLevelCompleted+1) <18 && AdIntegrate.instance.checkTheInternet() && AdIntegrate .instance .isRewardedReadyToPlay ())	
+		//{
+		//	Challenges[CONTROLLER .CurrentLevelCompleted+1].RightSideImage.sprite = watchVideo;
+		//	Challenges[CONTROLLER.CurrentLevelCompleted + 1].RightSideBat.SetActive(false);
+		//	Challenges[CONTROLLER.CurrentLevelCompleted + 1].RightSideImage.SetNativeSize();
+		//}
 
 
 		/*if (CONTROLLER.LevelId < 17) 
@@ -342,16 +342,7 @@ public class SOLevelSelectionPage : Singleton<SOLevelSelectionPage>
 		{
 			if (AdIntegrate.instance.checkTheInternet ())
 			{
-				if (AdIntegrate.instance.isRewardedReadyToPlay ())
-				{
-					CONTROLLER.RewardedVideoClickedState = 1;	// Superover Wicket loss
-					AdIntegrate.instance.ShowRewardedVideo ();
-				}					
-				else
-				{
-					ShowToast("No video Available");
-					StartCoroutine(AdIntegrate.instance.requestRewardedVideo ());
-                }
+				ShowToast("No video Available");
             }
 			else
 			{

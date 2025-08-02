@@ -151,10 +151,6 @@ public class UIAnimation : Singleton<UIAnimation>
 
 	public void  GoToMainMenu ()
 	{
-        if (AdIntegrate.instance != null)
-        {
-            AdIntegrate.instance.HideAd();
-        }
         TeamSelection.playerCount = 0;
 		TeamSelection.foreignPlayerCount = 0;
 		CONTROLLER.canShowMainCamera = true;

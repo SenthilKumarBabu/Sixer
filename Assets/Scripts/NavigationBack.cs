@@ -102,11 +102,8 @@ public class NavigationBack : Singleton<NavigationBack>
 				}
 				else if (ManageScene.CurScene == Scenes.Ground && CONTROLLER .gameMode !="multiplayer")
 				{
-					if (InterstialAdLoadingScript.instance != null && InterstialAdLoadingScript.instance.holder.activeSelf)
-					{
-						return;
-					}
-					else if (ProgressBar.instance != null && ProgressBar.instance.holder.activeSelf)
+
+					 if (ProgressBar.instance != null && ProgressBar.instance.holder.activeSelf)
 						ProgressBar.instance.closeButEvent();
 					else if (HeadStart.instance != null && HeadStart.instance.holder.activeSelf)
 						HeadStart.instance.ClosePopup();

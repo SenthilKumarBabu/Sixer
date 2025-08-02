@@ -207,16 +207,7 @@ public class TeamSelection : Singleton<TeamSelection> {
 				this.gameObject.SetActive (false);
 
 				CONTROLLER.CurrentPage = "battinglineup";
-
-//				InterfaceHandler._instance.GameModeSelGO.SetActive (false); 
-//				GameModeSelector.inTeamSelectionPage = false;
-//				MultiplayerPage.instance .multiplayerPageNumber= 0;
-//				MultiplayerPage.instance .CheckPage (); 
 			}
-		}
-		if (CONTROLLER.gameMode != "superover" && CONTROLLER.gameMode != CONTROLLER.SUPER_Crusade_GameMode && CONTROLLER.gameMode != "slogover" && CONTROLLER.gameMode != "chasetarget")
-		{
-			AdIntegrate.instance.HideAd();
 		}
 	}
 

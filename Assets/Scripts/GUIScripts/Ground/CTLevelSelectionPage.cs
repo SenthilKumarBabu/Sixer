@@ -91,16 +91,16 @@ public class CTLevelSelectionPage : Singleton<CTLevelSelectionPage>
 						RightSideBat[j].SetActive(true);
 						maskHolder[j].SetActive(true);
 					}
-					else if (bflag2 && AdIntegrate.instance.checkTheInternet() && AdIntegrate.instance.isRewardedReadyToPlay())
-					{
-						BGimage[j].sprite = CTMenuScreen.instance.NotYetPlayedBG;
-						RightSideImage[j].sprite = CTMenuScreen.instance.watchVideo;
-						RightSideImage[j].SetNativeSize();
-						bflag2 = false;
+					//else if (bflag2 && AdIntegrate.instance.checkTheInternet() && AdIntegrate.instance.isRewardedReadyToPlay())
+					//{
+					//	BGimage[j].sprite = CTMenuScreen.instance.NotYetPlayedBG;
+					//	RightSideImage[j].sprite = CTMenuScreen.instance.watchVideo;
+					//	RightSideImage[j].SetNativeSize();
+					//	bflag2 = false;
 
-						RightSideBat[j].SetActive(false);
-						maskHolder[j].SetActive(false);
-					}
+					//	RightSideBat[j].SetActive(false);
+					//	maskHolder[j].SetActive(false);
+					//}
 
 				}
 				else
@@ -233,7 +233,6 @@ public class CTLevelSelectionPage : Singleton<CTLevelSelectionPage>
 
 
 		}
-		AdIntegrate.instance.HideAd();
 	}
 	private void SetOverRange()
 	{
@@ -279,19 +278,10 @@ public class CTLevelSelectionPage : Singleton<CTLevelSelectionPage>
 	{
 		if (AdIntegrate.instance != null)
 		{
-			if (AdIntegrate.instance.checkTheInternet ())
+			if (AdIntegrate.instance.checkTheInternet())
 			{
-				if (AdIntegrate.instance.isRewardedReadyToPlay ())
-				{
-					CONTROLLER.RewardedVideoClickedState = 6;	// Superchase level open
-					AdIntegrate.instance.ShowRewardedVideo ();
-				}					
-				else
-				{
-					Popup.instance.showGenericPopup("","No video Available");
-                    StartCoroutine(AdIntegrate.instance.requestRewardedVideo());
-                }
-            }
+				Popup.instance.showGenericPopup("", "No video Available");
+			}
 			else
 			{
 				Popup.instance.ShowNoInternetPopup();

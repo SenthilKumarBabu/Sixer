@@ -97,7 +97,6 @@ public class BattingLineup : Singleton<BattingLineup> {
 		//InterfaceHandler._instance.GameModeSelGO.SetActive (false); 
 		GameModeSelector.inTeamSelectionPage = false;
 		this.gameObject.SetActive (false);
-		AdIntegrate.instance.ShowBannerAd();
 	}
 
 	public void  ResetBattingCard ()

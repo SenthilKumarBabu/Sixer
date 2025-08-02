@@ -19,33 +19,11 @@ public class ExtraBall : Singleton<ExtraBall> {
 		{
 			if (AdIntegrate.instance.checkTheInternet ())
 			{
-				if (AdIntegrate.instance.isRewardedReadyToPlay ())
-				{
-					if (glowSeq != null)
-						glowSeq.Kill();
-
-					CONTROLLER.RewardedVideoClickedState = 4;	// SuperChase extra ball
-
-					AdIntegrate.instance.ShowRewardedVideo ();
-				}					
-				else
-				{
-//#if UNITY_ANDROID && !UNITY_EDITOR
-					//NextwaveMarshmallowPermission .instance .ShowToast ("No video Available"); 
-//#else
 					ShowToast("No video Available"); 
-					//#endif
-				}
-
 			}
-
 			else
 			{
-//#if UNITY_ANDROID && !UNITY_EDITOR
-				//NextwaveMarshmallowPermission .instance .ShowToast ("you're not connected to the Internet"); 
-//#else
 				ShowToast("you're not connected to the Internet"); 
-				//#endif
 			}
 
 		}

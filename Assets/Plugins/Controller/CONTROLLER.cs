@@ -169,7 +169,6 @@ public class CONTROLLER
 	public static float ScreenWidth;
 	public static float ScreenHeight;
 	public static string adType;
-	public static bool receivedAdEvent = false;
     public static bool launchInternetAdEvent = false;
     public static bool CanShowAd = true;
 	
@@ -241,8 +240,6 @@ public class CONTROLLER
 
 	public static int gameTotalPoints=0, gameSyncPoint=0;
 
-
-	public static int RewardedVideoClickedState = -1;
 
     #region SUPER_XYZ_GAMEMODE
     public static string SUPER_Crusade_GameMode = "superMatchesGamemode";

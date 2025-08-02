@@ -107,7 +107,6 @@ public class GamePauseScreen : Singleton<GamePauseScreen>
 			quitPopup.SetActive(true);
 			DoTweenController.DOscale(quitBG, 0.5f, 0f, 1f, 0f, ease: true, easeType: Ease.OutBack, setUpdate: true);
 			CONTROLLER.CurrentPage = "dispMsg";
-			AdIntegrate.instance.HideAd();
 		}
     }
 
@@ -116,11 +115,9 @@ public class GamePauseScreen : Singleton<GamePauseScreen>
     {
         if (i == 1)
         {
-            //quitPopup.SetActive(false);
             LoadingScreen.instance.Show();
             GameModel.instance.ConfirmQuit();
             GroundController.instance.stopAllAnimations();
-            AdIntegrate.instance.HideAd();
             CONTROLLER.GameIsOnFocus = true;
         }
         else if (i == 0)

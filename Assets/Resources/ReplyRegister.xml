@@ -1,5 +1,0 @@
-<register>
-	<status>1</status> // 1 = saved successfully, 0 = not saved, 2 = email already exits
-	<userid>123</userid> // user id unique for a user, if status == 1 only.
-	<username>123</username>
-</register>

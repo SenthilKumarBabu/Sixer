@@ -553,7 +553,7 @@ public class GameModel : Singleton<GameModel>
 
 		CanPauseGame = false;
 		nChaseHeadStrtCount = 0;
-		if (CONTROLLER.gameMode != "chasetarget" || ContinueMatch  || !AdIntegrate .instance .isRewardedReadyToPlay ()) 
+		if (CONTROLLER.gameMode != "chasetarget" || ContinueMatch ) 
 		{
 			GameObject prefabGO;
 			GameObject tempGO;
@@ -1483,13 +1483,13 @@ public class GameModel : Singleton<GameModel>
             return true;
 		}
 
-		if( (CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode==CONTROLLER.SUPER_Crusade_GameMode) && CONTROLLER.currentMatchBalls == CONTROLLER.totalOvers*6 && CONTROLLER.TargetToChase - 6 <= battingTeamScore && bChaseExtraBall && AdIntegrate.instance.checkTheInternet() && AdIntegrate .instance .isRewardedReadyToPlay ())
-		{
-			CONTROLLER.currentMatchBalls--;
-			ExtraBall.instance.ShowMe ();
-			bChaseExtraBall=false;
-			return false;
-		}
+		//if( (CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode==CONTROLLER.SUPER_Crusade_GameMode) && CONTROLLER.currentMatchBalls == CONTROLLER.totalOvers*6 && CONTROLLER.TargetToChase - 6 <= battingTeamScore && bChaseExtraBall && AdIntegrate.instance.checkTheInternet() && AdIntegrate .instance .isRewardedReadyToPlay ())
+		//{
+		//	CONTROLLER.currentMatchBalls--;
+		//	ExtraBall.instance.ShowMe ();
+		//	bChaseExtraBall=false;
+		//	return false;
+		//}
 		if(CONTROLLER.currentMatchBalls >= CONTROLLER.totalOvers * 6)
 		{
             return true;
@@ -1687,10 +1687,6 @@ public class GameModel : Singleton<GameModel>
 			GamePauseScreen.instance.Hide (false);
 			FadeView.instance.Hide (true);
 			CanPauseGame = false;
-			if (AdIntegrate.instance != null && !FromAppPause)
-			{
-				AdIntegrate.instance.ShowBannerAd();
-			}
 		}
 		else
 		{
@@ -1699,10 +1695,6 @@ public class GameModel : Singleton<GameModel>
 			GamePauseScreen.instance.Hide(true);
 			FadeView.instance.Hide(false);
 			CanPauseGame = true;
-			if (AdIntegrate.instance != null)
-			{
-				AdIntegrate.instance.HideAd();
-			}
 		}
 		isGamePaused = boolean;
 		GroundController.instance.GameIsPaused (boolean, FromAppPause);
@@ -1712,10 +1704,6 @@ public class GameModel : Singleton<GameModel>
 			Scoreboard.instance.Hide (false);
 			BatsmanInfo.instance.ShowMe ();
 			CONTROLLER.CurrentPage = "ingame";
-			if(AdIntegrate.instance != null )	
-			{
-				AdIntegrate.instance.HideAd ();
-			}
 		}
 	}
 
@@ -2191,7 +2179,6 @@ public void enableBlocker ()
 	}
 	public void  ConfirmQuit ()
 	{
-		AdIntegrate.instance.HideAd();
 		StartCoroutine (GameQuitted ());
 	}
 	public IEnumerator GameQuitted ()

@@ -165,7 +165,6 @@ public class SuperOverResult : Singleton<SuperOverResult>
 		CONTROLLER.CurrentPage = "";
         GameModel.instance.ConfirmQuit ();
 		HideThis ();
-		AdIntegrate.instance.HideAd();
 	}
 
 	public void  ReplayThisLevel ()

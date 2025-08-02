@@ -680,10 +680,6 @@ public class BattingScoreCard : Singleton<BattingScoreCard>
 
 	public void ShowMe ()
 	{
-		if(AdIntegrate.instance != null)
-		{
-			AdIntegrate.instance.HideAd ();
-		}
 		if (CONTROLLER.InningsCompleted && CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode)
 		{
 			CloseButtonClicked();
@@ -748,7 +744,7 @@ public class BattingScoreCard : Singleton<BattingScoreCard>
 		}
 		playerChange.SetActive (false); 	setWicketCamera (false);
 		
-		if (!GamePauseScreen.instance.gamePause.activeInHierarchy && !InterstialAdLoadingScript.instance.holder.activeSelf)
+		if (!GamePauseScreen.instance.gamePause.activeInHierarchy )
 		{
 			AdIntegrate.instance.SetTimeScale(1f);
 		}

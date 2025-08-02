@@ -109,12 +109,6 @@ public class GameModeSelector : MonoBehaviour
 		if (flag)
 		{
 			shineCoroutine = StartCoroutine(PlayShineAnimation());
-
-			AdIntegrate.instance.HideAd();
-			if (CONTROLLER.CurrentPage == "splashpage" || CONTROLLER.CurrentPage == "" || ManageScene.CurScene == Scenes.Preloader)
-			{
-				StartCoroutine(Hide_BannerAd());
-			}
 		}
     }
 
@@ -156,14 +150,6 @@ public class GameModeSelector : MonoBehaviour
 		}
 	}
 
-	IEnumerator Hide_BannerAd()
-	{
-		yield return new WaitForSecondsRealtime(3.0f);
-		if (CONTROLLER.CurrentPage == "splashpage" || CONTROLLER.CurrentPage == "" || ManageScene.CurScene == Scenes.Preloader)
-		{
-			AdIntegrate.instance.HideAd();
-		}
-	}
 	public void UpdateLandingPageTopBars()
 	{
 		if (CONTROLLER.gameTotalPoints <= 0)
@@ -178,20 +164,7 @@ public class GameModeSelector : MonoBehaviour
 		userTickets.text = UserProfile.Tickets.ToString();
 		userName.text = CONTROLLER.UserName;
 		userpoints.text = CONTROLLER.gameTotalPoints.ToString();
-
-		if (StorePanel.instance != null && !isUnSyncedPurchasedSyncCalled)
-        {
-            isUnSyncedPurchasedSyncCalled = true;
-			StorePanel.instance.SyncUnSyncedPurchases();
-        }
 	}
-
-
-
-    public void PopupClose()
-    {
-        AdIntegrate.instance.HideAd();
-    }
 
 	public void SelectGameMode(int index)
     {
@@ -199,27 +172,25 @@ public class GameModeSelector : MonoBehaviour
         AudioPlayer.instance.PlayButtonSnd();
 		string dataStr;		
 		gameMode = index;
-		if(index == 1)
+		if (index == 1)
 		{
 			CONTROLLER.gameMode = "superover";
-			if(PlayerPrefs.HasKey ("superoverteamlist"))
+			if (PlayerPrefs.HasKey("superoverteamlist"))
 			{
-				dataStr = PlayerPrefs.GetString ("superoverteamlist");
-				XMLReader.ParseXML (dataStr);
+				dataStr = PlayerPrefs.GetString("superoverteamlist");
+				XMLReader.ParseXML(dataStr);
 			}
-			else 
+			else
 			{
-				XMLReader.ParseXML (PlayerPrefsManager.instance.xmlAsset.text);
-				PlayerPrefsManager.SetTeamList ();
+				XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
+				PlayerPrefsManager.SetTeamList();
 			}
-			if (!PlayerPrefs.HasKey ("SuperOverDetail"))
+			if (!PlayerPrefs.HasKey("SuperOverDetail"))
 			{
-				//HideMe ();
 				ShowLandingPage(false);
-				modeInstruction.SetActive (true);
+				modeInstruction.SetActive(true);
 				CONTROLLER.CurrentPage = "instructionpage";
-				ShowInstructionPage (1);
-
+				ShowInstructionPage(1);
 				AudioPlayer.instance.PlayLandingPageIntoGameSFX(true);
 			}
 			else
@@ -227,145 +198,111 @@ public class GameModeSelector : MonoBehaviour
 				displayMsg.SetActive(true);
 				CONTROLLER.CurrentPage = "dispMsg";
 			}
-			AdIntegrate.instance.ShowBannerAd();
 		}
 		else if (index == 2)
 		{
 			CONTROLLER.gameMode = "slogover";
-			if(PlayerPrefs.HasKey ("slogoverteamlist"))
+			if (PlayerPrefs.HasKey("slogoverteamlist"))
 			{
-				dataStr = PlayerPrefs.GetString ("slogoverteamlist");
-				XMLReader.ParseXML (dataStr);
+				dataStr = PlayerPrefs.GetString("slogoverteamlist");
+				XMLReader.ParseXML(dataStr);
 			}
-			else 
+			else
 			{
-				XMLReader.ParseXML (PlayerPrefsManager.instance.xmlAsset.text);
-				PlayerPrefsManager.SetTeamList ();
+				XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
+				PlayerPrefsManager.SetTeamList();
 			}
-			if (!PlayerPrefs.HasKey ("SlogOverDetail"))
+			if (!PlayerPrefs.HasKey("SlogOverDetail"))
 			{
-				//HideMe ();
 				ShowLandingPage(false);
-				modeInstruction.SetActive (true);
+				modeInstruction.SetActive(true);
 				CONTROLLER.CurrentPage = "instructionpage";
-
-				//ShowInstructionPage (2);
-				//            AudioPlayer.instance.PlayLandingPageIntoGameSFX(true);
-
 				Continue();
 				resetScroll();
 
-            }
-            else
+			}
+			else
 			{
 				displayMsg.SetActive(true);
 				CONTROLLER.CurrentPage = "dispMsg";
 			}
-			AdIntegrate.instance.ShowBannerAd();
 		}
 		else if (index == 3)
-		{	
+		{
 			CONTROLLER.gameMode = "chasetarget";
-			if(PlayerPrefs.HasKey ("chasetargetteamlist"))
+			if (PlayerPrefs.HasKey("chasetargetteamlist"))
 			{
-				dataStr = PlayerPrefs.GetString ("chasetargetteamlist");
-				XMLReader.ParseXML (dataStr);
+				dataStr = PlayerPrefs.GetString("chasetargetteamlist");
+				XMLReader.ParseXML(dataStr);
 			}
-			else 
+			else
 			{
-				XMLReader.ParseXML (PlayerPrefsManager.instance.xmlAsset.text);
-				PlayerPrefsManager.SetTeamList ();
+				XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
+				PlayerPrefsManager.SetTeamList();
 			}
-			if (!PlayerPrefs.HasKey ("ChaseTargetDetail"))
+			if (!PlayerPrefs.HasKey("ChaseTargetDetail"))
 			{
 				//HideMe ();
 				ShowLandingPage(false);
-				modeInstruction.SetActive (true);
+				modeInstruction.SetActive(true);
 				CONTROLLER.CurrentPage = "instructionpage";
-				ShowInstructionPage (3);
-                AudioPlayer.instance.PlayLandingPageIntoGameSFX(true);
+				ShowInstructionPage(3);
+				AudioPlayer.instance.PlayLandingPageIntoGameSFX(true);
 
-            }
-            else
+			}
+			else
 			{
 				displayMsg.SetActive(true);
 				CONTROLLER.CurrentPage = "dispMsg";
 			}
-			AdIntegrate.instance.ShowBannerAd();
 		}
-		else if(index==4)	//super multiplayer
+		else if (index == 4)    //super multiplayer
 		{
-            //StartCoroutine(MultiplayerPage.instance.checkTheStatus());
-           
+			//StartCoroutine(MultiplayerPage.instance.checkTheStatus());
+
 			MultiplayerManager.Instance.MasterName = string.Empty;
-            LoadingScreen.instance.Show();
-            StartCoroutine(MultiplayerManager.Instance.EnablePhotonConnection());
-            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+			LoadingScreen.instance.Show();
+			StartCoroutine(MultiplayerManager.Instance.EnablePhotonConnection());
+			Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
-        }
-		else if(index==5)
-        {            
-            CONTROLLER.gameMode = CONTROLLER.SUPER_Crusade_GameMode;
+		}
+		else if (index == 5)
+		{
+			CONTROLLER.gameMode = CONTROLLER.SUPER_Crusade_GameMode;
 
-            if (PlayerPrefs.HasKey(CONTROLLER.SUPER_Crusade_Teamlist))
-            {
-                dataStr = PlayerPrefs.GetString(CONTROLLER.SUPER_Crusade_Teamlist);
-                XMLReader.ParseXML(dataStr);
-            }
-            else
-            {
-                XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
+			if (PlayerPrefs.HasKey(CONTROLLER.SUPER_Crusade_Teamlist))
+			{
+				dataStr = PlayerPrefs.GetString(CONTROLLER.SUPER_Crusade_Teamlist);
+				XMLReader.ParseXML(dataStr);
+			}
+			else
+			{
+				XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
 				PlayerPrefsManager.SetTeamList();
-            }
+			}
 
-            if (!PlayerPrefs.HasKey(CONTROLLER.SUPER_Crusade_SavedMatchDetails))
-            {
+			if (!PlayerPrefs.HasKey(CONTROLLER.SUPER_Crusade_SavedMatchDetails))
+			{
 				//HideMe ();
 				ShowLandingPage(false);
-                modeInstruction.SetActive(true);
-                CONTROLLER.CurrentPage = "instructionpage";
-                ShowInstructionPage(5);
-            }
-            else
-            {
-                displayMsg.SetActive(true);
-                CONTROLLER.CurrentPage = "dispMsg";
-            }
-			AdIntegrate.instance.ShowBannerAd();
-			
+				modeInstruction.SetActive(true);
+				CONTROLLER.CurrentPage = "instructionpage";
+				ShowInstructionPage(5);
+			}
+			else
+			{
+				displayMsg.SetActive(true);
+				CONTROLLER.CurrentPage = "dispMsg";
+			}
 		}
 		else if (index == 6)
 		{
-            CONTROLLER.gameMode = "supercards";
-			//if (PlayerPrefs.HasKey("slogoverteamlist"))
-			//{
-			//    dataStr = PlayerPrefs.GetString("slogoverteamlist");
-			//    XMLReader.ParseXML(dataStr);
-			//}
-			//else
-			//{
-			//    XMLReader.ParseXML(LoadPlayerPrefs.instance.xmlAsset.text);
-			//    SavePlayerPrefs.SetTeamList();
-			//}
-			//if (!PlayerPrefs.HasKey("SlogOverDetail"))
-			//{
-			//HideMe ();
+			CONTROLLER.gameMode = "supercards";
 			ShowLandingPage(false);
-                modeInstruction.SetActive(true);
-                CONTROLLER.CurrentPage = "instructionpage";
-                ShowInstructionPage(6);
-            //}
-            //else
-            //{
-                //displayMsg.SetActive(true);
-                //CONTROLLER.CurrentPage = "dispMsg";
-                //logo.gameObject.SetActive(false);
-                //gameLogo.gameObject.SetActive(false);
-           // }
-            AdIntegrate.instance.ShowBannerAd();
-            //modeSelection.SetActive(false);
-            //SuperCardsUI.instance.ShowMe();
-        }
+			modeInstruction.SetActive(true);
+			CONTROLLER.CurrentPage = "instructionpage";
+			ShowInstructionPage(6);
+		}
         CONTROLLER.totalWickets = 10;
     }
 	public void showMatchmakingScreen()
@@ -391,10 +328,6 @@ public class GameModeSelector : MonoBehaviour
 		UpdateLandingPageTopBars();
 		modeInstruction.SetActive(false);
 		CONTROLLER.CurrentPage = "splashpage";
-        if (AdIntegrate.instance != null)
-        {
-            AdIntegrate.instance.HideAd();
-        }
         resetScroll ();
 		 #if UNITY_ANDROID
 		if (CONTROLLER.LoginType == 1 && CONTROLLER.bGooglePlayLoginSuccess && PlayerPrefs.HasKey ("Googleplayprofpic")) 
@@ -404,8 +337,6 @@ public class GameModeSelector : MonoBehaviour
 		else
 			userProfilePic.sprite = defaultProfilePic;
 		  #endif 
-		if (AdIntegrate.instance != null)
-			AdIntegrate.instance.HideAd ();
 
 		AudioPlayer.instance.PlayLandingPageIntoGameSFX(false);
     }
@@ -415,8 +346,6 @@ public class GameModeSelector : MonoBehaviour
 		modeInstruction.SetActive(true);
 		resetScroll ();
 		CONTROLLER.CurrentPage = "instructionpage";
-		if (AdIntegrate.instance != null)
-			AdIntegrate.instance.HideAd();
 	}
 	public void Continue()
 	{
@@ -424,7 +353,6 @@ public class GameModeSelector : MonoBehaviour
 
 		ShowLandingPage(false);
 		modeInstruction.SetActive(false);
-		AdIntegrate.instance.ShowBannerAd();
 
 		//CricMini-Gopi
 		Continues();
@@ -432,13 +360,8 @@ public class GameModeSelector : MonoBehaviour
 
 	public void Continues()
 	{
-			PlayerPrefsManager.SetTeamList();
-			StartCoroutine(LoadGroundScene());
-
-		if (CONTROLLER.gameMode != "superover" && CONTROLLER.gameMode != CONTROLLER.SUPER_Crusade_GameMode && CONTROLLER.gameMode != "slogover" && CONTROLLER.gameMode != "chasetarget")
-		{
-			AdIntegrate.instance.HideAd();
-		}
+		PlayerPrefsManager.SetTeamList();
+		StartCoroutine(LoadGroundScene());
 	}
 
 	private IEnumerator LoadGroundScene()
@@ -507,13 +430,6 @@ public class GameModeSelector : MonoBehaviour
         AudioPlayer.instance.PlayLandingPageIntoGameSFX(true);
     }
 
-    IEnumerator show_BannerAd()
-    {
-        yield return new WaitForSecondsRealtime(5.0f);
-        AdIntegrate.instance.ShowBannerAd();
-    }
-
-
 	public void showPage(int index)
 	{
 		stopShineAnimation();
@@ -553,17 +469,6 @@ public class GameModeSelector : MonoBehaviour
 				DeleteAccountButton.SetActive(false);
 				SignoutBut.text = "Sign In";
 			}
-			AdIntegrate.instance.ShowBannerAd();
-		}
-		else if (index == 4)
-		{
-			if (AdIntegrate.instance.checkTheInternet())
-			{
-				StorePanel.instance.Show();
-				AdIntegrate.instance.ShowBannerAd();
-			}
-			else
-				Popup.instance.ShowNoInternetPopup();
 		}
 		else if (index == 6)
 		{
@@ -593,28 +498,12 @@ public class GameModeSelector : MonoBehaviour
 			leaderboard.SetActive (false);
 			ShowLandingPage(true);
 		}
-		else if (index == 4) 
-		{
-			StorePanel.instance.Hide();
-			ShowLandingPage(true);
-		}
 		else if(index==5)
 		{
 			jerseySelectionWindow.SetActive(false);
 		}
 
-		if(AdIntegrate .instance !=null )
-		{
-			AdIntegrate.instance.HideAd ();
-		}
-
 		CONTROLLER.CurrentPage = "splashpage";
-
-        if (CONTROLLER.CurrentPage == "splashpage" || CONTROLLER.CurrentPage == "" || ManageScene.CurScene == Scenes.Preloader)
-        {
-            StartCoroutine(Hide_BannerAd());
-        }
-
     }
 	public void resetScroll() 
 	{
@@ -631,25 +520,6 @@ public class GameModeSelector : MonoBehaviour
 	public void watchVideo()
 	{
 		AudioPlayer.instance.PlayButtonSnd();
-
-		if (AdIntegrate.instance != null)
-		{
-			AdIntegrate.instance.GetTicketRewardedVideoHelper();
-			//if (AdIntegrate.instance.checkTheInternet())
-			//{
-			//	if (AdIntegrate.instance.isRewardedReadyToPlay())
-			//	{
-			//		CONTROLLER.RewardedVideoClickedState = -1;
-			//		AdIntegrate.instance.ShowRewardedVideo();
-			//	}
-			//	else
-			//	{
-			//		Popup.instance.showGenericPopup("", "No video Available");
-			//	}
-			//}
-			//else
-			//	Popup.instance.ShowNoInternetPopup();
-		}
 	}
 
 	void ShowToast()
@@ -662,11 +532,6 @@ public class GameModeSelector : MonoBehaviour
 		tempGO.GetComponent <Toast > ().setMessge ("No video Available");
 	}
 
-
-	public void Hide_BannerAD()
-	{
-		AdIntegrate.instance.HideAd();
-	}
 
 	public Text hardcodeText;
 	public void Hardcode()

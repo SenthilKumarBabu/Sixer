@@ -15,7 +15,7 @@ public class SplashScreenPage : MonoBehaviour
         //Debug.unityLogger.logEnabled = false;
 		CONTROLLER.DeviceID = SystemInfo.deviceUniqueIdentifier;
 		startLogoAnim();
-		showTheWelcomeScreen();
+		closeTheWelcomeScreen();
 	}
 
 	#region ANIMATION
@@ -60,15 +60,14 @@ public class SplashScreenPage : MonoBehaviour
 	}
 	public void closeTheWelcomeScreen()
 	{
-		Sequence sequence = DOTween.Sequence();
+        welcomeScreen.SetActive(false);
+        Sequence sequence = DOTween.Sequence();
 		sequence.Append(welcomeScreen.transform.DOLocalMove(new Vector3(0.0f, -(Screen.height + 100f), 0.0f), 0.0f).SetEase(Ease.Linear));
 		sequence.AppendInterval(1.0f);
 		sequence.AppendCallback(() =>
 	   {
 		   welcomeScreen.SetActive(false);
 		   PlayerPrefs.SetString("Welcome_Screen_Closed", "1");
-		   PlayerPrefs.SetInt("teamlistchanges", 1);
-		   PlayerPrefs.SetInt("teamlistchangesv11", 1);
 		   LoadMenuScene();
 	   });
 	}

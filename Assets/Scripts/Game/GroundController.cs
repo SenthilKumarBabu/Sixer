@@ -5771,11 +5771,10 @@ public class GroundController : MonoBehaviour
 		ballProjectileAngle = 181.9553f;
 		ballProjectileAnglePerSecond = 82.7023f;
 		ballProjectileHeight = 7.180584f;
+*/
+        Debug.LogError($"[Ball Debug] Horizontal Speed: {horizontalSpeed}, " + $"Angle: {ballProjectileAngle}, Height: {ballProjectileHeight}, " + $"First Bounce Distance: {ballTimingFirstBounceDistance}, " + $"Angle Per Second: {ballProjectileAnglePerSecond}");
 
-		Debug.LogError("horizontalSpeed:::"+ horizontalSpeed+"::"+ ballProjectileAngle+"::"+ ballProjectileHeight);
-		Debug.LogError("ballTimingFirstBounceDistance:::" + ballTimingFirstBounceDistance + "::"+ ballProjectileAnglePerSecond);*/
-
-		nextPitchDistance = ballTimingFirstBounceDistance;
+        nextPitchDistance = ballTimingFirstBounceDistance;
 
 		ballTimingFirstBounce.transform.position = new Vector3(ballTimingOrigin.transform.position.x + ballTimingFirstBounceDistance * Mathf.Cos(ballAngle * DEG2RAD), ballTimingFirstBounce.transform.position.y, ballTimingOrigin.transform.position.z + ballTimingFirstBounceDistance * Mathf.Sin(ballAngle * DEG2RAD));
 
@@ -7115,11 +7114,6 @@ public class GroundController : MonoBehaviour
 						GameModelScript.EnableRun(true);
 					}
 				}
-				if(AdIntegrate.instance != null && CONTROLLER .gameMode !="multiplayer")
-				{
-					isTimeToShowAd = true;
-					AdIntegrate.instance.ShowBannerAd ();
-				}
 				/*batsman.GetComponent<Animation>()*///batsmanAnimationComponent[batsmanAnimation].speed = 1;
 				BallTiming ();
 				//MoveWicketKeeperToStumps ();//Shankar Commented
@@ -7242,11 +7236,6 @@ public class GroundController : MonoBehaviour
 			ballProjectileHeight *= 0.5f;
 			applyBallFiction = true;
 			canSwipeNow = false;
-			if(AdIntegrate.instance != null && CONTROLLER .gameMode !="multiplayer")
-			{
-				isTimeToShowAd = true;
-				AdIntegrate.instance.ShowBannerAd ();
-			}
 			// check for ball height which is sufficient to hit the stumps and check the line of the ball for LBW
 			// LBW appeal cases :
 			// height should be 0.7 meter

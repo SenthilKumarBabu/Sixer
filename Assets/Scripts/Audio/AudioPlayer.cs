@@ -48,7 +48,7 @@ public class AudioPlayer : MonoBehaviour
             DontDestroyOnLoad(this);
         }
 
-        BGMAudioSource = this.gameObject.AddComponent<AudioSource>() as AudioSource;
+       /* BGMAudioSource = this.gameObject.AddComponent<AudioSource>() as AudioSource;
         BGMAudioSource.playOnAwake = false;
         BGMAudioSource.loop = true;
         BGMAudioSource.volume = 0f;
@@ -99,16 +99,17 @@ public class AudioPlayer : MonoBehaviour
         FourCom.Shuffle();
         fourComIdx = 0;
         SixCom.Shuffle();
-        sixComIdx = 0;
+        sixComIdx = 0;*/
     }
     private void Start()
     {
-        PlayBGMFromPreload();
+       // PlayBGMFromPreload();
     }
 
     #region BAT BOWL SOUND
     public void PlayBatSnd()
     {
+        return;
         if (CONTROLLER.GameMusicVal == 1)
         {
             BatSource.volume = 1;
@@ -134,6 +135,7 @@ public class AudioPlayer : MonoBehaviour
 
     public void PlayBowledSnd()
     {
+        return;
         if (CONTROLLER.GameMusicVal == 1)
         {
             BowlSource.volume = 1;
@@ -145,11 +147,14 @@ public class AudioPlayer : MonoBehaviour
     #region SOUND
     public void PlayButtonSnd()
     {
+        return;
         PlayTheSound("button");
     }
 
     public void PlayGameSnd(string SoundType)
     {
+        return;
+
         if (SoundType == "BallMissing")
         {
             if (PlayerPrefs.GetInt("loft") == 0)
@@ -167,6 +172,7 @@ public class AudioPlayer : MonoBehaviour
     private string LastPlayedSoundClip;
     private void PlayTheSound(string name)
     {
+        return; //dont use sounds of existing project
         if (CONTROLLER.GameMusicVal == 0)
             return;
         if (audioHolder.GetClip(name) == null)
@@ -185,6 +191,8 @@ public class AudioPlayer : MonoBehaviour
     #region CROWD SOUND
     public void PlayTheCrowdSound(string name)
     {
+        return;
+
         if (CONTROLLER.GameMusicVal == 0)
             return;
         if (audioHolder.GetClip(name) == null)
@@ -201,7 +209,9 @@ public class AudioPlayer : MonoBehaviour
 
     public void StopCrowdNoiseSound()
     {
-        if(CrowdSource!=null)
+        return;
+
+        if (CrowdSource!=null)
             CrowdSource.Stop();
     }
     #endregion
@@ -219,6 +229,8 @@ public class AudioPlayer : MonoBehaviour
 
     public void StopAllAudioSource()
     {
+        return;
+
         if (BGMAudioSource != null)
             BGMAudioSource.Stop();
 
@@ -262,7 +274,9 @@ public class AudioPlayer : MonoBehaviour
 
     public void PlayLandingPageIntoGameSFX(bool flag)
     {
-        if(flag)
+        return;
+
+        if (flag)
         {
             PlayOrStop_BGM(false);
             if (CONTROLLER.GameMusicVal == 1)
@@ -284,6 +298,8 @@ public class AudioPlayer : MonoBehaviour
     #region INTRO SOUND
     public void PlayTheIntroSound()
     {
+        return;
+
         if (CONTROLLER.GameMusicVal == 0)
             return;
 
@@ -311,6 +327,8 @@ public class AudioPlayer : MonoBehaviour
 
     public void StopIntroSound(float step = 0.2f)
     {
+        return;
+
         if (IntroFadeInOut.FadeInOut != null)
         {
             StopCoroutine(IntroFadeInOut.FadeInOut);
@@ -327,6 +345,8 @@ public class AudioPlayer : MonoBehaviour
     #region BALL TRAVEL SOUND
     public void PlayBallTravelSound()
     {
+        return;
+
         if (CONTROLLER.GameMusicVal == 0)
             return;
 
@@ -338,6 +358,8 @@ public class AudioPlayer : MonoBehaviour
     }
     public void StopBallTravelSound(float fadeValue=0.85f)
     {
+        return;
+
         if (IntroFadeInOut.FadeInOut != null)
             StopCoroutine(IntroFadeInOut.FadeInOut);
         IntroFadeInOut.FadeInOut = StartCoroutine(IntroFadeInOut.FadeOutSound(TravelSource, 0, fadeValue));
@@ -348,6 +370,8 @@ public class AudioPlayer : MonoBehaviour
     #region COMMENTARY
     public void playFourSixCommentary(int num)
     {
+        return;
+
         string temp;
         if (num == 4)
         {
@@ -367,6 +391,8 @@ public class AudioPlayer : MonoBehaviour
     }
     private void PlayTheCommentary(string name)
     {
+        return;
+
         if (CONTROLLER.GameMusicVal == 0)
             return;
         if (CommentaryHolder.GetClip(name) == null)
@@ -380,6 +406,8 @@ public class AudioPlayer : MonoBehaviour
     }
     public void StopCommentary()
     {
+        return;
+
         CommentarySource.volume = 0f;
         CommentarySource.Stop();
     }
@@ -388,6 +416,8 @@ public class AudioPlayer : MonoBehaviour
     #region BGM & CROWD NOISE
     private void PlayBGMFromPreload()
     {
+        return;
+
         if (BGMAudioSource != null)
         {
             BGMAudioSource.loop = true;
@@ -403,6 +433,8 @@ public class AudioPlayer : MonoBehaviour
 
     public void PlayOrStop_BGM(bool flag)
     {
+        return;
+
         if (CONTROLLER.BGMusicVal == 1 && flag)
         {
             BGMFadeInOut(0);
@@ -415,6 +447,8 @@ public class AudioPlayer : MonoBehaviour
 
     public void BGMFadeInOut(int type)
     {
+        return;
+
         if (BgmFadeInOut.FadeInOut != null)
             StopCoroutine(BgmFadeInOut.FadeInOut);
 
@@ -430,6 +464,8 @@ public class AudioPlayer : MonoBehaviour
 
     public void ToggleInGameSounds(bool flag)
     {
+        return;
+
         if (flag)
         {
             CrowdAmbience.volume = CROWD_MAX_SOUND;

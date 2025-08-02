@@ -48,7 +48,6 @@ public class GameOverScreen : Singleton<GameOverScreen>
 		//}
 		if (index == 0)	//home
 		{
-			AdIntegrate.instance.HideAd();
 			StartCoroutine(GameModel.instance.GameQuitted());
 		}
 		else if (index == 3)	//restart

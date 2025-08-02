@@ -188,24 +188,7 @@ public class ProgressBar : Singleton<ProgressBar>
 		{
 			if (AdIntegrate.instance.checkTheInternet ())
 			{
-				if (AdIntegrate.instance.isRewardedReadyToPlay ())
-				{
-					if(CONTROLLER .gameMode == "superover")
-						CONTROLLER.RewardedVideoClickedState = 2;	// Superover Wicket loss
-					else
-						CONTROLLER.RewardedVideoClickedState = 3;   // SuperSlog Wicket loss
-
-					if (glowSeq != null)
-						glowSeq.Kill();
-
-					StopCoroutine(IncreaseCountText());
-					AdIntegrate.instance.ShowRewardedVideo ();
-					panel.SetActive(false);
-				}					
-				else
-				{
-					ShowToast("No video Available"); 
-				}
+				ShowToast("No video Available"); 
 			}
 			else
 			{

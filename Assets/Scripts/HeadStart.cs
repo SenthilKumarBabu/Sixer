@@ -24,17 +24,7 @@ public class HeadStart : Singleton<HeadStart>
 		{
 			if (AdIntegrate.instance.checkTheInternet () )
 			{
-				if (AdIntegrate.instance.isRewardedReadyToPlay () )
-				{
-					if (glowSeq != null)
-						glowSeq.Kill();
-					CONTROLLER.RewardedVideoClickedState = 5;	// SuperChase Head Start ball
-					AdIntegrate.instance.ShowRewardedVideo ();
-				}					
-				else
-				{
 					Popup.instance.showGenericPopup("","No video Available"); 
-				}
 			}
 			else
 			{
@@ -88,7 +78,7 @@ public class HeadStart : Singleton<HeadStart>
 		Scoreboard.instance.TargetToWin ();
 		GameModel.ScoreStr = CONTROLLER.currentMatchScores + "/" + CONTROLLER.currentMatchWickets;
 		Scoreboard.instance.UpdateScoreCard (); 
-		if(GameModel .instance.nChaseHeadStrtCount>=3 || !AdIntegrate .instance .isRewardedReadyToPlay () )
+		if(GameModel .instance.nChaseHeadStrtCount>=3  )
 		{
 			GameObject prefabGO;
 			GameObject tempGO;
