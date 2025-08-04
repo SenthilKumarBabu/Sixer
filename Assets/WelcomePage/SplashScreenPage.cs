@@ -21,8 +21,9 @@ public class SplashScreenPage : MonoBehaviour
 		Marshmallow.SetActive(true);
 #endif
 		startLogoAnim();
-		showTheWelcomeScreen();
-	}
+		//showTheWelcomeScreen();
+		LoadMenuScene();
+    }
 
 	#region ANIMATION
 	[Header("ANIMATION")]

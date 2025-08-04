@@ -10626,7 +10626,7 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 		{
 			if (CONTROLLER.shotIndicator == 1 && swipeHighlightRenderer.enabled == false)
 			{
-				SetSwipeHighlightRenderState(true);
+				//SetSwipeHighlightRenderState(true);
 			}
 			else if (CONTROLLER.shotIndicator == 0 && swipeHighlightRenderer.enabled == true)
 			{

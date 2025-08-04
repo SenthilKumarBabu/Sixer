@@ -13,7 +13,7 @@ public class SignInPanel : MonoBehaviour
         instance = this;
         Holder.SetActive(false);
 #if UNITY_ANDROID || UNITY_EDITOR
-        GoogleLoginButton.SetActive(true);
+        //GoogleLoginButton.SetActive(true);
         AppleLoginButton.SetActive(false);
 #elif UNITY_IPHONE || UNITY_IOS
         GoogleLoginButton.SetActive(false);

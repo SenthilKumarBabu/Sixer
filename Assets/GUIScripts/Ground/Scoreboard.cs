@@ -260,8 +260,8 @@ public class Scoreboard : Singleton<Scoreboard>
 
 	public void HideButtonsWhenShotMade()
 	{
-		pauseBtn.gameObject.SetActive(false);
-		muteBtn.transform.gameObject.SetActive(false);
+		//pauseBtn.gameObject.SetActive(false);
+		//muteBtn.transform.gameObject.SetActive(false);
 	}
 
 	public void  HidePause (bool  boolean)
