@@ -1,0 +1,63 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using BestHTTP;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using UnityEngine;
+using UnityEngine.Networking;
+
+public static class WebRequestHelper
+{
+    public static string AuthToken = "";
+    public static string RefreshToken = "";
+    public static User User;
+    
+    public static async Task<string> GetAsync(string url)
+    {
+        var tcs = new TaskCompletionSource<string>();
+
+        var request = new HTTPRequest(new System.Uri(url), HTTPMethods.Get, (req, res) =>
+        {
+            if (res.IsSuccess)
+                tcs.SetResult(res.DataAsText);
+            else
+                tcs.SetException(new System.Exception($"GET Error: {res.StatusCode} - {res.Message}"));
+        });
+
+        request.AddHeader("Content-Type", "application/json");
+        if (!string.IsNullOrEmpty(AuthToken))
+        {
+            request.AddHeader("Authorization", $"Bearer {AuthToken}");
+        }
+        request.Send();
+
+        return await tcs.Task;
+    }
+
+    public static async Task<string> PostAsync(string url, string jsonBody)
+    {
+        var tcs = new TaskCompletionSource<string>();
+
+        var request = new HTTPRequest(new System.Uri(url), HTTPMethods.Post, (req, res) =>
+        {
+            if (res.IsSuccess)
+                tcs.SetResult(res.DataAsText);
+            else
+                tcs.SetException(new System.Exception($"POST Error: {res.StatusCode} - {res.Message}"));
+        });
+
+        request.AddHeader("Content-Type", "application/json");
+        if (!string.IsNullOrEmpty(AuthToken))
+        {
+            request.AddHeader("Authorization", $"Bearer {AuthToken}");
+        }
+        request.RawData = System.Text.Encoding.UTF8.GetBytes(jsonBody);
+
+        request.Send();
+
+        return await tcs.Task;
+    }
+}
