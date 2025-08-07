@@ -14,6 +14,7 @@ public static class WebRequestHelper
     public static string AuthToken = "";
     public static string RefreshToken = "";
     public static User User;
+    public static SessionChallengeData SessionChallenge;
     
     public static async Task<string> GetAsync(string url)
     {
@@ -32,6 +33,11 @@ public static class WebRequestHelper
         {
             request.AddHeader("Authorization", $"Bearer {AuthToken}");
         }
+        if (SessionChallenge != null && !string.IsNullOrEmpty(SessionChallenge.sessionId))
+        {
+            request.AddHeader("X-Session-Id", SessionChallenge.sessionId);
+        }
+        
         request.Send();
 
         return await tcs.Task;
@@ -53,6 +59,10 @@ public static class WebRequestHelper
         if (!string.IsNullOrEmpty(AuthToken))
         {
             request.AddHeader("Authorization", $"Bearer {AuthToken}");
+        }
+        if (SessionChallenge != null && !string.IsNullOrEmpty(SessionChallenge.sessionId))
+        {
+            request.AddHeader("X-Session-Id", SessionChallenge.sessionId);
         }
         request.RawData = System.Text.Encoding.UTF8.GetBytes(jsonBody);
 

@@ -1,6 +1,23 @@
 using UnityEngine;
 
 [System.Serializable]
+public class RootData
+{
+    public bool encrypted;
+    public string sessionId;
+    public EncryptedData data;
+    public long timestamp;
+}
+
+[System.Serializable]
+public class EncryptedData
+{
+    public string iv;
+    public string encrypted;
+    public string tag;
+}
+
+[System.Serializable]
 public class APIResponse<T>
 {
     public bool success;
@@ -12,30 +29,5 @@ public class APIResponse<T>
         success = responseStatus;
         message = responseMessage;
         data = responseData;
-    }
-}
-
-[System.Serializable]
-public class LoginData
-{
-    public User user;
-    public string accessToken;
-    public string refreshToken;
-}
-
-[System.Serializable]
-public class User
-{
-    public string id;
-    public string email;
-    public string username;
-    public string firstName;
-    public string lastName;
-    public string[] roles;
-    public string[] permissions;
-
-    public string DebugInfo()
-    {
-        return ($"User => ID: {id}, Email: {email}, Username: {username}, First: {firstName}, Last: {lastName}, Roles: [{string.Join(", ", roles)}], Permissions: [{string.Join(", ", permissions)}]");
     }
 }
