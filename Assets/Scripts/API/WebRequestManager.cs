@@ -17,11 +17,13 @@ public class WebRequestManager : MonoBehaviour
     }
 
     async void Start()
-    {
+    {     
+        _sessionWr.SessionSimple("-chris");
+        await UniTask.Delay(TimeSpan.FromSeconds(5));
         _authWr.AuthLogin("newplayer","SecurePass123");
         await UniTask.Delay(TimeSpan.FromSeconds(5));
-        _sessionWr.SessionChallenge();
-        await UniTask.Delay(TimeSpan.FromSeconds(5));
+        //_sessionWr.SessionChallenge();
+        //await UniTask.Delay(TimeSpan.FromSeconds(5));
         _walletWr.WalletBalance();
         //SessionExchange();
         /*GetUserProfile();

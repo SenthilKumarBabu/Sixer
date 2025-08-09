@@ -6,21 +6,29 @@ using UnityEngine;
 
 public static class AESEncryptionHelper
 {
-    public static T DecryptData<T>(EncryptedData encryptedData, byte[] sessionKey)
+    public static T DecryptData<T>(EncryptedData encryptedData, string sessionKey)
     {
-        byte[] iv = HexStringToBytes(encryptedData.iv);
-        byte[] encrypted = HexStringToBytes(encryptedData.encrypted);
-        byte[] tag = HexStringToBytes(encryptedData.tag);
-        byte[] aad = Encoding.UTF8.GetBytes("api-gateway");
+        byte[] keyBuffer = Convert.FromBase64String(sessionKey);
+        byte[] iv = Convert.FromBase64String(encryptedData.iv);
+        string encrypted = encryptedData.encrypted;
 
-        Debug.Log(Encoding.UTF8.GetString(sessionKey));
-        using (AesGcm aesGcm = new AesGcm(sessionKey))
+        using (Aes aes = Aes.Create())
         {
-            byte[] decrypted = new byte[encrypted.Length];
-            aesGcm.Decrypt(iv, encrypted, tag, decrypted, aad);
-                
-            string decryptedJson = Encoding.UTF8.GetString(decrypted);
-            return JsonConvert.DeserializeObject<T>(decryptedJson);
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+            aes.Key = keyBuffer;
+            aes.IV = iv;
+
+            using (ICryptoTransform decrypt = aes.CreateDecryptor())
+            {
+                    
+                byte[] encryptedBytes = Convert.FromBase64String(encrypted);
+                byte[] decryptedBytes = decrypt.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
+
+                string decrypted = Encoding.UTF8.GetString(decryptedBytes);
+
+                return JsonUtility.FromJson<T>(decrypted);
+            }
         }
         try
         {
@@ -28,25 +36,8 @@ public static class AESEncryptionHelper
         }
         catch (Exception error)
         {
-            UnityEngine.Debug.LogError($"Data decryption failed: {error.Message}");
-            throw new Exception($"Data decryption failed: {error.Message}");
+            Debug.LogError($"Decryption failed: {error.Message}");
+            throw new Exception($"Decryption failed: {error.Message}");
         }
     }
-
-    private static byte[] HexStringToBytes(string hex)
-    {
-        if (string.IsNullOrEmpty(hex))
-            return Array.Empty<byte>();
-
-        int length = hex.Length;
-        byte[] bytes = new byte[length / 2];
-
-        for (int i = 0; i < length; i += 2)
-        {
-            bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
-        }
-
-        return bytes;
-    }
-
 }

@@ -12,10 +12,7 @@ public class WalletWr
             RootData response = JsonConvert.DeserializeObject<RootData>(responseJson);
             if (response != null)
             {
-                Debug.Log(response.sessionId);
-                var sessionKey = SHAEncryptionHelper.GenerateSessionKey(response.sessionId);
-                var data = AESEncryptionHelper.DecryptData<APIResponse<WalletData>>(response.data, sessionKey);
-                Debug.Log(data.ToString());
+                var data = AESEncryptionHelper.DecryptData<APIResponse<WalletData>>(response.data,  WebRequestHelper.SessionData.sessionKey);
             }
         }
     }

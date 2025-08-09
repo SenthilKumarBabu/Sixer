@@ -15,6 +15,7 @@ public static class Apis
     {
         public const string Challenge = BaseUrl + "session/challenge?clientPublicKey=-----BEGIN PUBLIC KEY-----...";
         public const string Exchange = BaseUrl + "session/exchange";
+        public const string Simple = BaseUrl + "session/simple";
     }
     
     public static class Wallet

@@ -19,7 +19,8 @@ public class AuthWr
         if (!string.IsNullOrEmpty(responseJson))
         {
             Debug.Log(responseJson);
-            APIResponse<LoginData> response = JsonConvert.DeserializeObject<APIResponse<LoginData>>(responseJson);
+            RootData encResponse = JsonConvert.DeserializeObject<RootData>(responseJson);
+            var response = AESEncryptionHelper.DecryptData<APIResponse<LoginData>>(encResponse!.data,  WebRequestHelper.SessionData.sessionKey);
             if (response!.success)
             {
                 Debug.Log("Login Success. Access Token: " + response.data.tokens.accessToken);

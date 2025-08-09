@@ -3,36 +3,41 @@ using UnityEngine;
 
 public class SessionWr
 {
-    public async void SessionChallenge()
+    
+    public async void SessionSimple(string clientId)
     {
-        string responseJson = await WebRequestHelper.GetAsync(Apis.Session.Challenge);
+        var payload = new
+        {
+            clientId = clientId,
+        };
+
+        string json = JsonConvert.SerializeObject(payload);
+        Debug.Log(json);
+        
+        string responseJson = await WebRequestHelper.PostAsync(Apis.Session.Simple, json);
 
         if (!string.IsNullOrEmpty(responseJson))
         {
-            APIResponse<SessionChallengeData> response =
-                JsonConvert.DeserializeObject<APIResponse<SessionChallengeData>>(responseJson);
+            Debug.Log(responseJson);
+            APIResponse<SessionData> response = JsonConvert.DeserializeObject<APIResponse<SessionData>>(responseJson);
             if (response!.success)
             {
-                Debug.Log($"{response.message} {response.data}");
-                WebRequestHelper.SessionChallenge = response.data;
+                Debug.Log("Success");
+                WebRequestHelper.SessionData = response.data;
             }
             else
             {
-                Debug.LogWarning(response.message);
+                Debug.LogWarning("Login Failed: " + response.message);
             }
         }
     }
 }
 
 [System.Serializable]
-public class SessionChallengeData
+public class SessionData
 {
-    public string challengeId;
-    public long timestamp;
-    public string nonce;
-    public string serverPublicKey;
-    public string serverECPublicKey;
-    public long sessionTimeout;
-    public string signature;
+    public bool success;
     public string sessionId;
+    public string sessionKey;
+    public string message;
 }
