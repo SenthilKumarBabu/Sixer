@@ -15,6 +15,10 @@ public class CONTROLLER
 	public static string[] userBallbyBallData = new string[6];
 	public static string[] oppBallbyBallData = new string[6];
 
+    public static int meFirstBatting = 1;       //	0 --> NO, 1 --> YES.
+
+	public const string BATBOWLMODE = "BatBowlmode";
+
     public static bool isUserSyncCalled = false;
 	public static bool isAdminUser = false;
 
@@ -110,7 +114,10 @@ public class CONTROLLER
 	public static int BowlingTeamIndex;
 	public static string BattingTeamName;
 	public static string BowlingTeamName;
-	public static bool HattrickBall;
+    public static int BatTeamIndex = 0;
+    public static int BowlTeamIndex = 1;
+
+    public static bool HattrickBall;
 	
 	public static int [] FieldersArray;
 	

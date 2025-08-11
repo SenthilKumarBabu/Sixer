@@ -172,7 +172,8 @@ public class GameModeSelector : MonoBehaviour
         AudioPlayer.instance.PlayButtonSnd();
 		string dataStr;		
 		gameMode = index;
-		if (index == 1)
+        CONTROLLER.meFirstBatting = 1;
+        if (index == 1)
 		{
 			CONTROLLER.gameMode = "superover";
 			if (PlayerPrefs.HasKey("superoverteamlist"))
@@ -302,6 +303,18 @@ public class GameModeSelector : MonoBehaviour
 			modeInstruction.SetActive(true);
 			CONTROLLER.CurrentPage = "instructionpage";
 			ShowInstructionPage(6);
+		}
+		else if (index == 7)  //bowling mode added new
+		{
+			CONTROLLER.gameMode = CONTROLLER.BATBOWLMODE;
+            CONTROLLER.meFirstBatting = (UnityEngine.Random.Range(0, 100) < 10) ? 0 : 1;
+            XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
+			PlayerPrefsManager.SetTeamList();
+			ShowLandingPage(false);
+			modeInstruction.SetActive(true);
+			CONTROLLER.CurrentPage = "instructionpage";
+			Continue();
+			resetScroll();
 		}
         CONTROLLER.totalWickets = 10;
     }

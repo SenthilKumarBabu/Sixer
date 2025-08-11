@@ -151,7 +151,7 @@ public class Scoreboard : Singleton<Scoreboard>
 
 	public void  ShowTargetScreen (bool  boolean)
 	{
-		if (CONTROLLER.gameMode == "superover" || CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode)
+		if (CONTROLLER.gameMode == "superover" || CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode || (CONTROLLER.gameMode == CONTROLLER.BATBOWLMODE && CONTROLLER.currentInnings ==1 ))
 		{
 			if(boolean == true)
 			{
@@ -246,6 +246,7 @@ public class Scoreboard : Singleton<Scoreboard>
 
 	public void  Hide (bool  boolean)
 	{
+		//DebugLogger.PrintWithColor("Scoreboard Hide called::::: "+boolean);
 		if(CONTROLLER.gameMode == "multiplayer" && !boolean)
 		{
             scoreBoard.SetActive(false);

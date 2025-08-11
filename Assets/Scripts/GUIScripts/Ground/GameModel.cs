@@ -9,8 +9,10 @@ using Photon.Realtime;
 
 public class GameModel : Singleton<GameModel>
 {
-	//public static GameModel instance;
-	public static string ScoreStr;
+    public GroundController GroundControllerScript;
+	public BowlingInterface BowlingControlsScript;
+    //public static GameModel instance;
+    public static string ScoreStr;
 	public static string ExtraStr;
 	public static string OversStr;
 	public static  bool isGamePaused = false;
@@ -85,7 +87,7 @@ public class GameModel : Singleton<GameModel>
         AdIntegrate.instance.SystemSleepSettings(0);
 
 		StartGame();
-		yield return new  WaitForSeconds (0.001f);//28march
+		yield return new  WaitForSeconds (0.001f);
 
 		if(CONTROLLER .gameMode !="multiplayer")
 		{
@@ -482,7 +484,8 @@ public class GameModel : Singleton<GameModel>
 	public void  StartGame ()
 	{
 		CONTROLLER.NewInnings = true;
-		if (CONTROLLER.gameMode == "superover")
+        CONTROLLER.currentInnings = 0;
+        if (CONTROLLER.gameMode == "superover")
 		{
 			CONTROLLER.totalOvers = 1;
 			CONTROLLER.totalWickets = 2;
@@ -505,7 +508,12 @@ public class GameModel : Singleton<GameModel>
 			//}
 			BattingScoreCard.instance.ShowMe ();
 		}
-		else if (CONTROLLER.gameMode == "chasetarget")
+        else if (CONTROLLER.gameMode == CONTROLLER.BATBOWLMODE)
+        {
+            CONTROLLER.totalOvers = 1;
+            BattingScoreCard.instance.ShowMe();
+        }
+        else if (CONTROLLER.gameMode == "chasetarget")
 		{
             
             if (!PlayerPrefs.HasKey ("ChaseTargetDetail"))
@@ -521,12 +529,9 @@ public class GameModel : Singleton<GameModel>
 
         Scoreboard.instance.Hide (true);
 		BatsmanInfo.instance.HideMe ();
-		//Scoreboard.instance.HidePause (true);
-		//PreviewScreen.instance.Hide (true);
-		CONTROLLER.currentInnings = 0;
 		ResetVariables ();
 		JerseyHandler.instance.UpdateBatsmanMaterials();
-		GroundController.instance.ChangePlayerLeftRightTextures ();//April1
+		GroundController.instance.ChangePlayerLeftRightTextures ();
 	}
 
     public void  ShowUIAnimation ()
@@ -625,7 +630,7 @@ public class GameModel : Singleton<GameModel>
 
 	public void NewInnings ()
 	{
-		if (CONTROLLER.gameMode == "slogover" || CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode )
+		if ((CONTROLLER.gameMode == CONTROLLER.BATBOWLMODE && CONTROLLER.currentInnings == 1) || CONTROLLER.gameMode == "slogover" || CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode )
 		{
 			Scoreboard.instance.ShowTargetScreen (true);
 		}
@@ -633,8 +638,12 @@ public class GameModel : Singleton<GameModel>
 		{
 			Scoreboard.instance.ShowTargetScreen (false);
 		}
-		CONTROLLER.BattingTeamIndex = CONTROLLER.myTeamIndex;
-		CONTROLLER.BowlingTeamIndex = CONTROLLER.opponentTeamIndex;
+
+        SetTeamIndex();
+
+        //CONTROLLER.BattingTeamIndex = CONTROLLER.myTeamIndex;
+		//CONTROLLER.BowlingTeamIndex = CONTROLLER.opponentTeamIndex;
+
 
 		ScoreStr = CONTROLLER.currentMatchScores + "/" + CONTROLLER.currentMatchWickets;
 		OversStr = GetOverStr () + " (" + CONTROLLER.totalOvers + ")";
@@ -645,7 +654,62 @@ public class GameModel : Singleton<GameModel>
 		GroundController.instance.ResetFielders ();
 		GroundController.instance.moveBannerTextureScript.Reset();
 	}
-    
+
+    private void SetTeamIndex()
+    {
+        GroundControllerScript.stopIsBowlerBatsmanIdle();
+		DebugLogger.PrintWithColor("Set team index::: " + CONTROLLER.currentInnings + " CONTROLLER.meFirstBatting::: " + CONTROLLER.meFirstBatting);
+        if (CONTROLLER.currentInnings == 0)
+		{
+			//Scoreboard.instance.ShowTargetScreen(false);
+			if (CONTROLLER.meFirstBatting == 1)
+			{
+				CONTROLLER.BattingTeamIndex = CONTROLLER.myTeamIndex;
+				CONTROLLER.BowlingTeamIndex = CONTROLLER.opponentTeamIndex;
+
+				CONTROLLER.BatTeamIndex = 0;
+				CONTROLLER.BowlTeamIndex = 1;
+			}
+			else
+			{
+				CONTROLLER.BattingTeamIndex = CONTROLLER.opponentTeamIndex;
+				CONTROLLER.BowlingTeamIndex = CONTROLLER.myTeamIndex;
+
+				CONTROLLER.BatTeamIndex = 1;
+				CONTROLLER.BowlTeamIndex = 0;
+			}
+		}
+		else
+		{
+			if (CONTROLLER.meFirstBatting == 1)
+			{
+				CONTROLLER.BattingTeamIndex = CONTROLLER.opponentTeamIndex;
+				CONTROLLER.BowlingTeamIndex = CONTROLLER.myTeamIndex;
+
+				CONTROLLER.BatTeamIndex = 1;
+				CONTROLLER.BowlTeamIndex = 0;
+			}
+			else
+			{
+				CONTROLLER.BattingTeamIndex = CONTROLLER.myTeamIndex;
+				CONTROLLER.BowlingTeamIndex = CONTROLLER.opponentTeamIndex;
+
+				CONTROLLER.BatTeamIndex = 0;
+				CONTROLLER.BowlTeamIndex = 1;
+			}
+			//Scoreboard.instance.ShowTargetScreen(true);
+		}
+
+
+
+        DebugLogger.PrintWithColor("Set team index::: BattingTeamIndex: " + CONTROLLER.BattingTeamIndex + " BowlingTeamIndex::: " + CONTROLLER.BowlingTeamIndex + " ::: BatTeamIndex:::: " + CONTROLLER.BatTeamIndex+ "::: BowlTeamIndex:::: " + CONTROLLER.BowlTeamIndex);
+
+
+        //CONTROLLER.BattingTeamName = CONTROLLER.TeamList[CONTROLLER.BattingTeamIndex].teamName;
+        //CONTROLLER.BowlingTeamName = CONTROLLER.TeamList[CONTROLLER.BowlingTeamIndex].teamName;
+    }
+
+
     public bool CanShowTutorial()
 	{
 		if (CONTROLLER.gameMode != "multiplayer" && CONTROLLER.currentMatchBalls < 3 && CONTROLLER.TutorialShowCount < 3 )
@@ -835,7 +899,14 @@ public class GameModel : Singleton<GameModel>
 		Scoreboard.instance.HidePause(false);//29march
 		Scoreboard.instance.Hide(false);//29march	
 
-		GroundController.instance.BowlNextBall("user", "computer");
+        if (CONTROLLER.BattingTeamIndex == CONTROLLER.myTeamIndex)
+        {
+            GroundController.instance.BowlNextBall("user", "computer");
+        }
+        else
+        {
+            GroundController.instance.BowlNextBall("computer","user");
+        }
 	}
 	public void  NewBall ()
 	{
@@ -880,12 +951,17 @@ public class GameModel : Singleton<GameModel>
 			if(CONTROLLER.BowlingTeamIndex == CONTROLLER.myTeamIndex)
 			{
 				bowlingControl = 0;
-			}
-			action = 4;
+                GroundController.instance.loftBtn.gameObject.SetActive(false);
+                BowlingControlsScript.ShowMe();
+            }
+		
+            action = 4;
 			Scoreboard.instance.HideStrip (false);
 			Scoreboard.instance.ShowChallengeTitle ();
-		}
-		else
+
+            SendBowlingDatasToGame();   // trigger the bowling. have to remove if bowling controls added
+        }
+        else
 		{
 			action = -1;
 			if(CONTROLLER.currentInnings == 1)
@@ -1348,6 +1424,16 @@ public class GameModel : Singleton<GameModel>
         ShowShotTutorial(false);
     }
 
+	public void ShowMatchTargetScreen()
+    {
+        GameObject prefabGO;
+        GameObject tempGO;
+        prefabGO = Resources.Load("Prefabs/TargetScreen") as GameObject;
+        tempGO = Instantiate(prefabGO);
+        tempGO.name = "Target Screen";
+        ShowShotTutorial(false);
+    }
+
 	public void UpdateChaseTargetLevel()
 	{
 		if (CONTROLLER.gameMode == "chasetarget")
@@ -1468,9 +1554,9 @@ public class GameModel : Singleton<GameModel>
 		//}
 		int ballsBowledInOver = CONTROLLER.currentMatchBalls % 6;
 		int  battingTeamScore = CONTROLLER.currentMatchScores;
-        if (battingTeamScore >= CONTROLLER.TargetToChase && (CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode==CONTROLLER.SUPER_Crusade_GameMode) )
+        if (battingTeamScore >= CONTROLLER.TargetToChase && CONTROLLER.gameMode==CONTROLLER.BATBOWLMODE && CONTROLLER.currentInnings==1 )
 		{
-			SuccessfulChase = true;
+			SuccessfulChase = true; 
 			return true;
 		}
 		else 
@@ -1483,13 +1569,6 @@ public class GameModel : Singleton<GameModel>
             return true;
 		}
 
-		//if( (CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode==CONTROLLER.SUPER_Crusade_GameMode) && CONTROLLER.currentMatchBalls == CONTROLLER.totalOvers*6 && CONTROLLER.TargetToChase - 6 <= battingTeamScore && bChaseExtraBall && AdIntegrate.instance.checkTheInternet() && AdIntegrate .instance .isRewardedReadyToPlay ())
-		//{
-		//	CONTROLLER.currentMatchBalls--;
-		//	ExtraBall.instance.ShowMe ();
-		//	bChaseExtraBall=false;
-		//	return false;
-		//}
 		if(CONTROLLER.currentMatchBalls >= CONTROLLER.totalOvers * 6)
 		{
             return true;
@@ -2262,10 +2341,12 @@ public void enableBlocker ()
 		BatsmanInfo.instance.UpdateStrikerInfo();//30march
 		GroundController.instance.ChangePlayerLeftRightTextures ();//30march
 		ShowIntroAnimation ();
-		GroundController.instance.loftBtn.gameObject.SetActive (false); 
+		GroundController.instance.loftBtn.gameObject.SetActive (false);
+        
+		SetTeamIndex();
 
-		//gopi - for removing data while user clicks replay
-		if (CONTROLLER.gameMode == "superover")
+        //gopi - for removing data while user clicks replay
+        if (CONTROLLER.gameMode == "superover")
 		{ 
 			PlayerPrefs.DeleteKey ("SuperOverDetail");
 			PlayerPrefs.DeleteKey ("superoverPlayerDetails");
