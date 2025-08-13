@@ -10,15 +10,17 @@ using CodeStage.AntiCheat.ObscuredTypes;
 
 public class GroundController : MonoBehaviour 
 {
+    const float batsmanSkill = 75;
+    const float bowlerSkill = 40;
+
+
 	public MoveBannerTexture moveBannerTextureScript;
     public InGroundDebugCanvas inGroundDebugScript;
 
+
     private float shotAngle;
 	public static bool loft = false;
-	public Button loftBtn, loftBtn2;
-	public Image loftText, loftText2;
-	public Text loftDesc, loftDesc2;
-	public Sprite[] loftSprite;
+
 	// Constants...
 	private float DEG2RAD = Mathf.PI / 180;
 	private float RAD2DEG = 180 / Mathf.PI;
@@ -799,25 +801,9 @@ public class GroundController : MonoBehaviour
 
 	public void Start()
 	{
-		if (PlayerPrefs.HasKey("loft"))
-		{
-			if (PlayerPrefs.GetInt("loft") == 1)
-			{
-				loft = true;
-			}
-			else
-			{
-				loft = false;
-			}
-		}
-		else
-		{
-			loft = true;
-		}
-        //By default loft is off as per Jaysree
-        loft = false;
+		PlayerPrefs.SetInt("loft",1);
+        loft = true;
 
-        SetLoftImage();
 		if (CONTROLLER.gameMode != "superover")
 		{
 			if (CONTROLLER.BowlingEnd == "madrasclub")
@@ -863,7 +849,6 @@ public class GroundController : MonoBehaviour
 		stadiumCollider.enabled = false;
 		LoadingScreen.instance.Hide();
 
-		updateBatsmanTiming();
     }
 
     public void  ShowFielder10 (bool fielder10Status, bool ball10Status)
@@ -993,20 +978,12 @@ public class GroundController : MonoBehaviour
 		BallPickTime = 0.0f;
 		prevMousePos = Vector2.zero;
 
-			loftBtn.gameObject.SetActive(true);
-			loftBtn2.gameObject.SetActive(true);
-		/*loftText2.color = Color.black;
-		loftText.color = Color.black;
-		loftBtn.image.sprite = loftSprite [1];
-		loftBtn2.image.sprite = loftSprite [1];
-		loft = true;
-		loftDesc.text = "Loft (On)";
-		loftDesc2.text = "Loft (On)";*/
 		isTimeToShowAd = true;
 		canSwipeNow = false;
 		ballProjectileAnglePerSecondFactor = 1.7f;
 
 		GameModelScript.BowlingControlsScript.HideMe();
+		GameModelScript.BattingControlsScript.HideMe();
 
         if (GameModel.isGamePaused == false)
 		{
@@ -1276,8 +1253,10 @@ public class GroundController : MonoBehaviour
 		ShowFielder10 (false, false);
 
 		updateBattingTimingMeterNeedle = false;
+		GameModelScript.BattingControlsScript.battingTimingNeedle.transform.localPosition = new Vector3(-2000f, 50f, 0f);
+        updateBatsmanTiming();
 
-		if (playIntro == true)
+        if (playIntro == true)
 		{
 			action = -1; //DebugLogger.PrintWithColor("Action -----------111111111111111111 RESET ALL ");
             mainCamera.enabled = false;
@@ -4706,7 +4685,7 @@ public class GroundController : MonoBehaviour
 			float maxFric;
 			if (BattingTimingMeterDisplayText == ShotStatus.PERFECT)
 			{
-					maxFric = 3f;
+				maxFric = 3f;
 			}
 			else if (BattingTimingMeterDisplayText == ShotStatus.EARLY_NICETRY)
 				maxFric = 2.2f;
@@ -4855,57 +4834,6 @@ public class GroundController : MonoBehaviour
 		}
 		/*Ultrabook*/
 	}
-
-	public void SetLoft()
-	{
-		AudioPlayer.instance.PlayButtonSnd();
-		if (loft == false) {
-			loftText.color = Color.black;
-			loftBtn.image.sprite = loftSprite [1];
-			loftText2.color = Color.black;
-			loftBtn2.image.sprite = loftSprite [1];
-			loft = true;
-            PlayerPrefs.SetInt("loft", 1);
-			loftDesc.text = "Loft (On)";
-			loftDesc2.text = "Loft (On)";
-		} else {
-			loftText.color = Color.white;
-			loftBtn.image.sprite = loftSprite [0];
-			loftText2.color = Color.white;
-			loftBtn2.image.sprite = loftSprite [0];
-			loft = false;
-            PlayerPrefs.SetInt("loft", 0);
-            loftDesc.text = "Loft (Off)";
-			loftDesc2.text = "Loft (Off)";
-		}
-	}
-
-    public void SetLoftImage()
-    {
-        if (loft == true)
-        {
-            loftText.color = Color.black;
-            loftBtn.image.sprite = loftSprite[1];
-            loftText2.color = Color.black;
-            loftBtn2.image.sprite = loftSprite[1];
-            loft = true;
-            PlayerPrefs.SetInt("loft", 1);
-            loftDesc.text = "Loft (On)";
-            loftDesc2.text = "Loft (On)";
-        }
-        else
-        {
-            loftText.color = Color.white;
-            loftBtn.image.sprite = loftSprite[0];
-            loftText2.color = Color.white;
-            loftBtn2.image.sprite = loftSprite[0];
-            loft = false;
-            PlayerPrefs.SetInt("loft", 0);
-			loftDesc.text = "Loft (Off)";
-			loftDesc2.text = "Loft (Off)";
-		}
-	}
-	
 	
 
 	public void GetBattingInput ()
@@ -5361,15 +5289,16 @@ public class GroundController : MonoBehaviour
 		bool maySlip = false;
 		bool UltraCatch = false;
 
-		if (shotPlayed == "CoverDrive2" || shotPlayed == "CoverSlog" || shotPlayed == "LoftedCoverDrive" || shotPlayed == "OffDrive" || shotPlayed == "OffDrive3" || shotPlayed == "BackFootDrive" || shotPlayed == "LoftedOffDrive" || shotPlayed == "StraightDrive" || shotPlayed == "LoftedStraightDrive" || shotPlayed == "StraightSlog" || shotPlayed == "BackFootStraightDrive" || shotPlayed == "BackfootPush")//nija Batsman
-		{
-			maySlip = true;
-		}
-		if (shotPlayed == "CoverDrive2" || shotPlayed == "OffDrive" || shotPlayed == "OffDrive3" || shotPlayed == "BackFootDrive" || shotPlayed == "StraightDrive" || shotPlayed == "LoftedStraightDrive" || shotPlayed == "BackFootPush")//nija Batsman BackFootPush //|| shotPlayed == "BackFootStraightDrive"
-		{
-			maySlip = true;
-			UltraCatch = true;
-		}
+		//if (shotPlayed == "CoverDrive2" || shotPlayed == "CoverSlog" || shotPlayed == "LoftedCoverDrive" || shotPlayed == "OffDrive" || shotPlayed == "OffDrive3" || shotPlayed == "BackFootDrive" || shotPlayed == "LoftedOffDrive" || shotPlayed == "StraightDrive" || shotPlayed == "LoftedStraightDrive" || shotPlayed == "StraightSlog" || shotPlayed == "BackFootStraightDrive" || shotPlayed == "BackfootPush")//nija Batsman
+		//{
+		//	maySlip = true;
+		//}
+		//if (shotPlayed == "CoverDrive2" || shotPlayed == "OffDrive" || shotPlayed == "OffDrive3" || shotPlayed == "BackFootDrive" || shotPlayed == "StraightDrive" || shotPlayed == "LoftedStraightDrive" || shotPlayed == "BackFootPush")//nija Batsman BackFootPush //|| shotPlayed == "BackFootStraightDrive"
+		//{
+		//	maySlip = true;
+		//	UltraCatch = true;
+		//}
+
 		// slip catch / keeper catch percentage... It will happen more in 5 overs match & less in 50 overs matchs; 5% chance in 50 Overs match, 30% chance in 2 Overs match
 		float slipCatchChances = 30 - (CONTROLLER.Overs[CONTROLLER.oversSelectedIndex] / 2);
 		if (slipCatchChances < 5.0f)
@@ -5450,7 +5379,6 @@ public class GroundController : MonoBehaviour
 			}
 			// Manoj set random keeperCatch
 		}
-
 
 		if (shotPlayed == "DownTheTrackDefensiveShot" || shotPlayed == "FrontFootDefense" || shotPlayed == "BackFootDefense")
 		{
@@ -5817,7 +5745,7 @@ public class GroundController : MonoBehaviour
 		ballProjectileAnglePerSecond = 82.7023f;
 		ballProjectileHeight = 7.180584f;
 */
-        Debug.LogError($"[Ball Debug] Horizontal Speed: {horizontalSpeed}, " + $"Angle: {ballProjectileAngle}, Height: {ballProjectileHeight}, " + $"First Bounce Distance: {ballTimingFirstBounceDistance}, " + $"Angle Per Second: {ballProjectileAnglePerSecond}");
+        Debug.LogError($"[Ball Debug] Horizontal Speed: {horizontalSpeed}, " + $"Angle: {ballProjectileAngle}, Height: {ballProjectileHeight}, " + $"First Bounce Distance: {ballTimingFirstBounceDistance}, " + $"Angle Per Second: {ballProjectileAnglePerSecond} " + $"First Bounce Distance: {ballTimingFirstBounceDistance}"+ $"shotPlayed: {shotPlayed}");
 
         nextPitchDistance = ballTimingFirstBounceDistance;
 
@@ -6670,10 +6598,8 @@ public class GroundController : MonoBehaviour
     }
     public void ShotSelected(bool isPower, int segmentNo, float swipeAngle)
     {
-       // UpdateBattingTimingMeter(isPower);
-
-       // ChangeShotIndicatorAlpha(1);
         updateBattingTimingMeterNeedle = false;
+        // ChangeShotIndicatorAlpha(1);
         Shotangle = swipeAngle; // batsmanSkill to be applied...
 
         float placementAngle = 0;
@@ -6860,15 +6786,6 @@ public class GroundController : MonoBehaviour
 		bowlerIsWaiting = false;
 	}
 
-	public  IEnumerator DisableLoft() {
-		if(CONTROLLER .gameMode !="multiplayer")
-			yield return new WaitForSeconds (3f);
-		else
-			yield return new WaitForSeconds (4f);
-		loftBtn.gameObject.SetActive (false);
-		loftBtn2.gameObject.SetActive (false);
-	}
-
 	public void BowlerWaiting ()
 	{
          bowlerWaitSeconds = 2f;
@@ -6880,7 +6797,6 @@ public class GroundController : MonoBehaviour
 
         if (Time.time > currentBallStartTime + bowlerWaitSeconds && bowler != null)
 		{			
-			StartCoroutine (DisableLoft ());
 			SetSwipeHighlightRenderState(false);
 			FindNewBowlingSpot ();
 			if(CONTROLLER.myTeamIndex== CONTROLLER.BattingTeamIndex)
@@ -6913,8 +6829,10 @@ public class GroundController : MonoBehaviour
 
 	public void PlayBowlerBowlingAnimFromBowlingInterface()
 	{
-		FreezeTheBowlingSpot();
+        userBowlingSpotSelected = true;
         userBowlerCanMoveBowlingSpot = false;
+        FreezeBowlingSpot();
+
         bowler.GetComponent<Animation>().CrossFade("BowlerRunupEdit", 3);
         bowler.GetComponent<Animation>()["BowlerRunupEdit"].speed = 1;
     }
@@ -8357,8 +8275,7 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 			}
 		}
 
-
-		StartBowling ();
+        StartBowling();
 		/*if(bowlingBy == "computer" && ballToFineLeg == true && (currentBallNoOfRuns == 6 || currentBallNoOfRuns == 4))
 	{
 		if(fieldRestriction == true) {
@@ -11311,22 +11228,36 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 		return batSize;
 	}
 
-	// This variable (battingTimingMeter) will define the horizontalSpeed & ballFirstPitchDistance (if powerShot == true)
-	private bool ismissTimed = false;
+    // This variable (battingTimingMeter) will define the horizontalSpeed & ballFirstPitchDistance (if powerShot == true)
+
+
+    private bool ismissTimed = false;
 	private float missTimedBattingMeter = 0;
 	private float battingTimingMeter;
 	private bool updateBattingTimingMeterNeedle = false;
-	private float btmPerfectValue = 6f;
-	private int gudTimingValue = 12;	//15
-	float batsmanSkill = 85;
-	float batsmanTimingSkill = 45;
-	float bowlerSkill = 40;
+	private float btmPerfectValue =10f;
+	private int gudTimingValue = 15;	//15
+
 	private bool edgeCatch = false;
 	private bool isBallTouchedTheRope = false;
 	private ShotStatus BattingTimingMeterDisplayText;
-	void UpdateBattingTimingMeter()
+    void updateBatsmanTiming()
+    {
+        float incrementVal = 1f / 100f; // 0.01
+        float scaleX = batsmanSkill * incrementVal;
+		GameModelScript.BattingControlsScript.BattingMeterFiller.transform.localScale = new Vector3(scaleX, 1f, 1f);
+
+        float perf = (scaleX * 10f) / 0.5f;
+
+        // Ensure minimum threshold
+        perf = Mathf.Max(perf, 2.5f);
+
+        // Assign final int value
+        btmPerfectValue = Mathf.CeilToInt(perf);
+    }
+    void UpdateBattingTimingMeter()
 	{
-		if (updateBattingTimingMeterNeedle == true)
+        if (updateBattingTimingMeterNeedle == true)
 		{
 			battingTimingMeter = ballTransform.position.z / 5.0f * 100; //8.8 
 			if (battingTimingMeter < -100.0f)
@@ -11337,31 +11268,30 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 			{
 				battingTimingMeter = 100.0f;
 			}
-			//battingTimingNeedle.transform.localPosition = new Vector3(battingTimingMeter, -40, 0);
+            GameModelScript.BattingControlsScript.battingTimingNeedle.transform.localPosition = new Vector3(battingTimingMeter, 25, 0);
 			//AI Improve
 			ismissTimed = false;
 			missTimedBattingMeter = (Mathf.Abs(battingTimingMeter));
 
-			int randval = 8;
-			if (CONTROLLER.PowerPlay)
-			{
-				randval = 6;
-			}
+			int randval = 18;
 
 			//hardcode
 			/*#if UNITY_EDITOR
                         battingTimingMeter = btmPerfectValue;     //Hardcode
             #endif*/
+
+
 			bool isPower = loft;
+
 			if (Mathf.Abs(battingTimingMeter) <= btmPerfectValue)
 			{
-				//battingTimingNeedleText.text = "[FFFFFF]PERFECT[-]";
+				GameModelScript.BattingControlsScript.battingTimingNeedleText.text = "PERFECT";
 				BattingTimingMeterDisplayText = ShotStatus.PERFECT;
 				ismissTimed = false;
 			}
 			else if (battingTimingMeter < -65)
 			{
-				///battingTimingNeedleText.text = "[FFFFFF]TOO EARLY[-]";
+				GameModelScript.BattingControlsScript.battingTimingNeedleText.text = "TOO EARLY";
 				BattingTimingMeterDisplayText = ShotStatus.TOO_EARLY;
 
 				if (Random.Range(0, 10) > randval && battingBy == "user" && isPower)
@@ -11372,7 +11302,7 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 			}
 			else if (battingTimingMeter < -30)
 			{
-				//battingTimingNeedleText.text = "[FFFFFF]EARLY[-]";
+				GameModelScript.BattingControlsScript.battingTimingNeedleText.text = "EARLY";
 				BattingTimingMeterDisplayText = ShotStatus.EARLY;
 
 				if (Random.Range(0, 10) > randval && battingBy == "user" && isPower)
@@ -11383,7 +11313,7 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 			}
 			else if (battingTimingMeter < -btmPerfectValue)
 			{
-				//battingTimingNeedleText.text = "[FFFFFF]EARLY - NICE TRY[-]";
+				GameModelScript.BattingControlsScript.battingTimingNeedleText.text = "GOOD";
 				BattingTimingMeterDisplayText = ShotStatus.EARLY_NICETRY;
 
 				if (Random.Range(0, 10) > randval && battingBy == "user" && isPower)
@@ -11394,7 +11324,7 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 			}
 			else if (battingTimingMeter > 65)
 			{
-				//battingTimingNeedleText.text = "[FFFFFF]TOO LATE[-]";
+				GameModelScript.BattingControlsScript.battingTimingNeedleText.text = "TOO LATE";
 				BattingTimingMeterDisplayText = ShotStatus.TOO_LATE;
 
 				if (Random.Range(0, 10) > randval && battingBy == "user" && isPower )
@@ -11405,7 +11335,7 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 			}
 			else if (battingTimingMeter > 30)
 			{
-				//battingTimingNeedleText.text = "[FFFFFF]LATE[-]";
+				GameModelScript.BattingControlsScript.battingTimingNeedleText.text = "LATE";
 				BattingTimingMeterDisplayText = ShotStatus.LATE;
 
 				if (Random.Range(0, 10) > randval && battingBy == "user" && isPower )
@@ -11416,7 +11346,7 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 			}
 			else
 			{
-				//battingTimingNeedleText.text = "[FFFFFF]GOOD[-]";
+				GameModelScript.BattingControlsScript.battingTimingNeedleText.text = "GOOD";
 				BattingTimingMeterDisplayText = ShotStatus.GOOD;
 
 				ismissTimed = false;
@@ -11469,39 +11399,19 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 
 	private void SetSwipeHighlightRenderState(bool flag)
 	{
-		if(swipeHighlightRenderer!=null)
+		flag = false; 
+
+        if (swipeHighlightRenderer!=null)
 			swipeHighlightRenderer.enabled = flag;
 	}
 
-	void  updateBatsmanTiming( )
-	{
-		float incrementVal = 0.007f;
-		/*if (CONTROLLER.difficultyMode == DifficultyMode.hard || CONTROLLER.difficultyMode == DifficultyMode.expert)
-		{
-			incrementVal = 0.0032f;
-		}
-		else if (CONTROLLER.difficultyMode == DifficultyMode.medium)
-		{
-			incrementVal = 0.0032f;
-		}
-		else
-		{
-			incrementVal = 0.0040f;
-		}*/
-		float val = batsmanTimingSkill;
-		val = (val * incrementVal);
-		//timingFiller.transform.localScale = new Vector3(val, 1f, 1);
-		float perf = ((val * 10) / 0.5f);//0.7
-		if (perf < 2.5f)
-		{
-			perf = 2.5f;
-		}
-		float myVal = (Mathf.Ceil(perf));
-		btmPerfectValue = (int)myVal;
-	}
-	#endregion
 
-	public void ResetAll_BatMP()
+
+
+
+    #endregion
+
+    public void ResetAll_BatMP()
 	{
 		action = -2;
 		canApplyFriction = true;
@@ -11545,8 +11455,6 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 		BallPickTime = 0.0f;
 		prevMousePos = Vector2.zero;
 
-		loftBtn.gameObject.SetActive(true);
-		loftBtn2.gameObject.SetActive(true);
 		isTimeToShowAd = true;
 		canSwipeNow = false;
 		ballProjectileAnglePerSecondFactor = 1.7f;

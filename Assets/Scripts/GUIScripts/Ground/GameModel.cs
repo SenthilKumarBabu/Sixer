@@ -11,6 +11,8 @@ public class GameModel : Singleton<GameModel>
 {
     public GroundController GroundControllerScript;
 	public BowlingInterface BowlingControlsScript;
+	public BattingInterface BattingControlsScript;
+
     //public static GameModel instance;
     public static string ScoreStr;
 	public static string ExtraStr;
@@ -658,7 +660,7 @@ public class GameModel : Singleton<GameModel>
     private void SetTeamIndex()
     {
         GroundControllerScript.stopIsBowlerBatsmanIdle();
-		DebugLogger.PrintWithColor("Set team index::: " + CONTROLLER.currentInnings + " CONTROLLER.meFirstBatting::: " + CONTROLLER.meFirstBatting);
+		//DebugLogger.PrintWithColor("Set team index::: " + CONTROLLER.currentInnings + " CONTROLLER.meFirstBatting::: " + CONTROLLER.meFirstBatting);
         if (CONTROLLER.currentInnings == 0)
 		{
 			//Scoreboard.instance.ShowTargetScreen(false);
@@ -702,7 +704,7 @@ public class GameModel : Singleton<GameModel>
 
 
 
-        DebugLogger.PrintWithColor("Set team index::: BattingTeamIndex: " + CONTROLLER.BattingTeamIndex + " BowlingTeamIndex::: " + CONTROLLER.BowlingTeamIndex + " ::: BatTeamIndex:::: " + CONTROLLER.BatTeamIndex+ "::: BowlTeamIndex:::: " + CONTROLLER.BowlTeamIndex);
+       // DebugLogger.PrintWithColor("Set team index::: BattingTeamIndex: " + CONTROLLER.BattingTeamIndex + " BowlingTeamIndex::: " + CONTROLLER.BowlingTeamIndex + " ::: BatTeamIndex:::: " + CONTROLLER.BatTeamIndex+ "::: BowlTeamIndex:::: " + CONTROLLER.BowlTeamIndex);
 
 
         //CONTROLLER.BattingTeamName = CONTROLLER.TeamList[CONTROLLER.BattingTeamIndex].teamName;
@@ -951,9 +953,12 @@ public class GameModel : Singleton<GameModel>
 			if(CONTROLLER.BowlingTeamIndex == CONTROLLER.myTeamIndex)
 			{
 				bowlingControl = 0;
-                GroundController.instance.loftBtn.gameObject.SetActive(false);
                 BowlingControlsScript.ShowMe();
             }
+			else
+			{
+				BattingControlsScript.ShowMe();
+			}
 		
             action = 4;
 			Scoreboard.instance.HideStrip (false);
@@ -2304,26 +2309,6 @@ public void enableBlocker ()
 
 	public void ReStartGame ()
 	{
-		if (PlayerPrefs.HasKey("loft"))
-		{
-			if (PlayerPrefs.GetInt("loft") == 1)
-			{
-				GroundController.loft = true;
-			}
-			else
-			{
-				GroundController.loft = false;
-			}
-		}
-		else
-		{
-			GroundController.loft = true;
-		}
-        
-		//By default loft is off as per Jaysree
-		GroundController.loft = false;
-
-        GroundController.instance.SetLoftImage (); 		 
 		BattingScoreCard.instance.ResetPlayerImages ();
 		SetOverRange ();
 		AdIntegrate.instance.SetTimeScale(1f);
@@ -2341,8 +2326,6 @@ public void enableBlocker ()
 		BatsmanInfo.instance.UpdateStrikerInfo();//30march
 		GroundController.instance.ChangePlayerLeftRightTextures ();//30march
 		ShowIntroAnimation ();
-		GroundController.instance.loftBtn.gameObject.SetActive (false);
-        
 		SetTeamIndex();
 
         //gopi - for removing data while user clicks replay

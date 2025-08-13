@@ -19,6 +19,7 @@ public class CONTROLLER
 
 	public const string BATBOWLMODE = "BatBowlmode";
 
+
     public static bool isUserSyncCalled = false;
 	public static bool isAdminUser = false;
 
@@ -90,7 +91,7 @@ public class CONTROLLER
 	public static TeamInfo [] TeamList;
 	public static string bowlerType = "fast";//fast,spin
 	public static string[] ballUpdate = new string[6];
-	public static string difficultyMode = "medium"; // easy, medium, hard
+	public static string difficultyMode = "easy"; // easy, medium, hard
 	public static int [] Overs = new int[6];
 	public static int totalWickets = 10;
 	public static int totalOvers;
@@ -164,9 +165,9 @@ public class CONTROLLER
 	// Confidence Level
 	
 	// Settings
-	public static int BGMusicVal = 1;
-	public static int GameMusicVal = 1;
-	public static int shotIndicator = 1; // 1 || 0
+	public static int BGMusicVal = 0;
+	public static int GameMusicVal = 0;
+	public static int shotIndicator = 0; // 1 || 0
 	public static string BatsmanHand = "right";
 	public static int isMuted = 1;
 	// Settings
