@@ -11,9 +11,7 @@ using UnityEngine.Networking;
 
 public static class WebRequestHelper
 {
-    public static string AuthToken = "";
-    public static string RefreshToken = "";
-    public static User User;
+    public static LoginData LoggedInUser;
     public static SessionData SessionData;
     
     public static async Task<string> GetAsync(string url)
@@ -29,9 +27,9 @@ public static class WebRequestHelper
         });
 
         request.AddHeader("Content-Type", "application/json");
-        if (!string.IsNullOrEmpty(AuthToken))
+        if (!string.IsNullOrEmpty(LoggedInUser.tokens.accessToken))
         {
-            request.AddHeader("Authorization", $"Bearer {AuthToken}");
+            request.AddHeader("Authorization", $"Bearer {LoggedInUser.tokens.accessToken}");
         }
         if (SessionData != null && !string.IsNullOrEmpty(SessionData.sessionId))
         {
@@ -56,9 +54,9 @@ public static class WebRequestHelper
         });
 
         request.AddHeader("Content-Type", "application/json");
-        if (!string.IsNullOrEmpty(AuthToken))
+        if (!string.IsNullOrEmpty(LoggedInUser.tokens.accessToken))
         {
-            request.AddHeader("Authorization", $"Bearer {AuthToken}");
+            request.AddHeader("Authorization", $"Bearer {LoggedInUser.tokens.accessToken}");
         }
         if (SessionData != null && !string.IsNullOrEmpty(SessionData.sessionId))
         {

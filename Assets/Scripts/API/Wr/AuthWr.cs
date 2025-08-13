@@ -24,9 +24,7 @@ public class AuthWr
             if (response!.success)
             {
                 Debug.Log("Login Success. Access Token: " + response.data.tokens.accessToken);
-                WebRequestHelper.AuthToken = response.data.tokens.accessToken;
-                WebRequestHelper.RefreshToken = response.data.tokens.refreshToken;
-                WebRequestHelper.User = response.data.user;
+                WebRequestHelper.LoggedInUser = response.data;
             }
             else
             {
@@ -45,7 +43,7 @@ public class AuthWr
             if (response!.success)
             {
                 Debug.Log($"{response.message} {response.data.DebugInfo()}");
-                WebRequestHelper.User = response.data;
+                WebRequestHelper.LoggedInUser.user = response.data;
             }
             else
             {
@@ -58,7 +56,7 @@ public class AuthWr
     {
         var payload = new
         {
-            refreshToken = WebRequestHelper.RefreshToken,
+            refreshToken = WebRequestHelper.LoggedInUser.tokens.refreshToken,
         };
 
         string logoutJson = JsonConvert.SerializeObject(payload);
@@ -72,8 +70,7 @@ public class AuthWr
             if (response!.success)
             {
                 Debug.Log($"{response.message}");
-                WebRequestHelper.AuthToken = "";
-                WebRequestHelper.RefreshToken = "";
+                WebRequestHelper.LoggedInUser.tokens = new Tokens();
             }
             else
             {
