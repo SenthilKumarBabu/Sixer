@@ -68,35 +68,8 @@ public class PlayerPrefsManager : MonoBehaviour
 		GetChaseTargetLevelDetails();
 		GetSettingsList();
 	}
-	
-#if !UNITY_EDITOR
-	void OnApplicationPause(bool focusStatus)
-	{
-		if (ManageScene.CurScene == Scenes.Ground &&  GameModel.instance != null && CONTROLLER.CurrentPage == "ingame")
-		{
-			if (focusStatus == true)
-			{
-				if (GameModel.isGamePaused == false && !BattingScoreCard.instance.playerChange.activeSelf)
-				{
-					if ((InterstialAdLoadingScript.instance != null && InterstialAdLoadingScript.instance.holder.activeSelf) || (ProgressBar.instance != null && ProgressBar.instance.holder.activeSelf) || (HeadStart.instance != null && HeadStart.instance.holder.activeSelf) || (ExtraBall.instance != null && ExtraBall.instance.holder.activeSelf))
-					{
-						return;
-					}
-					StartCoroutine(DelayedPause());     // Fix for minimize freeze and screen overlap issue
-				}
-			}
-			else
-			{
-				if (InterstialAdLoadingScript.instance != null && InterstialAdLoadingScript.instance.holder.activeSelf && InterstialAdLoadingScript.instance.isAdStartsToPlay)
-				{
-					InterstialAdLoadingScript.instance.Continue();
-				}
-			}
-		}
-    }
-#endif
 
-    IEnumerator DelayedPause()
+	IEnumerator DelayedPause()
     {
         yield return new WaitForSecondsRealtime(0.5f);
 		GameModel.instance.GamePaused(true,true);

@@ -5,7 +5,7 @@ using DG.Tweening;
 using UnityEngine.UI;
 
 
-public class SplashScreenPage : MonoBehaviour 
+public partial class SplashScreenPage : MonoBehaviour 
 {
 	public GameObject welcomeScreen;
 	public GameObject Tick;

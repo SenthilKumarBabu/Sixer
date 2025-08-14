@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,8 +23,7 @@ public class UIManager : MonoBehaviour
 
         RegisterUIElements();
         
-        OpenPage<MainMenuPage>();
-        //OpenPopup<LoginPopup>(new LoginPopupData(LoginPopup.LoginPopupStatus.LoginPopup));
+        OpenPage<Sixer.UI.SplashScreenPage>();  
     }
 
     private void RegisterUIElements()
