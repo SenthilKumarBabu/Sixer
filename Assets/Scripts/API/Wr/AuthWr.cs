@@ -1,9 +1,10 @@
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 
 public class AuthWr
 {
-   public async void AuthLogin(string playerName, string pass)
+    public async Task<LoginData> AuthLogin(string playerName, string pass)
     {
         var payload = new
         {
@@ -12,28 +13,48 @@ public class AuthWr
         };
 
         string loginJson = JsonConvert.SerializeObject(payload);
-        Debug.Log(loginJson);
-        
+
         string responseJson = await WebRequestHelper.PostAsync(Apis.Auth.Login, loginJson);
 
         if (!string.IsNullOrEmpty(responseJson))
         {
-            Debug.Log(responseJson);
-            RootData encResponse = JsonConvert.DeserializeObject<RootData>(responseJson);
-            var response = AESEncryptionHelper.DecryptData<APIResponse<LoginData>>(encResponse!.data,  WebRequestHelper.SessionData.sessionKey);
+            var response = JsonConvert.DeserializeObject<APIResponse<LoginData>>(responseJson);
             if (response!.success)
             {
-                Debug.Log("Login Success. Access Token: " + response.data.tokens.accessToken);
                 WebRequestHelper.LoggedInUser = response.data;
-            }
-            else
-            {
-                Debug.LogWarning("Login Failed: " + response.message);
+                return response.data;
             }
         }
+
+        return default;
     }
     
-   public async void GetUserProfile()
+    public async Task<RegisterData> AuthRegister(string email, string playerName, string pass)
+    {
+        var payload = new
+        {
+            email = email,
+            username = playerName,
+            password = pass
+        };
+
+        string registerJson = JsonConvert.SerializeObject(payload);
+
+        string responseJson = await WebRequestHelper.PostAsync(Apis.Auth.Register, registerJson);
+
+        if (!string.IsNullOrEmpty(responseJson))
+        {
+            var response = JsonConvert.DeserializeObject<APIResponse<RegisterData>>(responseJson);
+            if (response!.success)
+            {
+                return response.data;
+            }
+        }
+
+        return default;
+    }
+
+    public async void GetUserProfile()
     {
         string responseJson = await WebRequestHelper.GetAsync(Apis.Auth.GetUserProfile);
 
@@ -78,6 +99,20 @@ public class AuthWr
             }
         }
     }
+   
+   /*
+    RootData encResponse = JsonConvert.DeserializeObject<RootData>(responseJson);
+            var response = AESEncryptionHelper.DecryptData<APIResponse<LoginData>>(encResponse!.data,  WebRequestHelper.SessionData.sessionKey);
+            if (response!.success)
+            {
+                Debug.Log("Login Success. Access Token: " + response.data.tokens.accessToken);
+                WebRequestHelper.LoggedInUser = response.data;
+            }
+            else
+            {
+                Debug.LogWarning("Login Failed: " + response.message);
+            }
+            */
 }
 
 [System.Serializable]
@@ -93,6 +128,18 @@ public class Tokens
     public string accessToken;
     public string refreshToken;
 }
+
+[System.Serializable]
+public class RegisterData
+{
+    public string id;
+    public string email;
+    public string username;
+    public string firstName;
+    public string lastName;
+    public string message;
+}
+
 
 [System.Serializable]
 public class User

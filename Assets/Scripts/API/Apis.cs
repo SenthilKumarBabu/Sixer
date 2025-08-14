@@ -7,15 +7,14 @@ public static class Apis
     public static class Auth
     {
         public const string Login = BaseUrl + "auth/login";
+        public const string Register = BaseUrl + "auth/register";
         public const string GetUserProfile = BaseUrl + "auth/me";
         public const string Logout = BaseUrl + "auth/logout";
     }
 
     public static class Session
     {
-        public const string Challenge = BaseUrl + "session/challenge?clientPublicKey=-----BEGIN PUBLIC KEY-----...";
-        public const string Exchange = BaseUrl + "session/exchange";
-        public const string Simple = BaseUrl + "session/simple";
+        public const string SimpleYear = BaseUrl + "session/simple/year";
     }
     
     public static class Wallet

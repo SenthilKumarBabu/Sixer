@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
@@ -7,14 +8,32 @@ namespace Sixer.UI
     public class SplashScreenPage : UIPage
     {
         [SerializeField] private Image loadingBar;
-        private float loadingDuration = 1f;
+        private readonly float _loadingDuration = 1f;
+        
+        private SessionWr _sessionWr;
 
-        public override void OnShow(object data = null)
+        private void Awake()
         {
-            loadingBar.DOFillAmount(1, loadingDuration).OnComplete(() =>
+            _sessionWr = new SessionWr();
+        }
+
+        public override async void OnShow(object data = null)
+        {
+            loadingBar.DOFillAmount(1, _loadingDuration);
+            
+            var sessionData = await _sessionWr.SessionSimpleYear(new SessionInputData()
             {
-                UIManager.Instance.OpenPage<LoginPage>(new LoginPageData(status: LoginPage.LoginPageStatus.SignInPage));
+                clientId = "unity_client321",
+                clientVersion = "1.0.0",
+                deviceInfo =  new DeviceInfoData()
+                {
+                    platform = "Unity",
+                    version = "2022.3.0f1",
+                    deviceId = "unity_device_321"
+                }
             });
+            
+            UIManager.Instance.OpenPage<LoginPage>(new LoginPageData(status: LoginPage.LoginPageStatus.SignInPage));
         }
     }
 }

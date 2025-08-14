@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -11,10 +12,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Transform popupRoot;
 
     private Dictionary<string, UIPage> _pages = new();
-    private Stack<UIPage> pageStack = new();
+    [ShowInInspector] private Stack<UIPage> pageStack = new();
 
     private Dictionary<string, UIPopup> popups = new();
-    private Stack<UIPopup> popupStack = new();
+    [ShowInInspector] private Stack<UIPopup> popupStack = new();
 
     private void Awake()
     {
@@ -22,7 +23,10 @@ public class UIManager : MonoBehaviour
         Instance = this;
 
         RegisterUIElements();
-        
+    }
+
+    private void Start()
+    {
         OpenPage<Sixer.UI.SplashScreenPage>();  
     }
 
@@ -43,36 +47,36 @@ public class UIManager : MonoBehaviour
 
     public void OpenPage<T>(object data = null) where T : UIPage
     {
-        if (pageStack.Count > 0 && !pageStack.Peek().isOverlay)
+        string key = typeof(T).Name;
+        if (!_pages.TryGetValue(key, out var page)) { Debug.LogError($"Page {key} not found"); return; }
+        
+        if (pageStack.Count > 0 && !page.isOverlay)
         {
             pageStack.Peek().OnHide();
             pageStack.Peek().gameObject.SetActive(false);
         }
 
-        string key = typeof(T).Name;
-        if (!_pages.TryGetValue(key, out var page)) { Debug.LogError($"Page {key} not found"); return; }
-
-        page.OnShow(data);
-        page.gameObject.SetActive(true);
         pageStack.Push(page);
+        page.gameObject.SetActive(true);
+        page.OnShow(data);
     }
 
     private void ShowCurrentPage()
     {
         var currentTop = pageStack.Peek();
-        currentTop.OnShow();
         currentTop.gameObject.SetActive(true);
+        currentTop.OnShow();
     }
 
-    public void CloseCurrentPage(bool showCurrentPage = true)
+    public void CloseCurrentPage()
     {
         if (pageStack.Count == 0) return;
 
         var top = pageStack.Pop();
-        top.OnHide();
         top.gameObject.SetActive(false);
+        top.OnHide();
 
-        if (showCurrentPage)
+        if (!top.isOverlay)
             ShowCurrentPage();
     }
 
@@ -81,9 +85,9 @@ public class UIManager : MonoBehaviour
         string key = typeof(T).Name;
         if (!popups.TryGetValue(key, out var popup)) { Debug.LogError($"Popup {key} not found"); return; }
 
-        popup.OnShow(data);
-        popup.gameObject.SetActive(true);
         popupStack.Push(popup);
+        popup.gameObject.SetActive(true);
+        popup.OnShow(data);
     }
 
     public void CloseTopPopup()
@@ -91,8 +95,8 @@ public class UIManager : MonoBehaviour
         if (popupStack.Count == 0) return;
 
         var top = popupStack.Pop();
-        top.OnHide();
         top.gameObject.SetActive(false);
+        top.OnHide();
     }
 
     public void CloseAllPopups()

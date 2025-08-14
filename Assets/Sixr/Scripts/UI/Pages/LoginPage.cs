@@ -10,8 +10,10 @@ public class LoginPage : UIPage
     [SerializeField] private GameObject fullNameObj,emailObj,passObj,confirmPassObj;
     [SerializeField] private TMP_InputField fullNameIf, emailIf, passIf, confirmPassIf;
     [SerializeField] private Button signInButton, signUpButton,switchToSignInButton, switchToSignUpButton,forgetPasswordButton;
+    [SerializeField] private TMP_Text errorText;
     
     private LoginPageStatus _status;
+    private AuthWr _authWr;
     
     public enum LoginPageStatus
     {
@@ -22,6 +24,7 @@ public class LoginPage : UIPage
     private void Awake()
     {
         _status = LoginPageStatus.SignInPage;
+        _authWr = new AuthWr();
         signInButton.onClick.AddListener(SignInButtonClicked);
         signUpButton.onClick.AddListener(SignUpButtonClicked);
         switchToSignInButton.onClick.AddListener(SwitchToSignInButtonClicked);
@@ -48,19 +51,38 @@ public class LoginPage : UIPage
         switchToSignInButton.gameObject.SetActive(_status == LoginPageStatus.SignUpPage);
         switchToSignUpButton.gameObject.SetActive(_status == LoginPageStatus.SignInPage);
         forgetPasswordButton.gameObject.SetActive(_status == LoginPageStatus.SignInPage);
+        errorText.gameObject.SetActive(false);
         
         base.OnShow(data);
         LayoutRebuilder.ForceRebuildLayoutImmediate(popupRectTransform);
     }
 
-    private void SignInButtonClicked()
+    private async void SignInButtonClicked()
     {
-        UIManager.Instance.OpenPage<OtpPage>();
+        var loginData = await _authWr.AuthLogin(emailIf.text,passIf.text);
+
+        if (loginData == null)
+        {
+            errorText.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("Opening Main Page");
+        }
     }
 
-    private void SignUpButtonClicked()
+    private async void SignUpButtonClicked()
     {
-        UIManager.Instance.OpenPage<OtpPage>();
+        var registerData =  await _authWr.AuthRegister(fullNameIf.text, emailIf.text,passIf.text);
+        
+        if (registerData == null)
+        {
+            errorText.gameObject.SetActive(true);
+        }
+        else
+        {
+            UIManager.Instance.OpenPage<OtpPage>();
+        }
     }
 
     private void SwitchToSignInButtonClicked()
@@ -76,6 +98,22 @@ public class LoginPage : UIPage
     private void ForgetPasswordButtonClicked()
     {
         
+    }
+
+    [ContextMenu("AutoFillLogin")]
+    public void AutoFillLogin()
+    {
+        emailIf.text = "jbsenthilkumar209@gmail.com";
+        passIf.text = "Asdf@1234";
+    }
+    
+    [ContextMenu("AutoFillRegister")]
+    public void AutoFillRegister()
+    {
+        fullNameIf.text = "Chris0";
+        emailIf.text = "jbsenthilkumar209+0@gmail.com";
+        passIf.text = "Asdf@1234";
+        confirmPassIf.text = "Asdf@1234";
     }
 }
 

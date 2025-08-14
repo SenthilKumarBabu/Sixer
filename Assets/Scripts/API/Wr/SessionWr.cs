@@ -1,36 +1,44 @@
+using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 
 public class SessionWr
 {
-    
-    public async void SessionSimple(string clientId)
+    public async Task<SessionData> SessionSimpleYear(SessionInputData sessionInputData)
     {
-        var payload = new
-        {
-            clientId = clientId,
-        };
-
-        string json = JsonConvert.SerializeObject(payload);
-        Debug.Log(json);
+        string json = JsonConvert.SerializeObject(sessionInputData);
         
-        string responseJson = await WebRequestHelper.PostAsync(Apis.Session.Simple, json);
+        string responseJson = await WebRequestHelper.PostAsync(Apis.Session.SimpleYear, json);
 
         if (!string.IsNullOrEmpty(responseJson))
         {
-            Debug.Log(responseJson);
             APIResponse<SessionData> response = JsonConvert.DeserializeObject<APIResponse<SessionData>>(responseJson);
             if (response!.success)
             {
-                Debug.Log("Success");
                 WebRequestHelper.SessionData = response.data;
-            }
-            else
-            {
-                Debug.LogWarning("Login Failed: " + response.message);
+                return response.data;
             }
         }
+
+        return default;
     }
+}
+
+[System.Serializable]
+public class SessionInputData
+{
+    public string clientId;
+    public string clientVersion;
+    public DeviceInfoData deviceInfo;
+}
+
+[Serializable]
+public class DeviceInfoData
+{
+    public string platform;
+    public string version;
+    public string deviceId;
 }
 
 [System.Serializable]
@@ -41,3 +49,4 @@ public class SessionData
     public string sessionKey;
     public string message;
 }
+

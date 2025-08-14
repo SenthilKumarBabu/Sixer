@@ -18,7 +18,17 @@ public class WebRequestManager : MonoBehaviour
 
     async void Start()
     {     
-        _sessionWr.SessionSimple("-chris");
+        _sessionWr.SessionSimpleYear(new SessionInputData()
+        {
+            clientId = "unity_client321",
+            clientVersion = "1.0.0",
+            deviceInfo =  new DeviceInfoData()
+            {
+                platform = "Unity",
+                version = "2022.3.0f1",
+                deviceId = "unity_device_321"
+            }
+        });
         await UniTask.Delay(TimeSpan.FromSeconds(5));
         _authWr.AuthLogin("newplayer","SecurePass123");
         await UniTask.Delay(TimeSpan.FromSeconds(5));

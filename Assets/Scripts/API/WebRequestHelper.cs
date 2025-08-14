@@ -14,8 +14,13 @@ public static class WebRequestHelper
     public static LoginData LoggedInUser;
     public static SessionData SessionData;
     
-    public static async Task<string> GetAsync(string url)
+    public static async Task<string> GetAsync(string url, bool showLoading = true)
     {
+        if (showLoading)
+        {
+            UIManager.Instance.OpenPage<LoadingPage>();
+        }
+        
         var tcs = new TaskCompletionSource<string>();
 
         var request = new HTTPRequest(new System.Uri(url), HTTPMethods.Get, (req, res) =>
@@ -27,22 +32,42 @@ public static class WebRequestHelper
         });
 
         request.AddHeader("Content-Type", "application/json");
-        if (!string.IsNullOrEmpty(LoggedInUser.tokens.accessToken))
+        /*if (!string.IsNullOrEmpty(LoggedInUser.tokens.accessToken))
         {
             request.AddHeader("Authorization", $"Bearer {LoggedInUser.tokens.accessToken}");
         }
         if (SessionData != null && !string.IsNullOrEmpty(SessionData.sessionId))
         {
             request.AddHeader("X-Session-Id", SessionData.sessionId);
-        }
+        }*/
         
         request.Send();
 
-        return await tcs.Task;
+        var task = await tcs.Task;
+        
+        APIResponse<object> response = JsonConvert.DeserializeObject<APIResponse<object>>(task);
+        
+        Debug.Log(response!.success
+            ? $"Response success. message - {response!.message}. data - {response!.data}"
+            : $"Response Failed. message - {response!.message}. data - {response!.data}");
+
+        if (showLoading)
+        {
+            UIManager.Instance.CloseCurrentPage();
+        }
+        
+        return task;
     }
 
-    public static async Task<string> PostAsync(string url, string jsonBody)
+    public static async Task<string> PostAsync(string url, string jsonBody, bool showLoading = true)
     {
+        if (showLoading)
+        {
+            UIManager.Instance.OpenPage<LoadingPage>();
+        }
+
+        Debug.Log(jsonBody);
+        
         var tcs = new TaskCompletionSource<string>();
 
         var request = new HTTPRequest(new System.Uri(url), HTTPMethods.Post, (req, res) =>
@@ -54,18 +79,31 @@ public static class WebRequestHelper
         });
 
         request.AddHeader("Content-Type", "application/json");
-        if (!string.IsNullOrEmpty(LoggedInUser.tokens.accessToken))
+        /*if (LoggedInUser!= null && !string.IsNullOrEmpty(LoggedInUser.tokens!.accessToken))
         {
             request.AddHeader("Authorization", $"Bearer {LoggedInUser.tokens.accessToken}");
         }
         if (SessionData != null && !string.IsNullOrEmpty(SessionData.sessionId))
         {
             request.AddHeader("X-Session-Id", SessionData.sessionId);
-        }
+        }*/
         request.RawData = System.Text.Encoding.UTF8.GetBytes(jsonBody);
 
         request.Send();
 
-        return await tcs.Task;
+        string task = await tcs.Task;
+        
+        APIResponse<object> response = JsonConvert.DeserializeObject<APIResponse<object>>(task);
+        
+        Debug.Log(response!.success
+            ? $"Response success. message - {response!.message}. data - {response!.data}"
+            : $"Response Failed. message - {response!.message}. data - {response!.data}");
+
+        if (showLoading)
+        {
+            UIManager.Instance.CloseCurrentPage();
+        }
+        
+        return task;
     }
 }
