@@ -21,6 +21,7 @@ public static class WebRequestHelper
             UIManager.Instance.OpenPage<LoadingPage>();
         }
         
+        
         var tcs = new TaskCompletionSource<string>();
 
         var request = new HTTPRequest(new System.Uri(url), HTTPMethods.Get, (req, res) =>
@@ -32,6 +33,7 @@ public static class WebRequestHelper
         });
 
         request.AddHeader("Content-Type", "application/json");
+        Debug.Log($"{url} ");
         /*if (!string.IsNullOrEmpty(LoggedInUser.tokens.accessToken))
         {
             request.AddHeader("Authorization", $"Bearer {LoggedInUser.tokens.accessToken}");
@@ -66,8 +68,8 @@ public static class WebRequestHelper
             UIManager.Instance.OpenPage<LoadingPage>();
         }
 
-        Debug.Log(jsonBody);
-        
+        Debug.Log($"{url} {jsonBody}");
+
         var tcs = new TaskCompletionSource<string>();
 
         var request = new HTTPRequest(new System.Uri(url), HTTPMethods.Post, (req, res) =>

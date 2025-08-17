@@ -73,7 +73,7 @@ public class LoginPage : UIPage
 
     private async void SignUpButtonClicked()
     {
-        var registerData =  await _authWr.AuthRegister(fullNameIf.text, emailIf.text,passIf.text);
+        var registerData =  await _authWr.AuthRegister(emailIf.text,fullNameIf.text,passIf.text);
         
         if (registerData == null)
         {

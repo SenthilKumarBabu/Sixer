@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class GenericPopup : UIPopup
 {
     [SerializeField] private RectTransform popupRectTransform;
+    [SerializeField] private Image headerLogo;
     [SerializeField] private TMP_Text headerText;
     [SerializeField] private Button closeButton;
     [SerializeField] private TMP_Text contentText;
@@ -48,12 +49,7 @@ public class GenericPopup : UIPopup
         base.OnShow(data);
         LayoutRebuilder.ForceRebuildLayoutImmediate(popupRectTransform);
     }
-    
-    public override void OnHide()
-    {
-        base.OnHide();
-    }
-    
+
     private void CloseButtonClicked()
     {
         UIManager.Instance.CloseTopPopup();
