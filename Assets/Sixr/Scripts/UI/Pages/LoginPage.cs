@@ -9,7 +9,7 @@ public class LoginPage : UIPage
     [SerializeField] private RectTransform popupRectTransform;
     [SerializeField] private GameObject fullNameObj,emailObj,passObj,confirmPassObj;
     [SerializeField] private TMP_InputField fullNameIf, emailIf, passIf, confirmPassIf;
-    [SerializeField] private Button signInButton, signUpButton,switchToSignInButton, switchToSignUpButton,forgetPasswordButton;
+    [SerializeField] private Button signInButton, signUpButton,switchToSignInButton, switchToSignUpButton,forgetPasswordButton,loginAsGuestButton;
     [SerializeField] private TMP_Text errorText;
     
     private LoginPageStatus _status;
@@ -30,6 +30,7 @@ public class LoginPage : UIPage
         switchToSignInButton.onClick.AddListener(SwitchToSignInButtonClicked);
         switchToSignUpButton.onClick.AddListener(SwitchToSignUpButtonClicked);
         forgetPasswordButton.onClick.AddListener(ForgetPasswordButtonClicked);
+        loginAsGuestButton.onClick.AddListener(LoginAsGuestButtonClicked);
     }
 
     public override void OnShow(object data = null)
@@ -98,6 +99,11 @@ public class LoginPage : UIPage
     private void ForgetPasswordButtonClicked()
     {
         
+    }
+
+    private void LoginAsGuestButtonClicked()
+    {
+        UIManager.Instance.OpenPage<MainMenuPage>();
     }
 
     [ContextMenu("AutoFillLogin")]

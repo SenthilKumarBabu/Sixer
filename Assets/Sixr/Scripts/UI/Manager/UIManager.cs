@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -25,9 +26,17 @@ public class UIManager : MonoBehaviour
         RegisterUIElements();
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        OpenPage<Sixer.UI.SplashScreenPage>();  
+        if (SceneManager.GetActiveScene().name == "Preloader")
+        {
+            OpenPage<Sixer.UI.SplashScreenPage>();
+        }
+        else if (SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            OpenPage<LoginPage>(new LoginPageData(status: LoginPage.LoginPageStatus.SignInPage));
+
+        }
     }
 
     private void RegisterUIElements()
@@ -77,7 +86,11 @@ public class UIManager : MonoBehaviour
         top.OnHide();
 
         if (!top.isOverlay)
+        {
+            if (pageStack.Count == 0)
+                return;
             ShowCurrentPage();
+        }
     }
 
     public void OpenPopup<T>(object data = null) where T : UIPopup

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class MainMenuPage : UIPage
 {
+    [SerializeField] private GameModeSelector gameModeSelector;
     [SerializeField] private Button profileButton;
     [SerializeField] private TMP_Text coinsText, gemsText;
     [SerializeField] private Button quickPlayButton, chooseModeButton;
@@ -22,11 +23,11 @@ public class MainMenuPage : UIPage
     
     private void QuickPlayButtonClicked()
     {
-        
+        gameModeSelector.SelectGameMode(2);
     }
     
     private void ChooseModeButtonClicked()
     {
-        
+        gameModeSelector.SelectGameMode(4);
     }
 }

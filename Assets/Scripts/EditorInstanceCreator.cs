@@ -18,7 +18,7 @@ using UnityEditor;
 
 namespace TheGamedevGuru
 {
-    public class EditorInstanceCreator : EditorWindow
+    /*public class EditorInstanceCreator : EditorWindow
     {
         string _projectInstanceName;
         string _extraSubdirectories = "";
@@ -100,5 +100,5 @@ namespace TheGamedevGuru
         {
             return $"/c mklink /J \"{targetDirectory}{Path.DirectorySeparatorChar}{subdirectory}\" \"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}{subdirectory}\"";
         }
-    }
+    }*/
 }

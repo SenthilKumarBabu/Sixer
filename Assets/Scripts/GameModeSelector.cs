@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -223,8 +224,9 @@ public class GameModeSelector : MonoBehaviour
 			}
 			else
 			{
-				displayMsg.SetActive(true);
-				CONTROLLER.CurrentPage = "dispMsg";
+				newGame();
+				//displayMsg.SetActive(true);
+				//CONTROLLER.CurrentPage = "dispMsg";
 			}
 		}
 		else if (index == 3)
@@ -252,8 +254,9 @@ public class GameModeSelector : MonoBehaviour
 			}
 			else
 			{
-				displayMsg.SetActive(true);
-				CONTROLLER.CurrentPage = "dispMsg";
+				newGame();
+				//displayMsg.SetActive(true);
+				//CONTROLLER.CurrentPage = "dispMsg";
 			}
 		}
 		else if (index == 4)    //super multiplayer
