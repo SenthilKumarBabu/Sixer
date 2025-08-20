@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-[ExecuteInEditMode]
+/*[ExecuteInEditMode]
 [AddComponentMenu("Image Effects/Blur")]
 public class BlurEffect : MonoBehaviour
 {	
@@ -120,4 +120,4 @@ public class BlurEffect : MonoBehaviour
 		RenderTexture.ReleaseTemporary(buffer);
 		RenderTexture.ReleaseTemporary(buffer2);
 	}	
-}
+}*/
