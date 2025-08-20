@@ -25,7 +25,7 @@ Shader "Nextwave/Mobile/Hue/HueDiffuseColorMask" {
 			CGPROGRAM
 			#pragma surface surf Lambert noforwardadd
 			#include "UnityCG.cginc"
-			#include "Assets/nxtShaders/include/mobile/nxtColorMathLib.cginc"
+			#include "Assets/Shaders/nxtShaders/include/mobile/nxtColorMathLib.cginc"
 
 			sampler2D _MainTex;
 			sampler2D _InfluenceMask;

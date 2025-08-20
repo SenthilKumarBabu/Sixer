@@ -46,7 +46,7 @@ Shader "Nextwave/Mobile/HueJersey/HueJerseyBumpSimple" {
 			//Cull Off
 			CGPROGRAM
 			#pragma  surface surf Lambert 
-			#include "Assets/nxtShaders/include/mobile/nxtColorMathLib.cginc"
+			#include "Assets/Shaders/nxtShaders/include/mobile/nxtColorMathLib.cginc"
 
 			half4     _HueInput;
 			sampler2D _MainTex;

@@ -43,7 +43,7 @@ Shader "Nextwave/Mobile/HueJersey/HueJerseySimple" {
 			//Cull Off
 			CGPROGRAM
 			#pragma  surface surf Lambert 
-			#include "Assets/nxtShaders/include/mobile/nxtColorMathLib.cginc"
+			#include "Assets/Shaders/nxtShaders/include/mobile/nxtColorMathLib.cginc"
 			#pragma target 2.0
 
 			half4     _HueInput;

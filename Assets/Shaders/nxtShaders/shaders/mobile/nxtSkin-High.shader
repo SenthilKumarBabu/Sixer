@@ -48,7 +48,7 @@ Shader "Nextwave/Mobile/Skin/Skin-High"
 
 			CGPROGRAM
 			#pragma surface surf StandardTranslucent fullforwardshadows
-			#include "Assets/nxtShaders/include/Blends.cginc"
+			#include "Assets/Shaders/nxtShaders/include/Blends.cginc"
 			#pragma multi_compile _BLEND_NORMAL _BLEND_MULTIPLY _BLEND_OVERLAY _BLEND_SOFTLIGHT
 			#pragma target 2.0
 

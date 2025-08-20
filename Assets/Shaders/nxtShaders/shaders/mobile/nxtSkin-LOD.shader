@@ -61,7 +61,7 @@ Shader "Nextwave/Mobile/Skin/Skin-LOD"
 			#pragma surface surf StandardTranslucent fullforwardshadows
             #pragma multi_compile _SKINQUALITY_LOW  _SKINQUALITY_MEDIUM  _SKINQUALITY_HIGH
 			#pragma multi_compile _BLEND_NORMAL _BLEND_MULTIPLY _BLEND_OVERLAY _BLEND_SOFTLIGHT
-			#include "Assets/nxtShaders/include/Blends.cginc"
+			#include "Assets/Shaders/nxtShaders/include/Blends.cginc"
 			#pragma target 2.0
             
             // Skin Common Vars
