@@ -742,7 +742,8 @@ public class BattingScoreCard : Singleton<BattingScoreCard>
 
 		if (GameModel.isGamePaused == true)
 		{
-			playerChange.SetActive (false);	setWicketCamera (false );
+			playerChange.SetActive (false);
+			setWicketCamera (false );
 			GameModel.isGamePaused = false;
 			HideMe ();
 			return;

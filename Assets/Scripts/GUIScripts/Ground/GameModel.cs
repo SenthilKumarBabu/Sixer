@@ -573,7 +573,7 @@ public class GameModel : Singleton<GameModel>
 		} 
 		else 
 		{
-			HeadStart.instance.ShowMe ();
+			//HeadStart.instance.ShowMe ();
 		}
 	}
 
@@ -714,7 +714,7 @@ public class GameModel : Singleton<GameModel>
 
     public bool CanShowTutorial()
 	{
-		if (CONTROLLER.gameMode != "multiplayer" && CONTROLLER.currentMatchBalls < 3 && CONTROLLER.TutorialShowCount < 3 )
+		if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting && CONTROLLER.currentMatchBalls < 3 && CONTROLLER.TutorialShowCount < 3 )
 		{
 			return true;
 		}

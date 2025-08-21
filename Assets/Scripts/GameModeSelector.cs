@@ -18,7 +18,6 @@ public class GameModeSelector : MonoBehaviour
 	public ModeInstructionLogoAssigner instuctionAssigner;
 	private Vector3 startPos, instructionsResetPos, controlsResetPos;
 	public GameObject players, instructions;
-	private int gameMode;
 	public static bool inTeamSelectionPage = false;
 	public static bool isNewGame;
 	public static bool resumeGame;
@@ -102,8 +101,11 @@ public class GameModeSelector : MonoBehaviour
 	}
 
 	public void ShowLandingPage(bool flag)
-	{
-		modeSelection.SetActive(flag);
+    {
+		if(flag)
+            CONTROLLER.selectedGameMode = GameMode.None;
+
+        modeSelection.SetActive(flag);
 		stopShineAnimation();
 
 		if (flag)
@@ -171,36 +173,11 @@ public class GameModeSelector : MonoBehaviour
         CONTROLLER.GameIsOnFocus = true;
         AudioPlayer.instance.PlayButtonSnd();
 		string dataStr;		
-		gameMode = index;
+		CONTROLLER.selectedGameMode = (GameMode)index;
         CONTROLLER.meFirstBatting = 1;
-        if (index == 1)
-		{
-			CONTROLLER.gameMode = "superover";
-			if (PlayerPrefs.HasKey("superoverteamlist"))
-			{
-				dataStr = PlayerPrefs.GetString("superoverteamlist");
-				XMLReader.ParseXML(dataStr);
-			}
-			else
-			{
-				XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
-				PlayerPrefsManager.SetTeamList();
-			}
-			if (!PlayerPrefs.HasKey("SuperOverDetail"))
-			{
-				ShowLandingPage(false);
-				modeInstruction.SetActive(true);
-				CONTROLLER.CurrentPage = "instructionpage";
-				ShowInstructionPage(1);
-				AudioPlayer.instance.PlayLandingPageIntoGameSFX(true);
-			}
-			else
-			{
-				displayMsg.SetActive(true);
-				CONTROLLER.CurrentPage = "dispMsg";
-			}
-		}
-		else if (index == 2)
+        CONTROLLER.totalWickets = 10;
+
+        if (index == 0)
 		{
 			CONTROLLER.gameMode = "slogover";
 			if (PlayerPrefs.HasKey("slogoverteamlist"))
@@ -228,96 +205,25 @@ public class GameModeSelector : MonoBehaviour
 				CONTROLLER.CurrentPage = "dispMsg";
 			}
 		}
-		else if (index == 3)
+		else if(index ==1 ) // Batting bowling mode with AI
 		{
-			CONTROLLER.gameMode = "chasetarget";
-			if (PlayerPrefs.HasKey("chasetargetteamlist"))
-			{
-				dataStr = PlayerPrefs.GetString("chasetargetteamlist");
-				XMLReader.ParseXML(dataStr);
-			}
-			else
-			{
-				XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
-				PlayerPrefsManager.SetTeamList();
-			}
-			if (!PlayerPrefs.HasKey("ChaseTargetDetail"))
-			{
-				//HideMe ();
-				ShowLandingPage(false);
-				modeInstruction.SetActive(true);
-				CONTROLLER.CurrentPage = "instructionpage";
-				ShowInstructionPage(3);
-				AudioPlayer.instance.PlayLandingPageIntoGameSFX(true);
-
-			}
-			else
-			{
-				displayMsg.SetActive(true);
-				CONTROLLER.CurrentPage = "dispMsg";
-			}
-		}
-		else if (index == 4)    //super multiplayer
+            CONTROLLER.gameMode = CONTROLLER.BATBOWLMODE;
+            CONTROLLER.meFirstBatting = (UnityEngine.Random.Range(0, 100) < 10) ? 0 : 1;
+            XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
+            PlayerPrefsManager.SetTeamList();
+            ShowLandingPage(false);
+            StartCoroutine(LoadGroundScene());
+        }
+		else if (index == 2 || index == 3 )    //2 - Batting multiplayer   3 - Bat bowl multiplayer
 		{
 			//StartCoroutine(MultiplayerPage.instance.checkTheStatus());
-
 			MultiplayerManager.Instance.MasterName = string.Empty;
 			LoadingScreen.instance.Show();
 			StartCoroutine(MultiplayerManager.Instance.EnablePhotonConnection());
 			Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
 		}
-		else if (index == 5)
-		{
-			CONTROLLER.gameMode = CONTROLLER.SUPER_Crusade_GameMode;
-
-			if (PlayerPrefs.HasKey(CONTROLLER.SUPER_Crusade_Teamlist))
-			{
-				dataStr = PlayerPrefs.GetString(CONTROLLER.SUPER_Crusade_Teamlist);
-				XMLReader.ParseXML(dataStr);
-			}
-			else
-			{
-				XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
-				PlayerPrefsManager.SetTeamList();
-			}
-
-			if (!PlayerPrefs.HasKey(CONTROLLER.SUPER_Crusade_SavedMatchDetails))
-			{
-				//HideMe ();
-				ShowLandingPage(false);
-				modeInstruction.SetActive(true);
-				CONTROLLER.CurrentPage = "instructionpage";
-				ShowInstructionPage(5);
-			}
-			else
-			{
-				displayMsg.SetActive(true);
-				CONTROLLER.CurrentPage = "dispMsg";
-			}
-		}
-		else if (index == 6)
-		{
-			CONTROLLER.gameMode = "supercards";
-			ShowLandingPage(false);
-			modeInstruction.SetActive(true);
-			CONTROLLER.CurrentPage = "instructionpage";
-			ShowInstructionPage(6);
-		}
-		else if (index == 7)  //bowling mode added new
-		{
-			CONTROLLER.gameMode = CONTROLLER.BATBOWLMODE;
-            CONTROLLER.meFirstBatting = (UnityEngine.Random.Range(0, 100) < 10) ? 0 : 1;
-            XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
-			PlayerPrefsManager.SetTeamList();
-			ShowLandingPage(false);
-			modeInstruction.SetActive(true);
-			CONTROLLER.CurrentPage = "instructionpage";
-			Continue();
-			resetScroll();
-		}
-        CONTROLLER.totalWickets = 10;
-    }
+		
+	}
 	public void showMatchmakingScreen()
 	{
         LoadingScreen.instance.Hide();
@@ -629,13 +535,13 @@ public class GameModeSelector : MonoBehaviour
             yield return new WaitForSecondsRealtime(1.0f);
             currCountdownValue--;
         }
-        if (MultiplayerManager.Instance.getPlayerCount() == 2)
+        if (MultiplayerManager.Instance.getPlayerCount() == 2 || MultiplayerManager.Instance.botsSpawned)
         {
             // //NWDebugLogger.PrintWithColor("############### 3333  PublicRoomTimer ######## currCountdownValue; " + currCountdownValue + " playercount: " + MultiplayerManager.instance.getPlayerCount());
 
             yield break;
         }
-        if (currCountdownValue <= 0 && MultiplayerManager.Instance.getPlayerCount() < 2)
+        if (currCountdownValue <= 0 && MultiplayerManager.Instance.getPlayerCount() < 2 && !MultiplayerManager.Instance.botsSpawned)
         {
             GoBackAfterEnteringRoom();
             //PopUp.Show(PopUpTypes.YES, hasCloseButton: false, message: "Sorry, no opponent found. Please try again.", yesString: "OK");
@@ -692,37 +598,49 @@ public class GameModeSelector : MonoBehaviour
         {
             StopCoroutine(timerCo);
         }
-        CONTROLLER.gameMode = "multiplayer";
-        if (PlayerPrefs.HasKey("multiplayerteamlist"))
-        {
-            string dataStr;
-            dataStr = PlayerPrefs.GetString("multiplayerteamlist");
-            XMLReader.ParseXML(dataStr);
-        }
-        else
-        {
-            XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
-            PlayerPrefsManager.SetTeamList();
-        }
 
-        CONTROLLER.PlayingTeam = new ArrayList();
-        for (int i = 0; i < CONTROLLER.TeamList.Length; i++)
-        {
-            for (int j = 0; j < CONTROLLER.TeamList[i].PlayerList.Length; j++)
-            {
-                if (CONTROLLER.TeamList[i].PlayerList[j].DefaultPlayer == "1")
-                {
-                    CONTROLLER.PlayingTeam.Add(j);
-                }
-            }
+		if (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
+		{
+			CONTROLLER.gameMode = "multiplayer";
+			if (PlayerPrefs.HasKey("multiplayerteamlist"))
+			{
+				string dataStr;
+				dataStr = PlayerPrefs.GetString("multiplayerteamlist");
+				XMLReader.ParseXML(dataStr);
+			}
+			else
+			{
+				XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
+				PlayerPrefsManager.SetTeamList();
+			}
+
+			CONTROLLER.PlayingTeam = new ArrayList();
+			for (int i = 0; i < CONTROLLER.TeamList.Length; i++)
+			{
+				for (int j = 0; j < CONTROLLER.TeamList[i].PlayerList.Length; j++)
+				{
+					if (CONTROLLER.TeamList[i].PlayerList[j].DefaultPlayer == "1")
+					{
+						CONTROLLER.PlayingTeam.Add(j);
+					}
+				}
+			}
+			PlayerPrefsManager.SetTeamList();
+
+			CONTROLLER.totalOvers = 1;
+			CONTROLLER.currentMatchWickets = 0;
+			CONTROLLER.totalWickets = 10;
+
+			Invoke("LoadSceneForMultiplayerMode", 2f);
+		}
+		else
+		{
+			CONTROLLER.gameMode = CONTROLLER.BATBOWLMODE;
+			XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
+			PlayerPrefsManager.SetTeamList();
+            CONTROLLER.meFirstBatting = MultiplayerManager.Instance.IsMasterClient() ? 0 : 1; //master bowling hardcode
+            Invoke("LoadSceneForMultiplayerMode", 2f);
         }
-        PlayerPrefsManager.SetTeamList();
-
-        CONTROLLER.totalOvers = 1;
-        CONTROLLER.currentMatchWickets = 0;
-        CONTROLLER.totalWickets = 10;
-
-        Invoke("LoadSceneForMultiplayerMode", 2f);
     }
 
     public bool IsUserOnline = false;
@@ -750,8 +668,16 @@ public class GameModeSelector : MonoBehaviour
       //  if (!PopUp.IsPopUpShowing() && MultiplayerMenus.instance.playingEleven.activeSelf)
         {
 			LoadingScreen.instance.Show();
-            MultiplayerManager.Instance.IsOpponentInOnline = false;
-            userOnlineCheckCoroutine = StartCoroutine(WaitTillUserIsOnline());
+			if (MultiplayerManager.Instance.botsSpawned)
+			{
+                IsUserOnline = true;
+                LoadScene();
+            }
+            else
+			{
+				MultiplayerManager.Instance.IsOpponentInOnline = false;
+				userOnlineCheckCoroutine = StartCoroutine(WaitTillUserIsOnline());
+			}
         }
     }
 
@@ -783,7 +709,7 @@ public class GameModeSelector : MonoBehaviour
 
 	public void LoadScene()
 	{
-		if (MatchMakingPanel.activeSelf && MultiplayerManager.Instance.getPlayerCount() == 2)
+		if (MatchMakingPanel.activeSelf && (MultiplayerManager.Instance.getPlayerCount() == 2 || MultiplayerManager.Instance.botsSpawned ))
 		{
 			LoadingScreen.instance.Show();
 

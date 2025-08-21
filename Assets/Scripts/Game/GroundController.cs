@@ -4892,7 +4892,7 @@ public class GroundController : MonoBehaviour
 		}
 		if (mouseDownD == true && canSwipeNow == true)
 		{
-			ninjaSlice.transform.position = mainCamera.ScreenToWorldPoint(new  Vector3 (Input.mousePosition.x,Input.mousePosition.y, 2));
+			//ninjaSlice.transform.position = mainCamera.ScreenToWorldPoint(new  Vector3 (Input.mousePosition.x,Input.mousePosition.y, 2));
 		}
 		// make the corresponding shot...
 		//if((leftArrowKeyDown == true || rightArrowKeyDown == true|| upArrowKeyDown == true || downArrowKeyDown == true || touchDeviceShotInput == true) && canMakeShot == true && batsmanTriggeredShot == false)
@@ -6804,6 +6804,10 @@ public class GroundController : MonoBehaviour
 				batsmanCanMoveLeftRight = true;
                 bowlingBy = "computer";
                 battingBy = "user";
+                if (GameModelScript != null)
+                {
+                    GameModelScript.EnableMovement(true);
+                }
                 bowler.GetComponent<Animation>().CrossFade("BowlerRunupEdit", 3);
                 bowler.GetComponent<Animation>()["BowlerRunupEdit"].speed = 1;
             }
@@ -6813,17 +6817,12 @@ public class GroundController : MonoBehaviour
                 bowlingBy = "user";
                 battingBy = "computer";
             }
-			//		bowlerIsWaiting = false;
-			Scoreboard.instance.ShowChallengeTitle ();
-			Scoreboard.instance.TargetToWin ();
+			//bowlerIsWaiting = false;
 			action = 2; //DebugLogger.PrintWithColor("Action 222222222222222222222 BOWLER WAITING");
 
             CameraFlashStart (15, 0.4f, stadiumRotationAngle); // 30, 0.2
 
-			if(GameModelScript != null)
-			{
-				GameModelScript.EnableMovement (true);
-			}
+			
 		}
 	}
 

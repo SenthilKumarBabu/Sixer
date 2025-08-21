@@ -1,5 +1,6 @@
 ﻿#define DEBUGLOGGER
 
+using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
@@ -15,14 +16,12 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
     [HideInInspector]
     public MultiplayerGroundUIHandler multiplayerGroundUiHandlerScript;
 
-    [HideInInspector]
-    public string MasterName = string.Empty;
-    [HideInInspector]
-    public int sceneIndex = -1;
+    [HideInInspector] public string MasterName = string.Empty;
+    [HideInInspector] public int sceneIndex = -1;
     private bool connectedToGameRoom = false;
     bool MatchType = false;
-    public bool bothPlayersInRoom = false;
-    public bool IsOpponentInOnline = false;
+    [HideInInspector] public bool bothPlayersInRoom = false;
+    [HideInInspector] public bool IsOpponentInOnline = false;
 
 
     void Awake()
@@ -51,13 +50,13 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
         {
             sceneIndex = 1;
         }
-        if (aScene.name == Scenes.Ground.ToString() && CONTROLLER.gameMode == "multiplayer")
+        if (aScene.name == Scenes.Ground.ToString() && (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer || CONTROLLER.selectedGameMode == GameMode.BatBowlMultiplayer))
         {
             sceneIndex = 2;
             Application.runInBackground = true;
             AdIntegrate.instance.SystemSleepSettings(0);
             BattingScoreCard.instance.HideMe();
-            if(multiplayerGroundUiHandlerScript==null)
+            if (multiplayerGroundUiHandlerScript == null)
                 multiplayerGroundUiHandlerScript = GameObject.FindFirstObjectByType<MultiplayerGroundUIHandler>();
 
             multiplayerGroundUiHandlerScript.WaitingPanel.SetActive(true);
@@ -162,7 +161,13 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
 
             try
             {
-                PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = CONTROLLER.CURRENT_MULTIPLAYER_VERSION;
+                if(CONTROLLER.selectedGameMode== GameMode.BattingMultiplayer)
+                    PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = CONTROLLER.CURRENT_MULTIPLAYER_VERSION+"_batonly";
+                else
+                    PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = CONTROLLER.CURRENT_MULTIPLAYER_VERSION + "_batbowl";
+
+                DebugLogger.PrintWithColor("CONTROLLER.selectedGameMode: " + CONTROLLER.selectedGameMode + " ::: " + PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion);
+
                 PhotonNetwork.ConnectUsingSettings();
                 PhotonNetwork.NickName = CONTROLLER.UserName;
                 yield break;
@@ -320,10 +325,7 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
         {
             connectedToGameRoom = true;
             PhotonNetwork.NickName = CONTROLLER.UserID;
-            if (CONTROLLER.MP_RoomType != 1)
-            {
-                LoadingScreen.instance.Hide();
-            }
+            LoadingScreen.instance.Hide();
             MatchType = false;
             if (!IsMasterClient())
             {
@@ -335,7 +337,13 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
             {
                 GameModeSelector._instance.showMatchmakingScreen();
                 ResetMyStatus();
-                SetBowlingParameters();
+
+                if(CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
+                {
+                    SetBowlingParameters();
+                }
+
+                StartCoroutine(CheckAndSpawnBots());
             }
             if (getPlayerCount() == 2)
             {
@@ -375,6 +383,13 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
 #if DEBUGLOGGER
         DebugLogger.PrintWithColor("OnPhoton OnPlayerEnteredRoom called ");
 #endif
+
+        if (botsSpawned)
+        {
+            Debug.Log("Bot already present, kicking late player...");
+            PhotonNetwork.CloseConnection(other);
+            return;
+        }
 
         if (sceneIndex == 1)
         {
@@ -865,7 +880,7 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
     }
 
     private int oppBallIndex = 0;
-    public int userBallIndex = 0;
+    [HideInInspector] public int userBallIndex = 0;
     [PunRPC]
     private void ReceiveScoreUpdate(int totalScore, string currentRunScored, int currentWicket)
     {
@@ -883,4 +898,29 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
         }
 
     }
+
+    #region BOT LOGIC
+    [SerializeField] private GameObject botPrefab;
+   [HideInInspector] public bool botsSpawned = false;
+    IEnumerator CheckAndSpawnBots()
+    {
+        yield return new WaitForSeconds(2f); // wait for others to join
+
+        if (PhotonNetwork.CurrentRoom.PlayerCount < 2 && PhotonNetwork.IsMasterClient && !botsSpawned)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+            GameObject bot = Instantiate(botPrefab, Vector3.zero, Quaternion.identity);
+            bot.GetComponent<BotController>().InitAsBot();
+            Debug.Log("Bot spawned!");
+            botsSpawned = true;
+            StopAllCoroutines();
+
+            bothPlayersInRoom = true;
+            GameModeSelector._instance.GetOpponentDetails("UserName", "UserID");
+
+            GameModeSelector._instance.StopPublicRoomTimer();
+        }
+    }
+    #endregion 
 }

@@ -18,6 +18,7 @@ public class CONTROLLER
     public static int meFirstBatting = 1;       //	0 --> NO, 1 --> YES.
 
 	public const string BATBOWLMODE = "BatBowlmode";
+    public static GameMode selectedGameMode;
 
 
     public static bool isUserSyncCalled = false;
@@ -408,4 +409,14 @@ public enum ShotStatus : byte
 	LATE = 6,
 	TOO_EARLY = 1,
 	TOO_LATE = 7
+}
+
+
+public enum GameMode
+{
+	None=-1,
+	OnlyBatting=0,
+	BatBowlWithAI=1,
+	BattingMultiplayer=2,
+	BatBowlMultiplayer=3
 }
