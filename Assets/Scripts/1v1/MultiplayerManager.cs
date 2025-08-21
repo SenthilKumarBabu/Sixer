@@ -23,7 +23,6 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
     [HideInInspector] public bool bothPlayersInRoom = false;
     [HideInInspector] public bool IsOpponentInOnline = false;
 
-
     void Awake()
     {
         SetInstance();
@@ -140,6 +139,11 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
             ExitGames.Client.Photon.Hashtable hash2 = new ExitGames.Client.Photon.Hashtable();
             hash2.Add(RoomVariables.clientScorePushStatus, 1);
             SetRoomCustomProperties(hash2);
+        }
+
+        if(botsSpawned && botController!=null && CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
+        {
+            botController.SendScoreForBattingMultiplayer();
         }
     }
 
@@ -323,6 +327,7 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
 
         if (sceneIndex == 1)
         {
+            DestroyBot();
             connectedToGameRoom = true;
             PhotonNetwork.NickName = CONTROLLER.UserID;
             LoadingScreen.instance.Hide();
@@ -343,7 +348,8 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
                     SetBowlingParameters();
                 }
 
-                StartCoroutine(CheckAndSpawnBots());
+                if(CONTROLLER.isBotNeeded)
+                    StartCoroutine(CheckAndSpawnBots());
             }
             if (getPlayerCount() == 2)
             {
@@ -882,7 +888,7 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
     private int oppBallIndex = 0;
     [HideInInspector] public int userBallIndex = 0;
     [PunRPC]
-    private void ReceiveScoreUpdate(int totalScore, string currentRunScored, int currentWicket)
+    public void ReceiveScoreUpdate(int totalScore, string currentRunScored, int currentWicket)
     {
        // Debug.Log($"[CLIENT] Received Score Update → Total: {totalScore}, Runs This Ball: {currentRunScored}, Wickets: {currentWicket}");
 
@@ -896,31 +902,77 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
         {
             multiplayerGroundUiHandlerScript.OppBallInfo[i].text = CONTROLLER.oppBallbyBallData[i];
         }
-
     }
 
     #region BOT LOGIC
-    [SerializeField] private GameObject botPrefab;
-   [HideInInspector] public bool botsSpawned = false;
+    [HideInInspector] public bool botsSpawned = false;
     IEnumerator CheckAndSpawnBots()
     {
-        yield return new WaitForSeconds(2f); // wait for others to join
+        yield return new WaitForSeconds(UnityEngine.Random.Range(2f,5f)); // wait for others to join
 
         if (PhotonNetwork.CurrentRoom.PlayerCount < 2 && PhotonNetwork.IsMasterClient && !botsSpawned)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
-            GameObject bot = Instantiate(botPrefab, Vector3.zero, Quaternion.identity);
-            bot.GetComponent<BotController>().InitAsBot();
-            Debug.Log("Bot spawned!");
+            
             botsSpawned = true;
             StopAllCoroutines();
 
             bothPlayersInRoom = true;
-            GameModeSelector._instance.GetOpponentDetails("UserName", "UserID");
 
+            //GameModeSelector._instance.GetOpponentDetails("BotUser", "BOT_001");
+            var bot = GetRandomBot();
+            GameModeSelector._instance.GetOpponentDetails(bot.botName, bot.botID);
+            
             GameModeSelector._instance.StopPublicRoomTimer();
         }
     }
+
+    [HideInInspector]public BotController botController;
+    public void SpawnBot()
+    {
+        if (botController == null)
+        {
+            Debug.Log("Bot spawned!");
+            GameObject botGO = new GameObject("BotPlayer");
+            botController = botGO.AddComponent<BotController>();
+            botController.InitAsBot();
+        }
+    }
+    public void DestroyBot()
+    {
+        if (botsSpawned)
+        {
+            GameObject bot = GameObject.Find("BotPlayer");
+            if (bot != null)
+            {
+                Destroy(bot);
+            }
+        }
+        botsSpawned = false;
+        botController = null;
+    }
+    public (string botName, string botID) GetRandomBot()
+    {
+        // Predefined bot list (more like real player names)
+        string[,] botProfiles = new string[,]
+        {
+        {"RaviKumar", "BOT001"},
+        {"ArjunSingh", "BOT002"},
+        {"KaranSharma", "BOT003"},
+        {"ManojPatel", "BOT004"},
+        {"SandeepReddy", "BOT005"},
+        {"VikramJoshi", "BOT006"},
+        {"AnilVerma", "BOT007"},
+        {"RajeshNair", "BOT008"},
+        {"PradeepYadav", "BOT009"},
+        {"SureshPillai", "BOT010"}
+        };
+
+        int index = UnityEngine.Random.Range(0, botProfiles.GetLength(0));
+        return (botProfiles[index, 0], botProfiles[index, 1]);
+    }
+
+
     #endregion 
 }

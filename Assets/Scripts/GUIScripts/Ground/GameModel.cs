@@ -517,7 +517,7 @@ public class GameModel : Singleton<GameModel>
         }
         else if (CONTROLLER.gameMode == "chasetarget")
 		{
-            
+         
             if (!PlayerPrefs.HasKey ("ChaseTargetDetail"))
 			{
 				BattingScoreCard.instance.HideMe ();
@@ -1114,7 +1114,7 @@ public class GameModel : Singleton<GameModel>
 			CONTROLLER.NonStrikerIndex = temp;
 		}
 
-        if (CONTROLLER.gameMode == "multiplayer")
+        if (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
         {
 			MultiplayerManager.Instance.multiplayerGroundUiHandlerScript.UpdateScoreCard();
             SendScoreToServer(CONTROLLER.currentMatchScores, CONTROLLER.userBallbyBallData[MultiplayerManager.Instance.userBallIndex], CONTROLLER.currentMatchWickets);
@@ -1133,7 +1133,7 @@ public class GameModel : Singleton<GameModel>
 
 	public void ScoreSyncedAndMoveToNextBall()
 	{
-		if (CONTROLLER.gameMode == "multiplayer" && MultiplayerManager.Instance.isConnectedWithPhoton())
+		if (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer && MultiplayerManager.Instance.isConnectedWithPhoton())
 		{
 			int _msi = MultiplayerManager.Instance.GetPhotonHashInt(RoomVariables.masterScorePushStatus, -1);
 			int _csi = MultiplayerManager.Instance.GetPhotonHashInt(RoomVariables.clientScorePushStatus, -1);
@@ -1142,18 +1142,27 @@ public class GameModel : Singleton<GameModel>
 			if (_msi == 1 && _csi == 1)
 			{
 				MultiplayerManager.Instance.ResetMyScorePushStatus();
-                if ( !CheckForInningsComplete())
-				{
-					BowlNextBall();
-				}
-				else
-				{
-					MultiplayerManager.Instance.multiplayerGroundUiHandlerScript.UpdateGameOverScreen();
-                }
-			}
-		}
+				BattingMultiplayerMoveToNextBall();
+            }
+
+            if (MultiplayerManager.Instance.botsSpawned)
+            {
+                Invoke("BattingMultiplayerMoveToNextBall", UnityEngine.Random.Range(1f, 1.5f));
+            }
+        }
 	}
 
+	void BattingMultiplayerMoveToNextBall()
+	{
+		if (!CheckForInningsComplete())
+		{
+			BowlNextBall();
+		}
+		else
+		{
+			MultiplayerManager.Instance.multiplayerGroundUiHandlerScript.UpdateGameOverScreen();
+		}
+	}
 
     public void PlayCommentarySound (string  SoundType )
 	{

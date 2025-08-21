@@ -100,10 +100,20 @@ public class GameModeSelector : MonoBehaviour
 
 	}
 
+	void resetVariables()
+	{
+		DebugLogger.PrintWithColor("Reset Variables Called:::: ");
+        CONTROLLER.selectedGameMode = GameMode.None;
+		if (MultiplayerManager.Instance != null)
+			MultiplayerManager.Instance.DestroyBot();
+    }
+
 	public void ShowLandingPage(bool flag)
     {
 		if(flag)
-            CONTROLLER.selectedGameMode = GameMode.None;
+		{
+			resetVariables();
+        }
 
         modeSelection.SetActive(flag);
 		stopShineAnimation();

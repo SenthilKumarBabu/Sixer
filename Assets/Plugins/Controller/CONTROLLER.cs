@@ -19,7 +19,7 @@ public class CONTROLLER
 
 	public const string BATBOWLMODE = "BatBowlmode";
     public static GameMode selectedGameMode;
-
+	public static bool isBotNeeded= true;
 
     public static bool isUserSyncCalled = false;
 	public static bool isAdminUser = false;

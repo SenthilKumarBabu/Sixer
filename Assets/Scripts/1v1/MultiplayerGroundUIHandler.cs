@@ -18,6 +18,7 @@ public class MultiplayerGroundUIHandler : MonoBehaviour
     {
         int _mss = MultiplayerManager.Instance.GetPhotonHashInt(RoomVariables.masterSyncStatus, -1);
         int _css = MultiplayerManager.Instance.GetPhotonHashInt(RoomVariables.clientSyncStatus, -1);
+
         if (_mss == 1 && _css == 1)
         {
             Invoke("ContinueToStartGame", 1);
@@ -26,10 +27,17 @@ public class MultiplayerGroundUIHandler : MonoBehaviour
         {
             WaitingPanel.SetActive(true);
         }
+
+        if (MultiplayerManager.Instance.botsSpawned)
+        {
+            MultiplayerManager.Instance.SpawnBot();
+            Invoke("ContinueToStartGame", UnityEngine.Random.Range(1f, 2.5f));
+        }
     }
 
     void ContinueToStartGame()
     {
+        CancelInvoke("ContinueToStartGame");
         WaitingPanel.SetActive(false);
         MultiplayerManager.Instance.CancelUpdateStatusRecheck();
         GameModel.instance.ShowIntroAnimation();
