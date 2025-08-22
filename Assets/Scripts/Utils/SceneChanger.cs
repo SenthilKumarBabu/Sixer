@@ -12,36 +12,32 @@ public class SceneChanger : MonoBehaviour
 	{
 		EditorApplication.OpenScene("Assets/Scenes/Preloader.unity");
 	}
+    [MenuItem("ChangeScene/Preloader/Save")]
+    public static void PreloaderSave()
+    {
+        EditorApplication.SaveScene();
+        EditorApplication.OpenScene("Assets/Scenes/Preloader.unity");
+    }
 
-	[MenuItem("ChangeScene/MainMenu/Normal")]
+    [MenuItem("ChangeScene/MainMenu/Normal")]
 	public static void MainMenu()
 	{
 		EditorApplication.OpenScene("Assets/Scenes/MainMenu.unity");
 	}
+    [MenuItem("ChangeScene/MainMenu/Save")]
+    public static void MainMenuSave()
+    {
+        EditorApplication.SaveScene();
+        EditorApplication.OpenScene("Assets/Scenes/MainMenu.unity");
+    }
+
 
 	[MenuItem("ChangeScene/Ground/Normal")]
 	public static void GroundNormal()
 	{
 		EditorApplication.OpenScene("Assets/Scenes/Ground.unity");
 	}
-	//[MenuItem("ChangeScene/Practice/Normal")]
-	//public static void PracticeNormal()
-	//{
-	//	EditorApplication.OpenScene("Assets/Scenes/PracticeMode.unity");
-	//}
-	[MenuItem("ChangeScene/Preloader/Save")]
-	public static void PreloaderSave()
-	{
-		EditorApplication.SaveScene();
-		EditorApplication.OpenScene("Assets/Scenes/Preloader.unity");
-	}
 
-	[MenuItem("ChangeScene/MainMenu/Save")]
-	public static void MainMenuSave()
-	{
-		EditorApplication.SaveScene();
-		EditorApplication.OpenScene("Assets/Scenes/MainMenu.unity");
-	}
 
 	[MenuItem("ChangeScene/Ground/Save")]
 	public static void GroundNormalSave()
@@ -49,12 +45,7 @@ public class SceneChanger : MonoBehaviour
 		EditorApplication.SaveScene();
 		EditorApplication.OpenScene("Assets/Scenes/Ground.unity");
 	}
-	//[MenuItem("ChangeScene/Practice/Save")]
-	//public static void PracticeNormalSave()
-	//{
-	//	EditorApplication.SaveScene();
-	//	EditorApplication.OpenScene("Assets/Scenes/PracticeMode.unity");
-	//}
+
 
 }
 #endif

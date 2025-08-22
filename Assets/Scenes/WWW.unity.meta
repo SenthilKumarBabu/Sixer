@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/WWW.unity.meta
 guid: a534df074ea88c143803070ab41c773c
+========
+guid: 47c9f94ad6c98564bad339e64482094b
+folderAsset: yes
+>>>>>>>> Gopi:Assets/Prefabs/Sixr.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

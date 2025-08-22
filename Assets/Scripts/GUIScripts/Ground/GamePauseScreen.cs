@@ -34,7 +34,7 @@ public class GamePauseScreen : Singleton<GamePauseScreen>
 
 	public void SetLoftState(bool flag)
 	{
-		loftButton.SetActive(flag);
+		//loftButton.SetActive(flag);
 	}
 	public void menuClicked(int index)
 	{

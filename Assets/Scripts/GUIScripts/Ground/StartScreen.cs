@@ -90,9 +90,6 @@ public class StartScreen : Singleton<StartScreen>
 		PreviewScreen.instance.Hide (false);//25march
 		Destroy(this.gameObject);
 		Resources.UnloadUnusedAssets ();
-
-		GroundController.instance.loftBtn.gameObject.SetActive (true );
-
 	}
 
 

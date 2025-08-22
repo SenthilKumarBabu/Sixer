@@ -38,8 +38,9 @@ public class BlurEffect : MonoBehaviour
 	static Material m_Material = null;
 	protected static Material material {
 		get {
-			if (m_Material == null) {
-				m_Material = new Material( blurMatString );
+			if (m_Material == null) 
+			{
+				//m_Material = new Material( blurMatString );
 				m_Material.hideFlags = HideFlags.HideAndDontSave;
 				m_Material.shader.hideFlags = HideFlags.HideAndDontSave;
 			}

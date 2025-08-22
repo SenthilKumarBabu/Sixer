@@ -5,17 +5,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using System .Linq ;
 using UnityEngine .UI;
+using CodeStage.AntiCheat.ObscuredTypes;
+
 
 public class GroundController : MonoBehaviour 
 {
-	public MoveBannerTexture moveBannerTextureScript;
+    const float batsmanSkill = 75;
+    const float bowlerSkill = 40;
 
-	private float shotAngle;
+
+	public MoveBannerTexture moveBannerTextureScript;
+    public InGroundDebugCanvas inGroundDebugScript;
+
+
+    private float shotAngle;
 	public static bool loft = false;
-	public Button loftBtn, loftBtn2;
-	public Image loftText, loftText2;
-	public Text loftDesc, loftDesc2;
-	public Sprite[] loftSprite;
+
 	// Constants...
 	private float DEG2RAD = Mathf.PI / 180;
 	private float RAD2DEG = 180 / Mathf.PI;
@@ -33,9 +38,10 @@ public class GroundController : MonoBehaviour
 	protected Rigidbody ballSkinRigidBody;
 	protected Renderer ballSkinRenderer;
 	protected Collider ballSphereCollider;
+    protected Transform batsmanTransform;
+    protected Transform runnerTransform;
 
-
-	private TrailRenderer ballTrail;
+    private TrailRenderer ballTrail;
 	private Transform ballTransform;
 	private GameObject ballRayCastReferenceGO;
 	private Transform ballRayCastReferenceGOTransform;
@@ -140,7 +146,9 @@ public class GroundController : MonoBehaviour
 	private GameObject RHBMinWideLimit ;
 	private GameObject LHBMaxWideLimit ;
 	private GameObject LHBMinWideLimit ;
-	public	string currentBatsmanHand = CONTROLLER.BatsmanHand;
+    public string RH = "right";
+    public string LH = "left";
+    public	string currentBatsmanHand = CONTROLLER.BatsmanHand;
 	//"right";
 
 	// accurate timing of ball
@@ -182,7 +190,7 @@ public class GroundController : MonoBehaviour
 	private GameObject hideBowlingInterfaceSpot ;
 	private bool  hideBowlingInterface = false;
 	private bool  userBowlerCanMoveBowlingSpot = false;
-	private Vector3 suggestedBowlingSpot  ;
+    private Vector3 suggestedBowlingSpot  ;
 	private bool  userBowlingSpotSelected = false;
 	private GameObject userBowlingMinLimit ;
 	private GameObject userBowlingMaxLimit ;
@@ -191,11 +199,14 @@ public class GroundController : MonoBehaviour
 	private GameObject fielder10Skin ;
 	private GameObject fielder10Ball ;
 	private GameObject bowlingSpotGO ;
-	private GameObject fielder10FastInit ;
+    private Transform bowlingSpotTransform;
+    private GameObject fielder10FastInit ;
 	private GameObject fielder10SpinInit ;
 	private BowlingSpot bowlingSpotScript  ;
 
-	private float ballSpotLength;
+    protected float bowlingSpotMovementSpeed = 3000;//2.0f;
+
+    private float ballSpotLength;
 
 	private float bowlerRunningSpeed  = 5;
 	private string  currentBowlerType ="fast";
@@ -263,14 +274,29 @@ public class GroundController : MonoBehaviour
 
 	// game-play variables
 	public int action;
+ //   public int action
+	//{
+	//	get
+	//	{
+	//		return _action;
+	//	}
+	//	set
+	//	{
+	//		DebugLogger.PrintWithColor("Action value: " + value);
+	//		action = value;
+	//	}
+	//}
 	// idle state...
 	private Camera mainCamera;
 	// pitch camera
 
 	private Vector3 mainCameraPitchPosition = new Vector3(-0.4f,  2f, 14.5f);//Vector3(0,  2, 15) //2013
-	private Vector3 mainCameraInitRotation =new  Vector3 (0f, 178f, 0f);//Vector3 (0, 180, 0) //2013
+	private Vector3 mainCameraBatterViewInitRotation =new  Vector3 (0f, 178f, 0f);//Vector3 (0, 180, 0) //2013
+    protected Vector3 mainCameraZoomInPosition = new Vector3(0, 10.5f, -53);
+    protected Vector3 mainCameraBolwerViewInitRotation = new Vector3(9, 0, 0);
 
-	private GameObject stump1  ;
+
+    private GameObject stump1  ;
 	private GameObject stump2 ;
 	private GameObject stump1Crease ;
 	private GameObject stump2Crease ;
@@ -515,7 +541,8 @@ public class GroundController : MonoBehaviour
 		fielder10FocusGObjToCollectTheBall.transform.position =new  Vector3 (0, 0, 0);
 		ballOriginGO = GameObject.Find("BallOrigin");
 		bowlingSpotGO = GameObject.Find("BowlingSpot");
-		bowlingSpotScript = bowlingSpotGO.GetComponent<BowlingSpot>();
+        bowlingSpotTransform = bowlingSpotGO.transform;
+        bowlingSpotScript = bowlingSpotGO.GetComponent<BowlingSpot>();
 		ballTimingOrigin = GameObject.Find("BallTimingOrigin");
 
 		ballTrail = ball.GetComponent<TrailRenderer>();
@@ -546,10 +573,11 @@ public class GroundController : MonoBehaviour
 		ballSpotAtCreaseLine = GameObject.Find("BallSpotAtCreaseLine");
 		ballSpotAtStump = GameObject.Find("BallSpotAtStump");
 
-		//		batsman = GameObject.Find("Batsman");
+        //		batsman = GameObject.Find("Batsman");
+        batsmanTransform = GameObject.Find("Batsman").transform.transform;
 
-		//batsmanSkin = GameObject.Find("Batsman/Armature/Bone");
-		batsmanUniform = GameObject.Find("Batsman/Body/Uniform");
+        //batsmanSkin = GameObject.Find("Batsman/Armature/Bone");
+        batsmanUniform = GameObject.Find("Batsman/Body/Uniform");
 
 
 		runner = GameObject.Find("Runner");//25march
@@ -771,27 +799,11 @@ public class GroundController : MonoBehaviour
 		InitCamera ();
 	}
 
-	public void Start ()
+	public void Start()
 	{
-		if (PlayerPrefs.HasKey("loft"))
-		{
-			if (PlayerPrefs.GetInt("loft") == 1)
-			{
-				loft = true;
-			}
-			else
-			{
-				loft = false;
-			}
-		}
-		else
-		{
-			loft = true;
-		}
-        //By default loft is off as per Jaysree
-        loft = false;
+		PlayerPrefs.SetInt("loft",1);
+        loft = true;
 
-        SetLoftImage();
 		if (CONTROLLER.gameMode != "superover")
 		{
 			if (CONTROLLER.BowlingEnd == "madrasclub")
@@ -818,8 +830,10 @@ public class GroundController : MonoBehaviour
 		}
 
 
-
-		Physics.IgnoreLayerCollision (11, 8 , true);
+#if UNITY_ANDROID
+        bowlingSpotMovementSpeed = 2000;
+#endif
+        Physics.IgnoreLayerCollision (11, 8 , true);
 		rightSideCamera.enabled = false;
 		leftSideCamera.enabled = false;
 		straightCamera.enabled = false;
@@ -835,7 +849,6 @@ public class GroundController : MonoBehaviour
 		stadiumCollider.enabled = false;
 		LoadingScreen.instance.Hide();
 
-		updateBatsmanTiming();
     }
 
     public void  ShowFielder10 (bool fielder10Status, bool ball10Status)
@@ -939,8 +952,8 @@ public class GroundController : MonoBehaviour
 		leftSideCamera.enabled = false;
 		straightCamera.enabled = false;
 		sideCameraSelected = false;
-		action = -2;
-		SetSwipeHighlightRenderState(false);
+		action = -2; //DebugLogger.PrintWithColor("Action -----------2222222222222 RESET ALL");
+        SetSwipeHighlightRenderState(false);
 
 		//StartCoroutine ("wait");
 		//		yield return new WaitForSeconds (0.1f);
@@ -965,21 +978,14 @@ public class GroundController : MonoBehaviour
 		BallPickTime = 0.0f;
 		prevMousePos = Vector2.zero;
 
-		loftBtn.gameObject.SetActive (true);
-		loftBtn2.gameObject.SetActive (true);
-		/*loftText2.color = Color.black;
-		loftText.color = Color.black;
-		loftBtn.image.sprite = loftSprite [1];
-		loftBtn2.image.sprite = loftSprite [1];
-		loft = true;
-		loftDesc.text = "Loft (On)";
-		loftDesc2.text = "Loft (On)";*/
 		isTimeToShowAd = true;
 		canSwipeNow = false;
 		ballProjectileAnglePerSecondFactor = 1.7f;
 
+		GameModelScript.BowlingControlsScript.HideMe();
+		GameModelScript.BattingControlsScript.HideMe();
 
-		if (GameModel.isGamePaused == false)
+        if (GameModel.isGamePaused == false)
 		{
 			AdIntegrate.instance.SetTimeScale(1f);
 		}
@@ -1247,17 +1253,19 @@ public class GroundController : MonoBehaviour
 		ShowFielder10 (false, false);
 
 		updateBattingTimingMeterNeedle = false;
+		GameModelScript.BattingControlsScript.battingTimingNeedle.transform.localPosition = new Vector3(-2000f, 50f, 0f);
+        updateBatsmanTiming();
 
-		if (playIntro == true)
+        if (playIntro == true)
 		{
-			action = -1;
-			mainCamera.enabled = false;
+			action = -1; //DebugLogger.PrintWithColor("Action -----------111111111111111111 RESET ALL ");
+            mainCamera.enabled = false;
 			InitCamera ();
 		}
 		else
 		{
-			action = -2;// Wait to select bowling speed and angle...
-			InitCamera ();
+			action = -2; //DebugLogger.PrintWithColor("Action ----------22222222222222222222222  RESET ALL");// Wait to select bowling speed and angle...
+            InitCamera ();
 			FielderExtraActions ();
 			/*if (CONTROLLER.canShowMainCamera == true)
 		{
@@ -1522,7 +1530,7 @@ public class GroundController : MonoBehaviour
 			//mainCameraInitRotation = new Vector3(0f, 182f, 0f);
 			//ManojAdded
 			mainCameraPitchPosition = new Vector3(0.0f, 2f, 14.5f);
-			mainCameraInitRotation = new Vector3(0f, 180f, 0f);
+			mainCameraBatterViewInitRotation = new Vector3(0f, 180f, 0f);
 			mainCamera.fieldOfView = 60;
 			//ManojAdded
 		}
@@ -1533,7 +1541,7 @@ public class GroundController : MonoBehaviour
 			//mainCameraInitRotation = new Vector3(0, 178, 0);
 			//ManojAdded
 			mainCameraPitchPosition = new Vector3(0.0f, 2f, 14.5f);
-			mainCameraInitRotation = new Vector3(0f, 180f, 0f);
+			mainCameraBatterViewInitRotation = new Vector3(0f, 180f, 0f);
 			mainCamera.fieldOfView = 60;
 			//ManojAdded
 		}	
@@ -1635,8 +1643,8 @@ public class GroundController : MonoBehaviour
 			SetStrikerPreIdle();
 		}
 		currentBallStartTime = Time.time;
-		action = 0;
-	}
+		action = 0; //DebugLogger.PrintWithColor("Action 00000000000000000000 START BOWLING");
+    }
 
 
 
@@ -3316,12 +3324,14 @@ public class GroundController : MonoBehaviour
 		}	
 		else if(bowlingBy == "user")
 		{
-			bowlingSpotGO.transform.position = new Vector3 (Random.Range (userBowlingMinLimit.transform.position.x, userBowlingMaxLimit.transform.position.x), bowlingSpotGO.transform.position.y, Random.Range (userBowlingMaxLimit.transform.position.z, userBowlingMinLimit.transform.position.z));
-			suggestedBowlingSpot = bowlingSpotGO.transform.position;
+            bowlingSpotTransform.position = new Vector3(Random.Range(userBowlingMinLimit.transform.position.x, userBowlingMaxLimit.transform.position.x), bowlingSpotTransform.position.y, Random.Range(userBowlingMaxLimit.transform.position.z, userBowlingMinLimit.transform.position.z - 4f));
+
+           // bowlingSpotGO.transform.position = new Vector3 (Random.Range (userBowlingMinLimit.transform.position.x, userBowlingMaxLimit.transform.position.x), bowlingSpotGO.transform.position.y, Random.Range (userBowlingMaxLimit.transform.position.z, userBowlingMinLimit.transform.position.z));
+			suggestedBowlingSpot = bowlingSpotTransform.position;
 		}
-		if (bowlingSpotGO.transform.position.z > 8.5)
+		if (bowlingSpotTransform.position.z > 8.5)
 		{
-			bowlingSpotGO.transform.position = new Vector3 (bowlingSpotGO.transform.position.x, bowlingSpotGO.transform.position.y, 8.5f);
+			bowlingSpotGO.transform.position = new Vector3 (bowlingSpotTransform.position.x, bowlingSpotTransform.position.y, 8.5f);
 		}
 		/*if (Application.isEditor == true)
 	{
@@ -3335,6 +3345,7 @@ public class GroundController : MonoBehaviour
 
 	public void UserChangingBowlingSpot ()
 	{
+		//DebugLogger.PrintWithColor("User changing bowling spot::::::: bowlingBy::: " + bowlingBy + "::: userBowlerCanMoveBowlingSpot::: " + userBowlerCanMoveBowlingSpot);
 		if(bowlingBy == "user" && userBowlerCanMoveBowlingSpot == true)
 		{
 			if(Input.GetKeyDown(KeyCode.UpArrow) == true){
@@ -3366,163 +3377,176 @@ public class GroundController : MonoBehaviour
 
 			if(Input.GetKeyDown(KeyCode.S) == true && userBowlingSpotSelected == false)
 			{
-				//userBowlingSpotSelected = true;
-				//userBowlerCanMoveBowlingSpot = false;
-				//bowlingSpotScript.FreezeBowlingSpot ();
-			}
-			else if(userBowlingSpotSelected == false)
-			{
-				float xSpeed = 2;
-				float zSpeed = 5;
-				/*Ultrabook*/
-				if (Input.GetMouseButton(0))
-				{
-					if(prevMousePos.x == 0 && prevMousePos.y == 0)
-					{
-						prevMousePos = Input.mousePosition;
-					}
-					float maxDeltaMousePosition = 20;
-					Vector2 mouseDeltaPosition = new Vector2 ((Input.mousePosition.x - prevMousePos.x), (Input.mousePosition.y - prevMousePos.y));
-					prevMousePos = Input.mousePosition;
+				userBowlingSpotSelected = true;
+				userBowlerCanMoveBowlingSpot = false;
+                FreezeBowlingSpot();
+            }
+            else if (userBowlingSpotSelected == false)
+            {
+                float xSpeed = 2;
+                float zSpeed = 5;
 
-					if(mouseDeltaPosition.x < 0) {
-						leftArrowKeyDown = true;
-						xSpeed = 12 * Mathf.Abs(mouseDeltaPosition.x) /maxDeltaMousePosition;
-					}
-					else {
-						leftArrowKeyDown = false;
-						xSpeed = 12;
-					}
-					if(mouseDeltaPosition.x > 0) {
-						rightArrowKeyDown = true;
-						xSpeed = 12 * Mathf.Abs(mouseDeltaPosition.x) /maxDeltaMousePosition;
-					}
-					else {
-						rightArrowKeyDown = false;
-						xSpeed = 12;
-					}
-					if(mouseDeltaPosition.y > 0) {
-						upArrowKeyDown = true;
-						zSpeed = 20 * Mathf.Abs(mouseDeltaPosition.y) /maxDeltaMousePosition;
-					}
-					else {
-						upArrowKeyDown = false;
-						zSpeed = 20;
-					}
-					if(mouseDeltaPosition.y < 0) {
-						downArrowKeyDown = true;
-						zSpeed = 20 * Mathf.Abs(mouseDeltaPosition.y) /maxDeltaMousePosition;
-					}
-					else {
-						downArrowKeyDown = false;
-						zSpeed = 20;
-					}
-				}
-				if(Input.GetMouseButtonUp(0))
-				{
-					leftArrowKeyDown = false;
-					rightArrowKeyDown = false;
-					upArrowKeyDown = false;
-					downArrowKeyDown = false;
-					prevMousePos = Vector2.zero;
-				}
-				/*Ultrabook*/
-				if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
-				{
-					float maxDeltaPosition = 25;
-					Vector2 touchDeltaPosition = Input.GetTouch (0).deltaPosition;
+                if ((CONTROLLER.TargetPlatform != "ios" && CONTROLLER.TargetPlatform != "android") || Application.isEditor == true)
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        if (prevMousePos.x == 0 && prevMousePos.y == 0)
+                        {
+                            prevMousePos = Input.mousePosition;
+                        }
+                        Vector2 mouseDeltaPosition = new Vector2((Input.mousePosition.x - prevMousePos.x) / Screen.width, (Input.mousePosition.y - prevMousePos.y) / Screen.height);
+                        prevMousePos = Input.mousePosition;
 
-					if(touchDeltaPosition.x < 0) {
-						leftArrowKeyDown = true;
-						xSpeed = 2 * Mathf.Abs(touchDeltaPosition.x) /maxDeltaPosition;
-					}
-					else {
-						leftArrowKeyDown = false;
-						xSpeed = 2;
-					}
-					if(touchDeltaPosition.x > 0) {
-						rightArrowKeyDown = true;
-						xSpeed = 2 * Mathf.Abs(touchDeltaPosition.x) /maxDeltaPosition;
-					}
-					else {
-						rightArrowKeyDown = false;
-						xSpeed = 2;
-					}
-					if(touchDeltaPosition.y > 0) {
-						upArrowKeyDown = true;
-						zSpeed = 5 * Mathf.Abs(touchDeltaPosition.y) /maxDeltaPosition;
-					}
-					else {
-						upArrowKeyDown = false;
-						zSpeed = 5;
-					}
-					if(touchDeltaPosition.y < 0) {
-						downArrowKeyDown = true;
-						zSpeed = 5 * Mathf.Abs(touchDeltaPosition.y) /maxDeltaPosition;
-					}
-					else {
-						downArrowKeyDown = false;
-						zSpeed = 5;
-					}
+                        bowlingSpotTransform.position += new Vector3(mouseDeltaPosition.x * bowlingSpotMovementSpeed * Time.deltaTime, 0, mouseDeltaPosition.y * bowlingSpotMovementSpeed * Time.deltaTime);
 
-				}
 
-				if(Application.isEditor == false)
-				{
-					#if UNITY_ANDROID || UNITY_IPHONE
-					if(Input.touchCount == 0)
-					{
-					leftArrowKeyDown = false;
-					rightArrowKeyDown = false;
-					upArrowKeyDown = false;
-					downArrowKeyDown = false;
-					}
-					#endif
-				}
+                        if (bowlingSpotTransform.position.x < userBowlingMinLimit.transform.position.x)
+                        {
+                            bowlingSpotTransform.position = new Vector3(userBowlingMinLimit.transform.position.x, bowlingSpotTransform.position.y, bowlingSpotTransform.position.z);
+                        }
+                        if (bowlingSpotTransform.position.x > userBowlingMaxLimit.transform.position.x)
+                        {
+                            bowlingSpotTransform.position = new Vector3(userBowlingMaxLimit.transform.position.x, bowlingSpotTransform.position.y, bowlingSpotTransform.position.z);
+                        }
+                        if (bowlingSpotTransform.position.z > userBowlingMinLimit.transform.position.z)
+                        {
+                            bowlingSpotTransform.position = new Vector3(bowlingSpotTransform.position.x, bowlingSpotTransform.position.y, userBowlingMinLimit.transform.position.z);
+                        }
+                        if (bowlingSpotTransform.position.z < userBowlingMaxLimit.transform.position.z)
+                        {
+                            bowlingSpotTransform.position = new Vector3(bowlingSpotTransform.position.x, bowlingSpotTransform.position.y, userBowlingMaxLimit.transform.position.z);
+                        }
+                    }
+                    if (Input.GetMouseButtonUp(0))
+                    {
+                        leftArrowKeyDown = false;
+                        rightArrowKeyDown = false;
+                        upArrowKeyDown = false;
+                        downArrowKeyDown = false;
+                        prevMousePos = Vector2.zero;
+                    }
+                }
+                else
+                {
+                    int touchIndex = 0;
 
-				if (leftArrowKeyDown == true) {
-					bowlingSpotGO.transform.position = new Vector3 (bowlingSpotGO.transform.position.x - xSpeed * Time.deltaTime, bowlingSpotGO.transform.position.y, bowlingSpotGO.transform.position.z);
-					if (bowlingSpotGO.transform.position.x < userBowlingMinLimit.transform.position.x) {
-						bowlingSpotGO.transform.position = new Vector3 (userBowlingMinLimit.transform.position.x, bowlingSpotGO.transform.position.y, bowlingSpotGO.transform.position.z);
-					}
-				}
-				if (rightArrowKeyDown == true) {
-					bowlingSpotGO.transform.position = new Vector3 (bowlingSpotGO.transform.position.x + xSpeed * Time.deltaTime, bowlingSpotGO.transform.position.y, bowlingSpotGO.transform.position.z);
+                    if (Input.touchCount == 1)
+                    {
+                        touchIndex = 0;
+                    }
+                    else if (Input.touchCount > 1)
+                    {
+                        touchIndex = 0;
+                    }
 
-					if (bowlingSpotGO.transform.position.x > userBowlingMaxLimit.transform.position.x) {
-						bowlingSpotGO.transform.position = new Vector3 (userBowlingMaxLimit.transform.position.x, bowlingSpotGO.transform.position.y, bowlingSpotGO.transform.position.z);					
-					}
-				}
-				if (upArrowKeyDown == true) {
-					bowlingSpotGO.transform.position = new Vector3 (bowlingSpotGO.transform.position.x, bowlingSpotGO.transform.position.y, bowlingSpotGO.transform.position.z + zSpeed * Time.deltaTime);
-					if (bowlingSpotGO.transform.position.z > userBowlingMinLimit.transform.position.z) {
-						bowlingSpotGO.transform.position = new Vector3 (bowlingSpotGO.transform.position.x, bowlingSpotGO.transform.position.y, userBowlingMinLimit.transform.position.z);
-					}
-				}
-				if (downArrowKeyDown == true) {
-					bowlingSpotGO.transform.position = new Vector3 (bowlingSpotGO.transform.position.x, bowlingSpotGO.transform.position.y, bowlingSpotGO.transform.position.z - zSpeed * Time.deltaTime);
+                    if (Input.touchCount > 0 && Input.GetTouch(touchIndex).phase == TouchPhase.Moved)
+                    {
+                        Vector2 touchDeltaPosition = Input.GetTouch(touchIndex).deltaPosition;
+                        bowlingSpotTransform.position += new Vector3((touchDeltaPosition.x / Screen.width) * bowlingSpotMovementSpeed * Time.deltaTime, 0, (touchDeltaPosition.y / Screen.height) * bowlingSpotMovementSpeed * Time.deltaTime);
+         
+                        if (bowlingSpotTransform.position.x < userBowlingMinLimit.transform.position.x)
+                        {
+                            bowlingSpotTransform.position = new Vector3(userBowlingMinLimit.transform.position.x, bowlingSpotTransform.position.y, bowlingSpotTransform.position.z);
+                        }
+                        else
+                        if (bowlingSpotTransform.position.x > userBowlingMaxLimit.transform.position.x)
+                        {
+                            bowlingSpotTransform.position = new Vector3(userBowlingMaxLimit.transform.position.x, bowlingSpotTransform.position.y, bowlingSpotTransform.position.z);
+                        }
+                        if (bowlingSpotTransform.position.z > userBowlingMinLimit.transform.position.z)
+                        {
+                            bowlingSpotTransform.position = new Vector3(bowlingSpotTransform.position.x, bowlingSpotTransform.position.y, userBowlingMinLimit.transform.position.z);
+                        }
+                        else
+                        if (bowlingSpotTransform.position.z < userBowlingMaxLimit.transform.position.z)
+                        {
+                            bowlingSpotTransform.position = new Vector3(bowlingSpotTransform.position.x, bowlingSpotTransform.position.y, userBowlingMaxLimit.transform.position.z);
+                        }
+                    }
 
-					if (bowlingSpotGO.transform.position.z < userBowlingMaxLimit.transform.position.z) {
-						bowlingSpotGO.transform.position = new Vector3 (bowlingSpotGO.transform.position.x, bowlingSpotGO.transform.position.y, userBowlingMaxLimit.transform.position.z);
-					}
-				}
+                    if (Application.isEditor == false)
+                    {
+#if UNITY_ANDROID || UNITY_IOS
+                        if (Input.touchCount == 0)
+                        {
+                            leftArrowKeyDown = false;
+                            rightArrowKeyDown = false;
+                            upArrowKeyDown = false;
+                            downArrowKeyDown = false;
+                        }
+#endif
+                    }
+                }
 
-				/*
-			if(leftArrowKeyDown == false && rightArrowKeyDown == false && upArrowKeyDown == false && downArrowKeyDown == false)
-			{
-				bowlingSpotGO.transform.position.x -= (bowlingSpotGO.transform.position.x - suggestedBowlingSpot.x) * (xSpeed * Time.deltaTime);
-				bowlingSpotGO.transform.position.z -= (bowlingSpotGO.transform.position.z - suggestedBowlingSpot.z) * (zSpeed * Time.deltaTime);
-			}
-			*/
-			}
-
-		}
+                if (leftArrowKeyDown == true)
+                {
+                    bowlingSpotTransform.position -= new Vector3(xSpeed * Time.deltaTime, 0, 0);
+                    if (bowlingSpotTransform.position.x < userBowlingMinLimit.transform.position.x)
+                    {
+                        bowlingSpotTransform.position = new Vector3(userBowlingMinLimit.transform.position.x, bowlingSpotTransform.position.y, bowlingSpotTransform.position.z);
+                    }
+                }
+                else
+                if (rightArrowKeyDown == true)
+                {
+                    bowlingSpotTransform.position += new Vector3(xSpeed * Time.deltaTime, 0, 0);
+                    if (bowlingSpotTransform.position.x > userBowlingMaxLimit.transform.position.x)
+                    {
+                        bowlingSpotTransform.position = new Vector3(userBowlingMaxLimit.transform.position.x, bowlingSpotTransform.position.y, bowlingSpotTransform.position.z);
+                    }
+                }
+                else
+                if (upArrowKeyDown == true)
+                {
+                    bowlingSpotTransform.position += new Vector3(0, 0, zSpeed * Time.deltaTime);
+                    if (bowlingSpotTransform.position.z > userBowlingMinLimit.transform.position.z)
+                    {
+                        bowlingSpotTransform.position = new Vector3(bowlingSpotTransform.position.x, bowlingSpotTransform.position.y, userBowlingMinLimit.transform.position.z);
+                    }
+                }
+                else
+                if (downArrowKeyDown == true)
+                {
+                    bowlingSpotTransform.position -= new Vector3(0, 0, zSpeed * Time.deltaTime);
+                    if (bowlingSpotTransform.position.z < userBowlingMaxLimit.transform.position.z)
+                    {
+                        bowlingSpotTransform.position = new Vector3(bowlingSpotTransform.position.x, bowlingSpotTransform.position.y, userBowlingMaxLimit.transform.position.z);
+                    }
+                }
+            }
+        }
 	}
 
+    private void FreezeBowlingSpot()
+    {
+        if (CONTROLLER.BattingTeamIndex == CONTROLLER.opponentTeamIndex)
+        {
+            GetNewAiFieldPlacementUpdate();
 
+            bool _bool = canAIMoveAndPlayTheShot();
+            if (_bool)
+            {
+                batsmanCanMoveLeftRight = true;
+            }
+            else
+            {
+                leftArrowKeyDown = false;
+                rightArrowKeyDown = false;
+            }
+        }
+    }
+	bool canAIMoveAndPlayTheShot()
+	{
+      return  Random.Range(0, 100) < 30 ? true : false;
+    }
+    private void GetNewAiFieldPlacementUpdate()
+    {
+        GetFieldersDistance();
+        AINeedBoundary = Random.Range(0,100)<30?true:false;
+        GetFieldersAngle();
+    }
 
-
-	public void FindBatsmanCanMakeShot ()
+    public void FindBatsmanCanMakeShot ()
 	{
 		if (ballTransform.position.z > shotActivationMinLimit.transform.position.z &&
 			ballTransform.position.z < shotActivationMaxLimit.transform.position.z &&
@@ -4661,7 +4685,7 @@ public class GroundController : MonoBehaviour
 			float maxFric;
 			if (BattingTimingMeterDisplayText == ShotStatus.PERFECT)
 			{
-					maxFric = 3f;
+				maxFric = 3f;
 			}
 			else if (BattingTimingMeterDisplayText == ShotStatus.EARLY_NICETRY)
 				maxFric = 2.2f;
@@ -4810,57 +4834,6 @@ public class GroundController : MonoBehaviour
 		}
 		/*Ultrabook*/
 	}
-
-	public void SetLoft()
-	{
-		AudioPlayer.instance.PlayButtonSnd();
-		if (loft == false) {
-			loftText.color = Color.black;
-			loftBtn.image.sprite = loftSprite [1];
-			loftText2.color = Color.black;
-			loftBtn2.image.sprite = loftSprite [1];
-			loft = true;
-            PlayerPrefs.SetInt("loft", 1);
-			loftDesc.text = "Loft (On)";
-			loftDesc2.text = "Loft (On)";
-		} else {
-			loftText.color = Color.white;
-			loftBtn.image.sprite = loftSprite [0];
-			loftText2.color = Color.white;
-			loftBtn2.image.sprite = loftSprite [0];
-			loft = false;
-            PlayerPrefs.SetInt("loft", 0);
-            loftDesc.text = "Loft (Off)";
-			loftDesc2.text = "Loft (Off)";
-		}
-	}
-
-    public void SetLoftImage()
-    {
-        if (loft == true)
-        {
-            loftText.color = Color.black;
-            loftBtn.image.sprite = loftSprite[1];
-            loftText2.color = Color.black;
-            loftBtn2.image.sprite = loftSprite[1];
-            loft = true;
-            PlayerPrefs.SetInt("loft", 1);
-            loftDesc.text = "Loft (On)";
-            loftDesc2.text = "Loft (On)";
-        }
-        else
-        {
-            loftText.color = Color.white;
-            loftBtn.image.sprite = loftSprite[0];
-            loftText2.color = Color.white;
-            loftBtn2.image.sprite = loftSprite[0];
-            loft = false;
-            PlayerPrefs.SetInt("loft", 0);
-			loftDesc.text = "Loft (Off)";
-			loftDesc2.text = "Loft (Off)";
-		}
-	}
-	
 	
 
 	public void GetBattingInput ()
@@ -4919,7 +4892,7 @@ public class GroundController : MonoBehaviour
 		}
 		if (mouseDownD == true && canSwipeNow == true)
 		{
-			ninjaSlice.transform.position = mainCamera.ScreenToWorldPoint(new  Vector3 (Input.mousePosition.x,Input.mousePosition.y, 2));
+			//ninjaSlice.transform.position = mainCamera.ScreenToWorldPoint(new  Vector3 (Input.mousePosition.x,Input.mousePosition.y, 2));
 		}
 		// make the corresponding shot...
 		//if((leftArrowKeyDown == true || rightArrowKeyDown == true|| upArrowKeyDown == true || downArrowKeyDown == true || touchDeviceShotInput == true) && canMakeShot == true && batsmanTriggeredShot == false)
@@ -5316,15 +5289,16 @@ public class GroundController : MonoBehaviour
 		bool maySlip = false;
 		bool UltraCatch = false;
 
-		if (shotPlayed == "CoverDrive2" || shotPlayed == "CoverSlog" || shotPlayed == "LoftedCoverDrive" || shotPlayed == "OffDrive" || shotPlayed == "OffDrive3" || shotPlayed == "BackFootDrive" || shotPlayed == "LoftedOffDrive" || shotPlayed == "StraightDrive" || shotPlayed == "LoftedStraightDrive" || shotPlayed == "StraightSlog" || shotPlayed == "BackFootStraightDrive" || shotPlayed == "BackfootPush")//nija Batsman
-		{
-			maySlip = true;
-		}
-		if (shotPlayed == "CoverDrive2" || shotPlayed == "OffDrive" || shotPlayed == "OffDrive3" || shotPlayed == "BackFootDrive" || shotPlayed == "StraightDrive" || shotPlayed == "LoftedStraightDrive" || shotPlayed == "BackFootPush")//nija Batsman BackFootPush //|| shotPlayed == "BackFootStraightDrive"
-		{
-			maySlip = true;
-			UltraCatch = true;
-		}
+		//if (shotPlayed == "CoverDrive2" || shotPlayed == "CoverSlog" || shotPlayed == "LoftedCoverDrive" || shotPlayed == "OffDrive" || shotPlayed == "OffDrive3" || shotPlayed == "BackFootDrive" || shotPlayed == "LoftedOffDrive" || shotPlayed == "StraightDrive" || shotPlayed == "LoftedStraightDrive" || shotPlayed == "StraightSlog" || shotPlayed == "BackFootStraightDrive" || shotPlayed == "BackfootPush")//nija Batsman
+		//{
+		//	maySlip = true;
+		//}
+		//if (shotPlayed == "CoverDrive2" || shotPlayed == "OffDrive" || shotPlayed == "OffDrive3" || shotPlayed == "BackFootDrive" || shotPlayed == "StraightDrive" || shotPlayed == "LoftedStraightDrive" || shotPlayed == "BackFootPush")//nija Batsman BackFootPush //|| shotPlayed == "BackFootStraightDrive"
+		//{
+		//	maySlip = true;
+		//	UltraCatch = true;
+		//}
+
 		// slip catch / keeper catch percentage... It will happen more in 5 overs match & less in 50 overs matchs; 5% chance in 50 Overs match, 30% chance in 2 Overs match
 		float slipCatchChances = 30 - (CONTROLLER.Overs[CONTROLLER.oversSelectedIndex] / 2);
 		if (slipCatchChances < 5.0f)
@@ -5405,7 +5379,6 @@ public class GroundController : MonoBehaviour
 			}
 			// Manoj set random keeperCatch
 		}
-
 
 		if (shotPlayed == "DownTheTrackDefensiveShot" || shotPlayed == "FrontFootDefense" || shotPlayed == "BackFootDefense")
 		{
@@ -5772,7 +5745,7 @@ public class GroundController : MonoBehaviour
 		ballProjectileAnglePerSecond = 82.7023f;
 		ballProjectileHeight = 7.180584f;
 */
-        Debug.LogError($"[Ball Debug] Horizontal Speed: {horizontalSpeed}, " + $"Angle: {ballProjectileAngle}, Height: {ballProjectileHeight}, " + $"First Bounce Distance: {ballTimingFirstBounceDistance}, " + $"Angle Per Second: {ballProjectileAnglePerSecond}");
+        Debug.LogError($"[Ball Debug] Horizontal Speed: {horizontalSpeed}, " + $"Angle: {ballProjectileAngle}, Height: {ballProjectileHeight}, " + $"First Bounce Distance: {ballTimingFirstBounceDistance}, " + $"Angle Per Second: {ballProjectileAnglePerSecond} " + $"First Bounce Distance: {ballTimingFirstBounceDistance}"+ $"shotPlayed: {shotPlayed}");
 
         nextPitchDistance = ballTimingFirstBounceDistance;
 
@@ -5857,6 +5830,7 @@ public class GroundController : MonoBehaviour
 		batsmanCanMoveLeftRight = false;
 		SetStrikerFocusTapping();
 
+		//DebugLogger.PrintWithColor("Freeze the bowling spot called::::: " + userBowlingSpotSelected);
 		if (userBowlingSpotSelected == false) // if user bowling and spot selection is not made...
 		{
 			userBowlerCanMoveBowlingSpot = false;
@@ -5901,17 +5875,10 @@ public class GroundController : MonoBehaviour
 
 		if (battingBy == "computer")
 		{
-			//GetComputerBattingKeyInput ();
+			GetComputerBattingKeyInput ();
 		}
-		/*if(CONTROLLER.BattingTeamIndex == CONTROLLER.myTeamIndex)
-	{
-		action = 3;
-	}
-	else
-	{
-		action = 3;
-	}*/
-		action = 3; 
+
+		action = 3; // DebugLogger.PrintWithColor("Action 333333333333333333333333333 RELEASE THE BALL");
 		if(noBall == true)
 		{
 			if(currentBowlerType == "fast")
@@ -5931,9 +5898,773 @@ public class GroundController : MonoBehaviour
 		if(CONTROLLER.gameMode!="multiplayer")
 			Scoreboard.instance.HideButtonsWhenShotMade();
 	}
+    void GetComputerBattingKeyInput()
+    {
+        float distanceBtwBatsmanAndBall = 0.0f;
+        if (currentBatsmanHand == RH) // right batsman
+        {
+            distanceBtwBatsmanAndBall = (batsmanTransform.position.x - batsmanInitXPos) - ballSpotAtCreaseLine.transform.position.x;
+        }
+        else if (currentBatsmanHand == LH)// left batsman
+        {
+            distanceBtwBatsmanAndBall = (batsmanInitXPos - batsmanTransform.position.x) + ballSpotAtCreaseLine.transform.position.x;
+        }
+        float randomPercentage = Random.Range(0.0f, 100.0f);
+        int ballLeft = CONTROLLER.Overs[CONTROLLER.oversSelectedIndex] * 6 - CONTROLLER.currentMatchBalls;
+        if (randomPercentage >= 30 && randomPercentage <= 50 && batsmanSkill < 40.0f && ballLeft > 12 && distanceBtwBatsmanAndBall > -0.3f)
+        {
+            batRadius = 0.25f;
+        }
 
+        StartCoroutine(getTheAiBattingInputs()); //This coroutine will find battingTimingMeter, savedbattingTimingMeter, selectedSegmentNo & swipeAngle
+    }
+    private int SetBallTimingValue = -1;
+    bool BatsmanAngleFixed = false;
+    bool aiBatsmanGoAndAttemptTheShotNew = false;
+    float selectedAnglew = 0f;
+    private int tryCountAI = 0;
+    private int tryCountAI2 = 0;
+    private bool AINeedBoundary = false;
+    private IEnumerator getTheAiBattingInputs()
+    {
+        BatsmanAngleFixed = false;
+        aiBatsmanGoAndAttemptTheShotNew = false;
+        SetBallTimingValue = -1;
+        tryCountAI = 0;
+        tryCountAI2 = 0;
+        CheckTheBowlingSpotIsIdleForTheAngle();
+        yield return new WaitUntil(() => BatsmanAngleFixed);
+        bool aiPowerShot = AINeedBoundary;
+        float swipeAngle = selectedAnglew;
+        battingTimingMeter = GetAiBallTimingNew();
+        int selectedSegmentNo = GetGroundSegment(swipeAngle);
+        aiBatsmanGoAndAttemptTheShotNew = true;
+        CallBackFromShotSelection(selectedSegmentNo, swipeAngle, aiPowerShot);
+    }
+    private int GetGroundSegment(float angleVar)
+    {
+        int tempSegment = 1;
 
-	public void  ZoomCameraToPitch ()
+        if (angleVar < 36)
+        {
+            tempSegment = 8;
+        }
+        else if (angleVar < 72)
+        {
+            tempSegment = 7;
+        }
+        else if (angleVar < 108)
+        {
+            tempSegment = 6;
+        }
+        else if (angleVar < 144)
+        {
+            tempSegment = 5;
+        }
+        else if (angleVar < 180)
+        {
+            tempSegment = 4;
+        }
+        else if (angleVar < 216)
+        {
+            tempSegment = 3;
+        }
+        else if (angleVar < 252)
+        {
+            tempSegment = 2;
+        }
+        else if (angleVar < 288)
+        {
+            tempSegment = 1;
+        }
+        else if (angleVar < 324)
+        {
+            tempSegment = 10;
+        }
+        else
+        {
+            tempSegment = 9;
+        }
+        //Debug.Log("GetGroundSegment:" + tempSegment);
+        return tempSegment;
+    }
+    public GameObject MiddleStickRef;
+    private bool AIGoForSix = false;
+    public bool AiLoftCatch = false;
+    private int IsForQuickSingle = 0;// 0 = false, 1 = true, -1 = Should not run to take run after hitting
+
+    private float GetAiBallTimingNew()
+    {
+        float timing = Random.Range(15, 30);
+        if (AINeedBoundary)
+        {
+            if (AIGoForSix)
+            {
+                timing = Random.Range(-2, 2);
+                GetShotStatus = ShotStatus.PERFECT;
+            }
+            else if (SetBallTimingValue == 3)
+            {
+                timing = Random.Range(60, 70);
+                GetShotStatus = ShotStatus.TOO_LATE;
+            }
+            else
+            {
+                timing = Random.Range(6, 10);
+                GetShotStatus = ShotStatus.GOOD;
+            }
+
+            if (AiLoftCatch)
+            {
+                timing = Random.Range(10, 20);
+                GetShotStatus = ShotStatus.GOOD;
+            }
+
+        }
+        else
+        {
+            if (IsForQuickSingle == 1 || SetBallTimingValue == 1)
+            {
+                timing = Random.Range(20, 30);
+                GetShotStatus = ShotStatus.TOO_LATE;
+            }
+            else if (SetBallTimingValue == 3)
+            {
+                timing = Random.Range(7, 15);
+                GetShotStatus = ShotStatus.LATE;
+            }
+            else if (SetBallTimingValue == 2)
+            {
+                timing = Random.Range(15, 20);
+                GetShotStatus = ShotStatus.GOOD;
+            }
+        }
+        return timing;
+    }
+    protected ShotStatus GetShotStatus;
+
+    private void CheckTheBowlingSpotIsIdleForTheAngle()
+    {
+        float angle= ReturnAngleForAIShot();
+        selectedAnglew = angle;
+        BatsmanAngleFixed = true;
+    }
+    private int ReturnAngleForAIShot()
+    {
+        float randomPercentage = UnityEngine.Random.Range(0.0f, 100.0f);
+        int ballLeft = CONTROLLER.Overs[CONTROLLER.oversSelectedIndex] * 6 - CONTROLLER.currentMatchBalls;
+        float distanceBtwBatsmanAndBall = 0.0f;
+        int randomShot = 0;
+        int selectedAngle = 0;
+        bool aiPowerShot = UnityEngine.Random.Range(0,100)<30?true:false;
+        if (currentBatsmanHand == "right") // right batsman
+        {
+            distanceBtwBatsmanAndBall = (batsmanTransform.position.x - batsmanInitXPos) - ballSpotAtCreaseLine.transform.position.x;
+        }
+        else if (currentBatsmanHand == "left")// left batsman
+        {
+            distanceBtwBatsmanAndBall = (batsmanInitXPos - batsmanTransform.position.x) + ballSpotAtCreaseLine.transform.position.x;
+        }
+
+        //KSMN Debug.Log("distanceBtwBatsmanAndBall-->" + distanceBtwBatsmanAndBall);
+        string ballLength;
+        if (ballSpotHeight < 0.3f)
+        {
+            ballLength = "Yorker";
+        }
+        else if (ballSpotHeight < 0.7f)
+        {
+            ballLength = "FullPitch";
+        }
+        else if (ballSpotHeight < 1.0f)
+        {
+            ballLength = "GoodLength";
+        }
+        else if (ballSpotHeight < 1.6f)
+        {
+            ballLength = "ShortPitch";
+        }
+        else
+        {
+            ballLength = "Bouncer";
+        }
+        //AI Improve
+        if (currentBowlerType == "spin" && ballSpotHeight > 1.0f)
+        {
+            ballLength = "GoodLength";
+        }
+
+        if (distanceBtwBatsmanAndBall > 0.0f && distanceBtwBatsmanAndBall < 0.45f)
+        {
+            if (ballLength == "Yorker" || ballLength == "FullPitch" || ballLength == "GoodLength")
+            {
+                randomShot = UnityEngine.Random.Range(0, 100);
+                if (currentBatsmanHand == "right")
+                {
+                    if (randomShot < 25.0f )
+                    {
+                        selectedAngle = 1;
+                    }
+                    else if (randomShot < 50 )
+                    {
+                        selectedAngle = 10;
+                    }
+                    else if (randomShot < 75 )
+                    {
+                        selectedAngle = 8;
+                    }
+                    else
+                    {
+                        selectedAngle = 7;
+                    }
+                }
+                else
+                {
+                    if (randomShot < 25.0f )
+                    {
+                        selectedAngle = 1;
+                    }
+                    else if (randomShot < 50 )
+                    {
+                        selectedAngle = 2;
+                    }
+                    else if (randomShot < 75 )
+                    {
+                        selectedAngle = 4;
+                    }
+                    else
+                    {
+                        selectedAngle = 5;
+                    }
+                }
+            }
+            else if (ballLength == "ShortPitch" || ballLength == "Bouncer")
+            {
+                randomShot = UnityEngine.Random.Range(0, 75);
+                if (currentBatsmanHand == "right")
+                {
+                    if (randomShot < 25.0f)
+                    {
+                        selectedAngle = 4;
+                    }
+                    else if (randomShot < 50)
+                    {
+                        selectedAngle = 8;
+                    }
+                    else if (randomShot < 75)
+                    {
+                        selectedAngle = 9;
+                    }
+                }
+                else
+                {
+                    if (randomShot < 25.0f)
+                    {
+                        selectedAngle = 8;
+                    }
+                    else if (randomShot < 50)
+                    {
+                        selectedAngle = 3;
+                    }
+                    else if (randomShot < 75)
+                    {
+                        selectedAngle = 4;
+                    }
+                }
+            }
+        }
+        else if (distanceBtwBatsmanAndBall >= 0.45f && distanceBtwBatsmanAndBall < 0.8f)
+        {
+            randomShot = UnityEngine.Random.Range(0, 100);
+            if (ballLength == "Yorker" || ballLength == "FullPitch" || ballLength == "GoodLength")
+            {
+                randomShot = UnityEngine.Random.Range(0, 150);
+                if (currentBatsmanHand == "right")
+                {
+                    selectedAngle = UnityEngine.Random.Range(3, 5);
+                    if (ballLength == "FullPitch" && distanceBtwBatsmanAndBall <= 0.4f && aiPowerShot == true && randomShot < 40)
+                    {
+                        selectedAngle = 10;
+                    }
+                    else if (ballLength == "FullPitch" && distanceBtwBatsmanAndBall <= 0.5f && aiPowerShot == true && randomShot < 80)
+                    {
+                        selectedAngle = 9;
+                    }
+                    else if (distanceBtwBatsmanAndBall > 0.5f && randomShot < 110)
+                    {
+                        if (UnityEngine.Random.Range(0.0f, 10.0f) > 5.0f)
+                        {
+                            selectedAngle = 3;
+                        }
+                        else
+                        {
+                            selectedAngle = 4;
+                        }
+                    }
+                    else if (ballLength == "GoodLength" && distanceBtwBatsmanAndBall <= 0.5f && randomShot < 140)
+                    {
+                        if (UnityEngine.Random.Range(0.0f, 10.0f) > 5.0f)
+                        {
+                            selectedAngle = 7;
+                        }
+                        else
+                        {
+                            selectedAngle = 8;
+                        }
+                    }
+                    else if (ballLength == "GoodLength" && distanceBtwBatsmanAndBall > 0.5f && randomShot < 150)
+                    {
+                        selectedAngle = 5;
+                    }
+                }
+                else
+                {
+                    selectedAngle = UnityEngine.Random.Range(8, 10);
+                    if (ballLength == "FullPitch" && distanceBtwBatsmanAndBall <= 0.4f && aiPowerShot == true && randomShot < 40)
+                    {
+                        selectedAngle = 2;
+                    }
+                    else if (ballLength == "FullPitch" && distanceBtwBatsmanAndBall <= 0.5f && aiPowerShot == true && randomShot < 80)
+                    {
+                        selectedAngle = 3;
+                    }
+                    else if (distanceBtwBatsmanAndBall > 0.5f && randomShot < 110)
+                    {
+                        if (UnityEngine.Random.Range(0.0f, 10.0f) > 5.0f)
+                        {
+                            selectedAngle = 9;
+                        }
+                        else
+                        {
+                            selectedAngle = 8;
+                        }
+                    }
+                    else if (ballLength == "GoodLength" && distanceBtwBatsmanAndBall <= 0.5f && randomShot < 140)
+                    {
+                        if (UnityEngine.Random.Range(0.0f, 10.0f) > 5.0f)
+                        {
+                            selectedAngle = 5;
+                        }
+                        else
+                        {
+                            selectedAngle = 4;
+                        }
+                    }
+                    else if (ballLength == "GoodLength" && distanceBtwBatsmanAndBall > 0.5f && randomShot < 150)
+                    {
+                        selectedAngle = 7;
+                    }
+                }
+            }
+            else if (ballLength == "ShortPitch" || ballLength == "Bouncer")
+            {
+                if (currentBatsmanHand == "right")
+                {
+                    if (randomShot > 33)
+                    {
+                        selectedAngle = 4;
+                    }
+                    else if (randomShot > 66)
+                    {
+                        selectedAngle = 8;
+                    }
+                    else
+                    {
+                        selectedAngle = 9;
+                    }
+                }
+                else
+                {
+                    if (randomShot > 33)
+                    {
+                        selectedAngle = 4;
+                    }
+                    else if (randomShot > 66)
+                    {
+                        selectedAngle = 3;
+                    }
+                    else
+                    {
+                        selectedAngle = 8;
+                    }
+                }
+            }
+            else
+            {
+                if (currentBatsmanHand == "right")
+                {
+                    if (randomShot > 33)
+                    {
+                        selectedAngle = 3;
+                    }
+                    else if (randomShot > 66)
+                    {
+                        selectedAngle = 4;
+                    }
+                    else
+                    {
+                        selectedAngle = 5;
+                    }
+                }
+                else
+                {
+                    if (randomShot > 33)
+                    {
+                        selectedAngle = 7;
+                    }
+                    else if (randomShot > 66)
+                    {
+                        selectedAngle = 8;
+                    }
+                    else
+                    {
+                        selectedAngle = 9;
+                    }
+                }
+            }
+        }
+        /*BackFootDrive, CoverSlog, LoftedCoverDrive, LoftedOffDrive, LoftedSquareCut, SquarePush, SquareSlog*/
+        // current implementation...
+        else if (distanceBtwBatsmanAndBall >= 0.8f && distanceBtwBatsmanAndBall <= 1.2f)
+        {
+            if (currentBatsmanHand == "right")
+            {
+                //possibleArea = new int[3]{3, 4, 9};
+                randomShot = UnityEngine.Random.Range(0, 100);
+                if (randomShot < 33)
+                {
+                    if (ballLength != "Yorker")
+                    {
+                        selectedAngle = 3;
+                    }
+                    else if (aiPowerShot == false)
+                    {
+                        selectedAngle = 5;
+                    }
+                }
+                else if (randomShot < 66)
+                {
+                    selectedAngle = 4;
+                }
+                else
+                {
+                    selectedAngle = 9;
+                }
+            }
+            else
+            {
+                //possibleArea = new int[3]{3, 8, 9};
+                randomShot = UnityEngine.Random.Range(0, 100);
+                if (randomShot < 33)
+                {
+                    if (ballLength != "Yorker")
+                    {
+                        selectedAngle = 9;
+                    }
+                    else if (aiPowerShot == false)
+                    {
+                        selectedAngle = 7;
+                    }
+                }
+                else if (randomShot < 66)
+                {
+                    selectedAngle = 8;
+                }
+                else
+                {
+                    selectedAngle = 3;
+                }
+            }
+        }
+        else if (distanceBtwBatsmanAndBall <= 0.0f && distanceBtwBatsmanAndBall > -0.4f)
+        {
+            randomShot = UnityEngine.Random.Range(0, 100);
+            if (ballLength == "Yorker" || ballLength == "FullPitch" || ballLength == "GoodLength")
+            {
+                if (currentBatsmanHand == "right")
+                {
+                    if (randomShot < 33)
+                    {
+                        selectedAngle = 7;
+                    }
+                    else if (randomShot < 67)
+                    {
+                        selectedAngle = 9;
+                    }
+                    else
+                    {
+                        selectedAngle = 8;
+                    }
+                }
+                else
+                {
+                    if (randomShot < 33)
+                    {
+                        selectedAngle = 5;
+                    }
+                    else if (randomShot < 67)
+                    {
+                        selectedAngle = 3;
+                    }
+                    else
+                    {
+                        selectedAngle = 4;
+                    }
+                }
+            }
+            else // ShortPitch || Bouncer
+            {
+                if (currentBatsmanHand == "right")
+                {
+                    if (randomShot < 33 && ballLength == "Bouncer")
+                    {
+                        selectedAngle = 5;
+                    }
+                    else if (randomShot < 67)
+                    {
+                        selectedAngle = 7;
+                    }
+                    else
+                    {
+                        selectedAngle = 8;
+                    }
+                }
+                else
+                {
+                    if (randomShot < 33 && ballLength == "Bouncer")
+                    {
+                        selectedAngle = 7;
+                    }
+                    else if (randomShot < 67)
+                    {
+                        selectedAngle = 5;
+                    }
+                    else
+                    {
+                        selectedAngle = 4;
+                    }
+                }
+            }
+            //aimoveandplay
+            //aimoveandplay
+        }
+        else if ((ballLength == "Yorker" || ballLength == "FullPitch") && distanceBtwBatsmanAndBall <= -0.4f && distanceBtwBatsmanAndBall >= -0.8f)
+        {
+            randomShot = UnityEngine.Random.Range(0, 90);//aimoveandplay
+            if (currentBatsmanHand == "right")
+            {
+                //possibleArea = new int[5]{5, 7, 8, 9, 10};
+                if (currentBowlerType == "spin" || currentBowlerType == "medium")
+                {
+                    if (randomShot < 33)
+                    {
+                        selectedAngle = 5;
+                    }
+                    if (randomShot < 66)
+                    {
+                        selectedAngle = 7;
+                    }
+                    else
+                    {
+                        selectedAngle = 9;
+                    }
+                }
+                else
+                {
+                    // fast
+                    if (randomShot < 33)
+                    {
+                        selectedAngle = 7;
+                    }
+                    if (randomShot < 66)
+                    {
+                        selectedAngle = 8;
+                    }
+                    else
+                    {
+                        selectedAngle = 9;
+                    }
+                }
+            }
+            else
+            {
+                // left
+                //possibleArea = new int[4]{3, 4, 5, 7};
+                if (currentBowlerType == "spin" || currentBowlerType == "medium")
+                {
+                    if (randomShot < 33)
+                    {
+                        selectedAngle = 7;
+                    }
+                    if (randomShot < 66)
+                    {
+                        selectedAngle = 5;
+                    }
+                    else
+                    {
+                        selectedAngle = 3;
+                    }
+                }
+                else
+                {
+                    // fast
+                    if (randomShot < 33)
+                    {
+                        selectedAngle = 5;
+                    }
+                    if (randomShot < 66)
+                    {
+                        selectedAngle = 4;
+                    }
+                    else
+                    {
+                        selectedAngle = 3;
+                    }
+                }
+            }
+        }
+        else if ((ballLength == "GoodLength" || ballLength == "ShortPitch") && distanceBtwBatsmanAndBall <= -0.4f && distanceBtwBatsmanAndBall >= -0.65f)
+        {
+            randomShot = UnityEngine.Random.Range(0, 90);//aimoveandplay
+            if (currentBatsmanHand == "right")
+            {
+                //possibleArea = new int[4]{5, 7, 8, 9};
+                if (randomShot < 33)
+                {
+                    selectedAngle = 9;
+                }
+                else if (randomShot < 66)
+                {
+                    selectedAngle = 7;
+                }
+                else
+                {
+                    selectedAngle = 8;
+                }
+            }
+            else
+            {
+                //possibleArea = new int[3]{3, 4, 5};
+                if (randomShot < 33)
+                {
+                    selectedAngle = 3;
+                }
+                else if (randomShot < 66)
+                {
+                    selectedAngle = 5;
+                }
+                else
+                {
+                    selectedAngle = 4;
+                }
+            }
+        }
+        // if climax part of the match... if wide delivery, AI batsman should attempt for shot & run...
+        else if (distanceBtwBatsmanAndBall > 1.2f && ballLeft <= 3)
+        {
+            randomShot = UnityEngine.Random.Range(0, 50);//aimoveandplay
+            if (currentBatsmanHand == "right")
+            {
+                //possibleArea = new int[2]{4, 3};
+                if (randomShot < 25)//aimoveandplay
+                {
+                    selectedAngle = 4;
+                }
+                else
+                {
+                    selectedAngle = 3;
+                }
+            }
+            else
+            {
+                //possibleArea = new int[2]{3, 9};
+                if (randomShot < 25)//aimoveandplay
+                {
+                    selectedAngle = 3;
+                }
+                else
+                {
+                    selectedAngle = 9;
+                }
+            }
+        }
+
+        return selectedAngle;
+    }
+
+    private void CallBackFromShotSelection(int segmentNo, float swipeAngle, bool aiPowerShot)
+    {
+        ShotSelected(aiPowerShot, segmentNo, swipeAngle);
+    }
+    public void ShotSelected(bool isPower, int segmentNo, float swipeAngle)
+    {
+        updateBattingTimingMeterNeedle = false;
+        // ChangeShotIndicatorAlpha(1);
+        Shotangle = swipeAngle; // batsmanSkill to be applied...
+
+        float placementAngle = 0;
+        if (!loft) placementAngle = Mathf.Clamp(placementAngle, -10f, 10f);
+
+        Shotangle = swipeAngle; /*+ Random.Range(placementAngle, -placementAngle);*/
+
+        powerKeyDown = isPower;
+        touchDeviceShotInput = true;
+
+        leftArrowKeyDown = false;
+        downArrowKeyDown = false;
+        upArrowKeyDown = false;
+        rightArrowKeyDown = false;
+
+        shotSelectedSide = 0;
+
+        if (segmentNo == 1)
+        {
+            shotSelectedSide = 1;
+        }
+        else if (segmentNo == 2)
+        {
+            shotSelectedSide = 2;
+        }
+        else if (segmentNo == 3)
+        {
+            shotSelectedSide = 3;
+        }
+        else if (segmentNo == 4)
+        {
+            shotSelectedSide = 4;
+        }
+        else if (segmentNo == 5)
+        {
+            shotSelectedSide = 5;
+        }
+        else if (segmentNo == 6)
+        {
+            shotSelectedSide = -1;//defensemode
+            IsForQuickSingle = -1; //-1 = Should not run to take run after hitting
+        }
+        else if (segmentNo == 7)
+        {
+            shotSelectedSide = -5;
+        }
+        else if (segmentNo == 8)
+        {
+            shotSelectedSide = -4;
+        }
+        else if (segmentNo == 9)
+        {
+            shotSelectedSide = -3;
+        }
+        else if (segmentNo == 10)
+        {
+            shotSelectedSide = -2;
+        }
+        if (currentBatsmanHand == LH && segmentNo != 1 && segmentNo != 6)
+        {
+            shotSelectedSide = -(shotSelectedSide);
+        }
+
+    }
+    public void  ZoomCameraToPitch ()
 	{
 		//strikerScript._playAnimation("Idle4");
 		//runnerScript._playAnimation("Idle4");
@@ -5972,10 +6703,11 @@ public class GroundController : MonoBehaviour
 		canMakeShot = false;
 		bowlerIsWaiting = true;
 		currentBallStartTime = Time.time;
-		action = 0;  // Debug.Log ("ZoomCameraToBowlerOnComplete"); 
-	} 
+		//action = 0; 
+        GameModelScript.ShowBowlingInterface(true);
+    }
 
-	public void ZoomCameraToBatsman ()
+    public void ZoomCameraToBatsman ()
 	{
 		//var mainCameraZoomToBatsmanPosition : Vector3 = mainCameraZoomInPosition;
 		//mainCameraZoomToBatsmanPosition.z += 2;
@@ -5993,8 +6725,38 @@ public class GroundController : MonoBehaviour
 
 	public void InitCamera ()
 	{
-		mainCamera.transform.position = mainCameraPitchPosition;
-		mainCamera.transform.eulerAngles = mainCameraInitRotation;
+		//DebugLogger.PrintWithColor("Init camera calleddd  :: CONTROLLER.BattingTeamIndex:: "+ CONTROLLER.BattingTeamIndex + "::: CONTROLLER.myTeamIndex::: " + CONTROLLER.myTeamIndex);
+		if (CONTROLLER.BattingTeamIndex == CONTROLLER.myTeamIndex)
+		{
+			mainCamera.transform.position = mainCameraPitchPosition;
+			mainCamera.transform.eulerAngles = mainCameraBatterViewInitRotation;
+			mainCamera.fieldOfView = 60;
+		}
+		else
+		{
+			if (currentBowlerType == "fast")
+			{
+				mainCamera.transform.localPosition = new Vector3(0, 8f, -58);
+				mainCameraZoomInPosition = new Vector3(0, 5f, -38);
+				mainCameraBolwerViewInitRotation = new Vector3(10.5f, 0, 0);
+				mainCamera.fieldOfView = 13;
+			}
+			else if (currentBowlerType == "medium")
+			{
+				mainCamera.transform.localPosition = new Vector3(0, 8f, -50);
+				mainCameraZoomInPosition = new Vector3(0, 5f, -38);
+				mainCameraBolwerViewInitRotation = new Vector3(11, 0, 0);
+				mainCamera.fieldOfView = 13;
+			}
+			else if (currentBowlerType == "spin")
+			{
+				mainCamera.transform.localPosition = new Vector3(0, 8f, -46);
+				mainCameraZoomInPosition = new Vector3(0, 5f, -38);
+				mainCameraBolwerViewInitRotation = new Vector3(11, 0, 0);
+				mainCamera.fieldOfView = 13;
+			}
+			mainCamera.transform.localEulerAngles = mainCameraBolwerViewInitRotation;
+		}
 	}
 
 
@@ -6014,8 +6776,8 @@ public class GroundController : MonoBehaviour
 			{
 				/*wicketKeeper.GetComponent<Animation>()*/wicketKeeperAnimationComponent.Play("getReadyForSpin");
 			}
-			action = 1; 	
-		}
+			action = 1; //DebugLogger.PrintWithColor("Action 1111111111111 BATSMAN WAITING");
+        }
 	}
 
 
@@ -6024,40 +6786,55 @@ public class GroundController : MonoBehaviour
 		bowlerIsWaiting = false;
 	}
 
-	public  IEnumerator DisableLoft() {
-		if(CONTROLLER .gameMode !="multiplayer")
-			yield return new WaitForSeconds (3f);
-		else
-			yield return new WaitForSeconds (4f);
-		loftBtn.gameObject.SetActive (false);
-		loftBtn2.gameObject.SetActive (false);
-	}
-
 	public void BowlerWaiting ()
-	{			
-		if(Time.time > currentBallStartTime + bowlerWaitSeconds && bowler != null)
+	{
+         bowlerWaitSeconds = 2f;
+
+        if (battingBy == "user" )
+        {
+            bowlerWaitSeconds += 1f;   
+        }
+
+        if (Time.time > currentBallStartTime + bowlerWaitSeconds && bowler != null)
 		{			
-			StartCoroutine (DisableLoft ());
 			SetSwipeHighlightRenderState(false);
-			bowler.GetComponent<Animation>().CrossFade ("BowlerRunupEdit", 3);
-			bowler.GetComponent<Animation>()["BowlerRunupEdit"].speed = 1;
-
 			FindNewBowlingSpot ();
-			batsmanCanMoveLeftRight = true;
-			userBowlerCanMoveBowlingSpot = true;
-			//		bowlerIsWaiting = false;
-			Scoreboard.instance.ShowChallengeTitle ();
-			Scoreboard.instance.TargetToWin ();
-			action = 2;	
-
-			CameraFlashStart (15, 0.4f, stadiumRotationAngle); // 30, 0.2
-
-			if(GameModelScript != null)
+			if(CONTROLLER.myTeamIndex== CONTROLLER.BattingTeamIndex)
 			{
-				GameModelScript.EnableMovement (true);
-			}
+				batsmanCanMoveLeftRight = true;
+                bowlingBy = "computer";
+                battingBy = "user";
+                if (GameModelScript != null)
+                {
+                    GameModelScript.EnableMovement(true);
+                }
+                bowler.GetComponent<Animation>().CrossFade("BowlerRunupEdit", 3);
+                bowler.GetComponent<Animation>()["BowlerRunupEdit"].speed = 1;
+            }
+			else
+			{
+				userBowlerCanMoveBowlingSpot = true;
+                bowlingBy = "user";
+                battingBy = "computer";
+            }
+			//bowlerIsWaiting = false;
+			action = 2; //DebugLogger.PrintWithColor("Action 222222222222222222222 BOWLER WAITING");
+
+            CameraFlashStart (15, 0.4f, stadiumRotationAngle); // 30, 0.2
+
+			
 		}
 	}
+
+	public void PlayBowlerBowlingAnimFromBowlingInterface()
+	{
+        userBowlingSpotSelected = true;
+        userBowlerCanMoveBowlingSpot = false;
+        FreezeBowlingSpot();
+
+        bowler.GetComponent<Animation>().CrossFade("BowlerRunupEdit", 3);
+        bowler.GetComponent<Animation>()["BowlerRunupEdit"].speed = 1;
+    }
 
 	IEnumerator _wait(float time)
 	{
@@ -6884,7 +7661,8 @@ public class GroundController : MonoBehaviour
 
 		GetInputs ();
 
-		
+        inGroundDebugScript.ActionVariable.text=action.ToString ();
+
 		switch (action)
 		{ 
 		case -2:
@@ -6908,7 +7686,7 @@ public class GroundController : MonoBehaviour
 
 		case 2: // Bowler runup to bowl the ball
 			UserChangingBowlingSpot ();
-			UpdateShadowsAndPreview ();
+                UpdateShadowsAndPreview();
 			break;
 
 		case 3: // Bowler post bowling actions and ball movement towards the striker batsman...
@@ -7054,8 +7832,8 @@ public class GroundController : MonoBehaviour
 		GetFieldersAngle ();
 		GetFieldersDistance ();
 		SetActiveFielders ();
-		action = 4;		
-	}
+		action = 4; DebugLogger.PrintWithColor("Action 4444444444444444444444 CONTINUE PLAYING GAME");
+    }
 
 	public void RotateBowledReplayCamera ()
 	{
@@ -7120,7 +7898,7 @@ public class GroundController : MonoBehaviour
 				GetFieldersAngle ();
 				GetFieldersDistance ();
 				SetActiveFielders ();
-				action = 4;  
+				action = 4; //DebugLogger.PrintWithColor("Action 444444444444444444444444444444  CUSTOM TRIGGER ENTER");
 
                 if (shotPlayed != "DownTheTrackDefensiveShot" && shotPlayed != "FrontFootDefense" && shotPlayed != "BackFootDefense")
                 {
@@ -7325,8 +8103,8 @@ public class GroundController : MonoBehaviour
 			wicketKeeperAnimationComponent["appealFast"].speed = 1;
 			stump1.GetComponent<Animation>()[stumpAnim].speed = 1;
 			ShowBall (true);
-			action = 3;  
-		}
+			action = 3; DebugLogger.PrintWithColor("Action 333333333333333333333333333 PLAY ULTRA MOTION");
+        }
 	}
 
 	public void StumpAnimation (GameObject stump, float contactPoint)
@@ -7434,10 +8212,15 @@ For Current Bowler Style					-	CONTROLLER.BowlerHand
 
 For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 */
-		battingBy = "user";//batting; 					// user || computer
-		bowlingBy = "computer";//bowling; 					// user || computer
+		//battingBy = "user";//batting; 					// user || computer
+		//bowlingBy = "computer";//bowling; 					// user || computer
 
-		currentBatsmanHand = CONTROLLER.BatsmanHand;
+		//DebugLogger.PrintWithColor(" Bowl next ball::: batting: " + batting + "::: bowling::: " + bowling);
+        battingBy = batting;
+        bowlingBy = bowling;
+
+
+            currentBatsmanHand = CONTROLLER.BatsmanHand;
 		//currentBowlerHand = CONTROLLER.BowlerHand;	
 
 		fieldRestriction = CONTROLLER.PowerPlay;
@@ -7491,8 +8274,7 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 			}
 		}
 
-
-		StartBowling ();
+        StartBowling();
 		/*if(bowlingBy == "computer" && ballToFineLeg == true && (currentBallNoOfRuns == 6 || currentBallNoOfRuns == 4))
 	{
 		if(fieldRestriction == true) {
@@ -10445,22 +11227,36 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 		return batSize;
 	}
 
-	// This variable (battingTimingMeter) will define the horizontalSpeed & ballFirstPitchDistance (if powerShot == true)
-	private bool ismissTimed = false;
+    // This variable (battingTimingMeter) will define the horizontalSpeed & ballFirstPitchDistance (if powerShot == true)
+
+
+    private bool ismissTimed = false;
 	private float missTimedBattingMeter = 0;
 	private float battingTimingMeter;
 	private bool updateBattingTimingMeterNeedle = false;
-	private float btmPerfectValue = 6f;
-	private int gudTimingValue = 12;	//15
-	float batsmanSkill = 85;
-	float batsmanTimingSkill = 45;
-	float bowlerSkill = 40;
+	private float btmPerfectValue =10f;
+	private int gudTimingValue = 15;	//15
+
 	private bool edgeCatch = false;
 	private bool isBallTouchedTheRope = false;
 	private ShotStatus BattingTimingMeterDisplayText;
-	void UpdateBattingTimingMeter()
+    void updateBatsmanTiming()
+    {
+        float incrementVal = 1f / 100f; // 0.01
+        float scaleX = batsmanSkill * incrementVal;
+		GameModelScript.BattingControlsScript.BattingMeterFiller.transform.localScale = new Vector3(scaleX, 1f, 1f);
+
+        float perf = (scaleX * 10f) / 0.5f;
+
+        // Ensure minimum threshold
+        perf = Mathf.Max(perf, 2.5f);
+
+        // Assign final int value
+        btmPerfectValue = Mathf.CeilToInt(perf);
+    }
+    void UpdateBattingTimingMeter()
 	{
-		if (updateBattingTimingMeterNeedle == true)
+        if (updateBattingTimingMeterNeedle == true)
 		{
 			battingTimingMeter = ballTransform.position.z / 5.0f * 100; //8.8 
 			if (battingTimingMeter < -100.0f)
@@ -10471,31 +11267,30 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 			{
 				battingTimingMeter = 100.0f;
 			}
-			//battingTimingNeedle.transform.localPosition = new Vector3(battingTimingMeter, -40, 0);
+            GameModelScript.BattingControlsScript.battingTimingNeedle.transform.localPosition = new Vector3(battingTimingMeter, 25, 0);
 			//AI Improve
 			ismissTimed = false;
 			missTimedBattingMeter = (Mathf.Abs(battingTimingMeter));
 
-			int randval = 8;
-			if (CONTROLLER.PowerPlay)
-			{
-				randval = 6;
-			}
+			int randval = 18;
 
 			//hardcode
 			/*#if UNITY_EDITOR
                         battingTimingMeter = btmPerfectValue;     //Hardcode
             #endif*/
+
+
 			bool isPower = loft;
+
 			if (Mathf.Abs(battingTimingMeter) <= btmPerfectValue)
 			{
-				//battingTimingNeedleText.text = "[FFFFFF]PERFECT[-]";
+				GameModelScript.BattingControlsScript.battingTimingNeedleText.text = "PERFECT";
 				BattingTimingMeterDisplayText = ShotStatus.PERFECT;
 				ismissTimed = false;
 			}
 			else if (battingTimingMeter < -65)
 			{
-				///battingTimingNeedleText.text = "[FFFFFF]TOO EARLY[-]";
+				GameModelScript.BattingControlsScript.battingTimingNeedleText.text = "TOO EARLY";
 				BattingTimingMeterDisplayText = ShotStatus.TOO_EARLY;
 
 				if (Random.Range(0, 10) > randval && battingBy == "user" && isPower)
@@ -10506,7 +11301,7 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 			}
 			else if (battingTimingMeter < -30)
 			{
-				//battingTimingNeedleText.text = "[FFFFFF]EARLY[-]";
+				GameModelScript.BattingControlsScript.battingTimingNeedleText.text = "EARLY";
 				BattingTimingMeterDisplayText = ShotStatus.EARLY;
 
 				if (Random.Range(0, 10) > randval && battingBy == "user" && isPower)
@@ -10517,7 +11312,7 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 			}
 			else if (battingTimingMeter < -btmPerfectValue)
 			{
-				//battingTimingNeedleText.text = "[FFFFFF]EARLY - NICE TRY[-]";
+				GameModelScript.BattingControlsScript.battingTimingNeedleText.text = "GOOD";
 				BattingTimingMeterDisplayText = ShotStatus.EARLY_NICETRY;
 
 				if (Random.Range(0, 10) > randval && battingBy == "user" && isPower)
@@ -10528,7 +11323,7 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 			}
 			else if (battingTimingMeter > 65)
 			{
-				//battingTimingNeedleText.text = "[FFFFFF]TOO LATE[-]";
+				GameModelScript.BattingControlsScript.battingTimingNeedleText.text = "TOO LATE";
 				BattingTimingMeterDisplayText = ShotStatus.TOO_LATE;
 
 				if (Random.Range(0, 10) > randval && battingBy == "user" && isPower )
@@ -10539,7 +11334,7 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 			}
 			else if (battingTimingMeter > 30)
 			{
-				//battingTimingNeedleText.text = "[FFFFFF]LATE[-]";
+				GameModelScript.BattingControlsScript.battingTimingNeedleText.text = "LATE";
 				BattingTimingMeterDisplayText = ShotStatus.LATE;
 
 				if (Random.Range(0, 10) > randval && battingBy == "user" && isPower )
@@ -10550,7 +11345,7 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 			}
 			else
 			{
-				//battingTimingNeedleText.text = "[FFFFFF]GOOD[-]";
+				GameModelScript.BattingControlsScript.battingTimingNeedleText.text = "GOOD";
 				BattingTimingMeterDisplayText = ShotStatus.GOOD;
 
 				ismissTimed = false;
@@ -10603,39 +11398,19 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 
 	private void SetSwipeHighlightRenderState(bool flag)
 	{
-		if(swipeHighlightRenderer!=null)
+		flag = false; 
+
+        if (swipeHighlightRenderer!=null)
 			swipeHighlightRenderer.enabled = flag;
 	}
 
-	void  updateBatsmanTiming( )
-	{
-		float incrementVal = 0.007f;
-		/*if (CONTROLLER.difficultyMode == DifficultyMode.hard || CONTROLLER.difficultyMode == DifficultyMode.expert)
-		{
-			incrementVal = 0.0032f;
-		}
-		else if (CONTROLLER.difficultyMode == DifficultyMode.medium)
-		{
-			incrementVal = 0.0032f;
-		}
-		else
-		{
-			incrementVal = 0.0040f;
-		}*/
-		float val = batsmanTimingSkill;
-		val = (val * incrementVal);
-		//timingFiller.transform.localScale = new Vector3(val, 1f, 1);
-		float perf = ((val * 10) / 0.5f);//0.7
-		if (perf < 2.5f)
-		{
-			perf = 2.5f;
-		}
-		float myVal = (Mathf.Ceil(perf));
-		btmPerfectValue = (int)myVal;
-	}
-	#endregion
 
-	public void ResetAll_BatMP()
+
+
+
+    #endregion
+
+    public void ResetAll_BatMP()
 	{
 		action = -2;
 		canApplyFriction = true;
@@ -10679,8 +11454,6 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 		BallPickTime = 0.0f;
 		prevMousePos = Vector2.zero;
 
-		loftBtn.gameObject.SetActive(true);
-		loftBtn2.gameObject.SetActive(true);
 		isTimeToShowAd = true;
 		canSwipeNow = false;
 		ballProjectileAnglePerSecondFactor = 1.7f;

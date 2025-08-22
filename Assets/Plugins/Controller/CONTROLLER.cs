@@ -15,6 +15,12 @@ public class CONTROLLER
 	public static string[] userBallbyBallData = new string[6];
 	public static string[] oppBallbyBallData = new string[6];
 
+    public static int meFirstBatting = 1;       //	0 --> NO, 1 --> YES.
+
+	public const string BATBOWLMODE = "BatBowlmode";
+    public static GameMode selectedGameMode;
+	public static bool isBotNeeded= true;
+
     public static bool isUserSyncCalled = false;
 	public static bool isAdminUser = false;
 
@@ -86,7 +92,7 @@ public class CONTROLLER
 	public static TeamInfo [] TeamList;
 	public static string bowlerType = "fast";//fast,spin
 	public static string[] ballUpdate = new string[6];
-	public static string difficultyMode = "medium"; // easy, medium, hard
+	public static string difficultyMode = "easy"; // easy, medium, hard
 	public static int [] Overs = new int[6];
 	public static int totalWickets = 10;
 	public static int totalOvers;
@@ -110,7 +116,10 @@ public class CONTROLLER
 	public static int BowlingTeamIndex;
 	public static string BattingTeamName;
 	public static string BowlingTeamName;
-	public static bool HattrickBall;
+    public static int BatTeamIndex = 0;
+    public static int BowlTeamIndex = 1;
+
+    public static bool HattrickBall;
 	
 	public static int [] FieldersArray;
 	
@@ -157,9 +166,9 @@ public class CONTROLLER
 	// Confidence Level
 	
 	// Settings
-	public static int BGMusicVal = 1;
-	public static int GameMusicVal = 1;
-	public static int shotIndicator = 1; // 1 || 0
+	public static int BGMusicVal = 0;
+	public static int GameMusicVal = 0;
+	public static int shotIndicator = 0; // 1 || 0
 	public static string BatsmanHand = "right";
 	public static int isMuted = 1;
 	// Settings
@@ -400,4 +409,14 @@ public enum ShotStatus : byte
 	LATE = 6,
 	TOO_EARLY = 1,
 	TOO_LATE = 7
+}
+
+
+public enum GameMode
+{
+	None=-1,
+	OnlyBatting=0,
+	BatBowlWithAI=1,
+	BattingMultiplayer=2,
+	BatBowlMultiplayer=3
 }

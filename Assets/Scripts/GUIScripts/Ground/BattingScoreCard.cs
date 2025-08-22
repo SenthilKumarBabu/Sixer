@@ -648,7 +648,7 @@ public class BattingScoreCard : Singleton<BattingScoreCard>
 				GameModel.instance.ShowIntroAnimation ();
 			}
 		}
-		else if (CONTROLLER.gameMode == "slogover")
+		else if (CONTROLLER.gameMode == "slogover" || CONTROLLER.gameMode == CONTROLLER.BATBOWLMODE)
 		{
 			GameModel.instance.ShowIntroAnimation ();
         }
@@ -720,10 +720,15 @@ public class BattingScoreCard : Singleton<BattingScoreCard>
 		firstPlayer = -1;
 
 		newGame = false;
+
 		if (CONTROLLER.InningsCompleted == true)
 		{
-
-			GameModel.instance.ShowGameOverScreen ();
+			if(CONTROLLER.currentInnings == 0 && CONTROLLER.gameMode== CONTROLLER.BATBOWLMODE)
+			{
+				GameModel.instance.ShowMatchTargetScreen();
+            }
+			else
+				GameModel.instance.ShowGameOverScreen ();
 			return;
 		}
 
@@ -737,12 +742,14 @@ public class BattingScoreCard : Singleton<BattingScoreCard>
 
 		if (GameModel.isGamePaused == true)
 		{
-			playerChange.SetActive (false);	setWicketCamera (false );
+			playerChange.SetActive (false);
+			setWicketCamera (false );
 			GameModel.isGamePaused = false;
 			HideMe ();
 			return;
 		}
-		playerChange.SetActive (false); 	setWicketCamera (false);
+		playerChange.SetActive (false); 	
+		setWicketCamera (false);
 		
 		if (!GamePauseScreen.instance.gamePause.activeInHierarchy )
 		{

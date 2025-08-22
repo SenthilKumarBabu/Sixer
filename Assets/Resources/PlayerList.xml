@@ -2,21 +2,21 @@
   <team name="SixR" abbrevation="SXR">
 	 <PlayerDetails>
     <player name="KL Rahul" sname="KL Rehul" num="1" batHand="R" batStyle="Right Hand Batsman" lp="1" dp="1"/>
-    <player name="Y Jaiswal" sname="S Dhawen" num="42" batHand="L" batStyle="Left Hand Batsman" lp="0" dp="1"/>
+    <player name="Y Jaiswal" sname="S Dhawen" num="42" batHand="R" batStyle="Left Hand Batsman" lp="0" dp="1"/>
     <player name="V Kholi" sname="V Koli" num="18" batHand="R" batStyle="Right Hand Batsman" lp="1" dp="1"/>
 	  <player name="S Iyar" sname="S Iyar" num="8" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="1"/>
 	  <player name="MS Dhoni" sname="MS Doni" num="41" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="1"/>
-    <player name="R Jadeja" sname="R Jadaja" num="8" batHand="L" batStyle="Left Hand Batsman" lp="1" dp="1"/>
+    <player name="R Jadeja" sname="R Jadaja" num="8" batHand="R" batStyle="Left Hand Batsman" lp="1" dp="1"/>
 	  <player name="H Pandya" sname="H Pandea" num="33" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="1"/>
      <player name="B Kumer" sname="B Kumer" num="15" batHand="R" batStyle="Right Hand Batsman" lp="1" dp="1"/>
      <player name="M Sami" sname="M Sami" num="11" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="1"/>
      <player name="Y Chahel" sname="Y Chahel" num="3" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="1"/>
-     <player name="J Bumreh" sname="J Bumreh" num="93" batHand="L" batStyle="Left Hand Batsman" lp="1" dp="1"/>
+     <player name="J Bumreh" sname="J Bumreh" num="93" batHand="R" batStyle="Left Hand Batsman" lp="1" dp="1"/>
     <player name="R Sherma" sname="R Sherma" num="45" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="0"/>
      <player name="K Yadev" sname="K Yadev" num="90" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="0"/>
      <player name="M Panday" sname="M Panday" num="22" batHand="R" batStyle="Right Hand Batsman" lp="1" dp="0"/>
      <player name="D Karthi" sname="D Karthi" num="18" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="0"/>
-     <player name="A Rahene" sname="A Rahene" num="96" batHand="L" batStyle="Left Hand Batsman" lp="0" dp="0"/>
+     <player name="A Rahene" sname="A Rahene" num="96" batHand="R" batStyle="Left Hand Batsman" lp="0" dp="0"/>
      <player name="S Gell" sname="S Gell" num="36" batHand="L" batStyle="Left Hand Batsman" lp="0" dp="0"/>
      <player name="P Shew" sname="P Shew" num="24" batHand="R" batStyle="Right Hand Batsman" lp="0" dp="0"/>
      <player name="U Yadev" sname="U Yadev" num="74" batHand="L" batStyle="Left Hand Batsman" lp="1" dp="0"/>

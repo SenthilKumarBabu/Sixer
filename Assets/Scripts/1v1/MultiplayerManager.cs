@@ -1,5 +1,6 @@
 ﻿#define DEBUGLOGGER
 
+using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
@@ -15,15 +16,12 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
     [HideInInspector]
     public MultiplayerGroundUIHandler multiplayerGroundUiHandlerScript;
 
-    [HideInInspector]
-    public string MasterName = string.Empty;
-    [HideInInspector]
-    public int sceneIndex = -1;
+    [HideInInspector] public string MasterName = string.Empty;
+    [HideInInspector] public int sceneIndex = -1;
     private bool connectedToGameRoom = false;
     bool MatchType = false;
-    public bool bothPlayersInRoom = false;
-    public bool IsOpponentInOnline = false;
-
+    [HideInInspector] public bool bothPlayersInRoom = false;
+    [HideInInspector] public bool IsOpponentInOnline = false;
 
     void Awake()
     {
@@ -51,13 +49,13 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
         {
             sceneIndex = 1;
         }
-        if (aScene.name == Scenes.Ground.ToString() && CONTROLLER.gameMode == "multiplayer")
+        if (aScene.name == Scenes.Ground.ToString() && (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer || CONTROLLER.selectedGameMode == GameMode.BatBowlMultiplayer))
         {
             sceneIndex = 2;
             Application.runInBackground = true;
             AdIntegrate.instance.SystemSleepSettings(0);
             BattingScoreCard.instance.HideMe();
-            if(multiplayerGroundUiHandlerScript==null)
+            if (multiplayerGroundUiHandlerScript == null)
                 multiplayerGroundUiHandlerScript = GameObject.FindFirstObjectByType<MultiplayerGroundUIHandler>();
 
             multiplayerGroundUiHandlerScript.WaitingPanel.SetActive(true);
@@ -142,6 +140,11 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
             hash2.Add(RoomVariables.clientScorePushStatus, 1);
             SetRoomCustomProperties(hash2);
         }
+
+        if(botsSpawned && botController!=null && CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
+        {
+            botController.SendScoreForBattingMultiplayer();
+        }
     }
 
     #region PhotonConnection
@@ -162,7 +165,13 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
 
             try
             {
-                PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = CONTROLLER.CURRENT_MULTIPLAYER_VERSION;
+                if(CONTROLLER.selectedGameMode== GameMode.BattingMultiplayer)
+                    PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = CONTROLLER.CURRENT_MULTIPLAYER_VERSION+"_batonly";
+                else
+                    PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = CONTROLLER.CURRENT_MULTIPLAYER_VERSION + "_batbowl";
+
+                DebugLogger.PrintWithColor("CONTROLLER.selectedGameMode: " + CONTROLLER.selectedGameMode + " ::: " + PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion);
+
                 PhotonNetwork.ConnectUsingSettings();
                 PhotonNetwork.NickName = CONTROLLER.UserName;
                 yield break;
@@ -318,12 +327,10 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
 
         if (sceneIndex == 1)
         {
+            DestroyBot();
             connectedToGameRoom = true;
             PhotonNetwork.NickName = CONTROLLER.UserID;
-            if (CONTROLLER.MP_RoomType != 1)
-            {
-                LoadingScreen.instance.Hide();
-            }
+            LoadingScreen.instance.Hide();
             MatchType = false;
             if (!IsMasterClient())
             {
@@ -335,7 +342,14 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
             {
                 GameModeSelector._instance.showMatchmakingScreen();
                 ResetMyStatus();
-                SetBowlingParameters();
+
+                if(CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
+                {
+                    SetBowlingParameters();
+                }
+
+                if(CONTROLLER.isBotNeeded)
+                    StartCoroutine(CheckAndSpawnBots());
             }
             if (getPlayerCount() == 2)
             {
@@ -375,6 +389,13 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
 #if DEBUGLOGGER
         DebugLogger.PrintWithColor("OnPhoton OnPlayerEnteredRoom called ");
 #endif
+
+        if (botsSpawned)
+        {
+            Debug.Log("Bot already present, kicking late player...");
+            PhotonNetwork.CloseConnection(other);
+            return;
+        }
 
         if (sceneIndex == 1)
         {
@@ -865,9 +886,9 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
     }
 
     private int oppBallIndex = 0;
-    public int userBallIndex = 0;
+    [HideInInspector] public int userBallIndex = 0;
     [PunRPC]
-    private void ReceiveScoreUpdate(int totalScore, string currentRunScored, int currentWicket)
+    public void ReceiveScoreUpdate(int totalScore, string currentRunScored, int currentWicket)
     {
        // Debug.Log($"[CLIENT] Received Score Update → Total: {totalScore}, Runs This Ball: {currentRunScored}, Wickets: {currentWicket}");
 
@@ -881,6 +902,77 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
         {
             multiplayerGroundUiHandlerScript.OppBallInfo[i].text = CONTROLLER.oppBallbyBallData[i];
         }
-
     }
+
+    #region BOT LOGIC
+    [HideInInspector] public bool botsSpawned = false;
+    IEnumerator CheckAndSpawnBots()
+    {
+        yield return new WaitForSeconds(UnityEngine.Random.Range(2f,5f)); // wait for others to join
+
+        if (PhotonNetwork.CurrentRoom.PlayerCount < 2 && PhotonNetwork.IsMasterClient && !botsSpawned)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+            
+            botsSpawned = true;
+            StopAllCoroutines();
+
+            bothPlayersInRoom = true;
+
+            //GameModeSelector._instance.GetOpponentDetails("BotUser", "BOT_001");
+            var bot = GetRandomBot();
+            GameModeSelector._instance.GetOpponentDetails(bot.botName, bot.botID);
+            
+            GameModeSelector._instance.StopPublicRoomTimer();
+        }
+    }
+
+    [HideInInspector]public BotController botController;
+    public void SpawnBot()
+    {
+        if (botController == null)
+        {
+            Debug.Log("Bot spawned!");
+            GameObject botGO = new GameObject("BotPlayer");
+            botController = botGO.AddComponent<BotController>();
+            botController.InitAsBot();
+        }
+    }
+    public void DestroyBot()
+    {
+        if (botsSpawned)
+        {
+            GameObject bot = GameObject.Find("BotPlayer");
+            if (bot != null)
+            {
+                Destroy(bot);
+            }
+        }
+        botsSpawned = false;
+        botController = null;
+    }
+    public (string botName, string botID) GetRandomBot()
+    {
+        // Predefined bot list (more like real player names)
+        string[,] botProfiles = new string[,]
+        {
+        {"RaviKumar", "BOT001"},
+        {"ArjunSingh", "BOT002"},
+        {"KaranSharma", "BOT003"},
+        {"ManojPatel", "BOT004"},
+        {"SandeepReddy", "BOT005"},
+        {"VikramJoshi", "BOT006"},
+        {"AnilVerma", "BOT007"},
+        {"RajeshNair", "BOT008"},
+        {"PradeepYadav", "BOT009"},
+        {"SureshPillai", "BOT010"}
+        };
+
+        int index = UnityEngine.Random.Range(0, botProfiles.GetLength(0));
+        return (botProfiles[index, 0], botProfiles[index, 1]);
+    }
+
+
+    #endregion 
 }
