@@ -6,6 +6,7 @@ using DG.Tweening;
 using System;
 using CodeStage.AntiCheat.ObscuredTypes;
 using Photon.Pun;
+using TMPro;
 
 #if UNITY_ANDROID
 using Prime31;
@@ -33,7 +34,7 @@ public class GameModeSelector : MonoBehaviour
 
 	[Header("Match Making Panel")]
 	public GameObject MatchMakingPanel;
-    public Text PlayerA_Name, PlayerB_Name;
+    public TMP_Text PlayerA_Name, PlayerB_Name;
 
 
 
@@ -104,7 +105,9 @@ public class GameModeSelector : MonoBehaviour
 	{
 		DebugLogger.PrintWithColor("Reset Variables Called:::: ");
         CONTROLLER.selectedGameMode = GameMode.None;
-		if (MultiplayerManager.Instance != null)
+        CONTROLLER.gameMode = "";
+
+        if (MultiplayerManager.Instance != null)
 			MultiplayerManager.Instance.DestroyBot();
     }
 
@@ -186,6 +189,7 @@ public class GameModeSelector : MonoBehaviour
 		CONTROLLER.selectedGameMode = (GameMode)index;
         CONTROLLER.meFirstBatting = 1;
         CONTROLLER.totalWickets = 10;
+        CONTROLLER.totalOvers = 1;
 
         if (index == 0)
 		{
@@ -217,8 +221,7 @@ public class GameModeSelector : MonoBehaviour
 		}
 		else if(index ==1 ) // Batting bowling mode with AI
 		{
-            CONTROLLER.gameMode = CONTROLLER.BATBOWLMODE;
-            CONTROLLER.meFirstBatting = (UnityEngine.Random.Range(0, 100) < 10) ? 0 : 1;
+            CONTROLLER.meFirstBatting = (UnityEngine.Random.Range(0, 100) < 50) ? 0 : 1;
             XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
             PlayerPrefsManager.SetTeamList();
             ShowLandingPage(false);
@@ -645,7 +648,6 @@ public class GameModeSelector : MonoBehaviour
 		}
 		else
 		{
-			CONTROLLER.gameMode = CONTROLLER.BATBOWLMODE;
 			XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
 			PlayerPrefsManager.SetTeamList();
             CONTROLLER.meFirstBatting = MultiplayerManager.Instance.IsMasterClient() ? 0 : 1; //master bowling hardcode

@@ -91,7 +91,7 @@ public class GameModel : Singleton<GameModel>
 		StartGame();
 		yield return new  WaitForSeconds (0.001f);
 
-		if(CONTROLLER .gameMode !="multiplayer")
+		if(CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer)
 		{
 			BattingScoreCard.instance.ResetBattingCard ();
 			if(ContinueMatch == true)
@@ -107,7 +107,7 @@ public class GameModel : Singleton<GameModel>
 
 	private bool IsPointerOverUIObject() {
 
-		if (CONTROLLER.gameMode == "multiplayer")
+		if (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
 			return false;
 
 		PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
@@ -501,6 +501,11 @@ public class GameModel : Singleton<GameModel>
 				BattingScoreCard.instance.ShowMe ();
 			}
 		}
+        else if (CONTROLLER.isBatBowlMode())
+        {
+            CONTROLLER.totalOvers = 1;
+            BattingScoreCard.instance.ShowMe();
+        }
 		else if (CONTROLLER.gameMode == "slogover" )
 		{
             CONTROLLER.totalOvers = CONTROLLER.totalOversPracticeMode;
@@ -510,11 +515,6 @@ public class GameModel : Singleton<GameModel>
 			//}
 			BattingScoreCard.instance.ShowMe ();
 		}
-        else if (CONTROLLER.gameMode == CONTROLLER.BATBOWLMODE)
-        {
-            CONTROLLER.totalOvers = 1;
-            BattingScoreCard.instance.ShowMe();
-        }
         else if (CONTROLLER.gameMode == "chasetarget")
 		{
          
@@ -609,7 +609,7 @@ public class GameModel : Singleton<GameModel>
 		}
 		BatsmanInfo.instance.UpdateStrikerInfo ();
 		Scoreboard.instance.UpdateScoreCard ();
-		if(CONTROLLER .gameMode !="multiplayer")
+		if(CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer)
 			BattingScoreCard.instance.ResetBattingCard ();
 	}
 
@@ -632,7 +632,7 @@ public class GameModel : Singleton<GameModel>
 
 	public void NewInnings ()
 	{
-		if ((CONTROLLER.gameMode == CONTROLLER.BATBOWLMODE && CONTROLLER.currentInnings == 1) || CONTROLLER.gameMode == "slogover" || CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode )
+		if ((CONTROLLER.isBatBowlMode() && CONTROLLER.currentInnings == 1) || CONTROLLER.gameMode == "slogover" || CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode )
 		{
 			Scoreboard.instance.ShowTargetScreen (true);
 		}
@@ -839,7 +839,7 @@ public class GameModel : Singleton<GameModel>
 						Scoreboard.instance.HidePause(true);
 				}
 
-				if (CONTROLLER.gameMode == "multiplayer" && Scoreboard.instance.muteBtn.transform.parent.gameObject.activeSelf)
+				if (CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer && Scoreboard.instance.muteBtn.transform.parent.gameObject.activeSelf)
 					Scoreboard.instance.HidePause(true);
 			}
 		}
@@ -1032,7 +1032,7 @@ public class GameModel : Singleton<GameModel>
 			CONTROLLER.ballUpdate[currentBall] = "W";
             CONTROLLER.userBallbyBallData[currentBall] = "W";
             WicketBall(validBall, batsmanID, wicketType, bowlerID, catcherID, batsmanOut);
-			if(CONTROLLER.gameMode !="multiplayer")
+			if(CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer)
 				CONTROLLER.totalPoints += CONTROLLER.wicketPoint;
 			ScoreStr = CONTROLLER.currentMatchScores + "/" + CONTROLLER.currentMatchWickets;
             AudioPlayer.instance.StopBallTravelSound();
@@ -1101,7 +1101,7 @@ public class GameModel : Singleton<GameModel>
 			{
 				CONTROLLER.continousBoundaries = 0;
 				CONTROLLER.continousSixes = 0;
-				if(CONTROLLER .gameMode !="multiplayer")
+				if(CONTROLLER .selectedGameMode != GameMode.BattingMultiplayer)
 					CONTROLLER.totalPoints += CONTROLLER.dotBallPoint;
 				CheckForOverComplete ();
 			}
@@ -1231,7 +1231,7 @@ public class GameModel : Singleton<GameModel>
 				Scoreboard.instance.Hide (true);
 				BatsmanInfo.instance.HideMe ();
 				PreviewScreen.instance.Hide (true);
-				if(CONTROLLER.gameMode != "multiplayer")
+				if(CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer)
 				{
 					CONTROLLER.InningsCompleted = true;
 					CanPauseGame = false;
@@ -1250,7 +1250,7 @@ public class GameModel : Singleton<GameModel>
 				CONTROLLER.StrikerIndex = CONTROLLER.NonStrikerIndex;
 				CONTROLLER.NonStrikerIndex = temp;
 				ChangeBowlerType ();
-				if (CONTROLLER.gameMode !="multiplayer")
+				if (CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer)
 				{
 					BowlNextBall ();
 				}					
@@ -1259,7 +1259,7 @@ public class GameModel : Singleton<GameModel>
 			}
 			else
 			{ 
-				if (CONTROLLER.gameMode !="multiplayer")
+				if (CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer)
 					BowlNextBall ();
 			}
 		}
@@ -1324,7 +1324,7 @@ public class GameModel : Singleton<GameModel>
 			}
 			else
 			{
-				if (CONTROLLER.gameMode !="multiplayer")
+				if (CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer)
 					BowlNextBall ();
 			}
 		}
@@ -1556,7 +1556,7 @@ public class GameModel : Singleton<GameModel>
             PlayerPrefs.DeleteKey(CONTROLLER.SUPER_Crusade_PlayerDetails);
         }
 
-        CONTROLLER.BowlingEnd = "madrasclub";
+        //CONTROLLER.BowlingEnd = "madrasclub";
 	}
 
 	public  bool  CheckForInningsComplete () // sc, ss, scr
@@ -1568,7 +1568,7 @@ public class GameModel : Singleton<GameModel>
 		//}
 		int ballsBowledInOver = CONTROLLER.currentMatchBalls % 6;
 		int  battingTeamScore = CONTROLLER.currentMatchScores;
-        if (battingTeamScore >= CONTROLLER.TargetToChase && CONTROLLER.gameMode==CONTROLLER.BATBOWLMODE && CONTROLLER.currentInnings==1 )
+        if (battingTeamScore >= CONTROLLER.TargetToChase && CONTROLLER.isBatBowlMode() && CONTROLLER.currentInnings==1 )
 		{
 			SuccessfulChase = true; 
 			return true;
@@ -1719,19 +1719,20 @@ public class GameModel : Singleton<GameModel>
 		CONTROLLER.ballUpdate[4] = "";
 		CONTROLLER.ballUpdate[5] = "";
 
-		if (CONTROLLER.BowlingEnd == "madrasclub")
+		/*if (CONTROLLER.BowlingEnd == "madrasclub")
 		{
 			CONTROLLER.BowlingEnd = "pattabigate";
 		}
 		else
 		{
 			CONTROLLER.BowlingEnd = "madrasclub";
-		}
+		}*/
+
 		GroundController.instance.NewOver ();
 		currentBall = -1; 
 		CONTROLLER.currentBallNumber = 0;
 		runsScoredInOver = 0;
-		if (CONTROLLER.gameMode != "superover" && CONTROLLER.gameMode != "multiplayer")
+		if (CONTROLLER.gameMode != "superover" && CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer)
 		{ 
 			if(!AnimationScreen .instance .isLastBallWicket && !ExtraBall.instance.holder.activeSelf)
 				BattingScoreCard.instance.ShowMe ();
@@ -1740,7 +1741,7 @@ public class GameModel : Singleton<GameModel>
 			GroundController.instance.ChangePlayerLeftRightTextures ();//31march
 		}
 
-		if (CONTROLLER.gameMode == "multiplayer")
+		if (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
 		{
 			BatsmanInfo.instance.UpdateStrikerInfo ();//29march
 			BatsmanInfo.instance.ShowMe ();//29march
@@ -1771,7 +1772,7 @@ public class GameModel : Singleton<GameModel>
 	// Game Pause View
 	public void GamePaused(bool boolean,bool FromAppPause=false)
 	{
-		if (CONTROLLER.gameMode == "multiplayer")
+		if (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
 			return;
 		if(boolean == true)
 		{
@@ -2360,7 +2361,7 @@ public void enableBlocker ()
             PlayerPrefs.DeleteKey(CONTROLLER.SUPER_Crusade_SavedMatchDetails);
             PlayerPrefs.DeleteKey(CONTROLLER.SUPER_Crusade_PlayerDetails);
         }
-        else if (CONTROLLER.gameMode == "multiplayer")
+        else if (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
 		{
 			MultiplayerManager.Instance.ResetMyStatus ();
 		}
@@ -2394,12 +2395,16 @@ public void enableBlocker ()
 
 	private void GetPlayingTeam ()
 	{
-		if (CONTROLLER.gameMode != "multiplayer") {
-		CONTROLLER.PlayingTeam = new ArrayList ();
-			for (int i = 0; i < CONTROLLER.TeamList.Length; i++) {
-				for (int j = 0; j < CONTROLLER.TeamList [i].PlayerList.Length; j++) {
-					if (CONTROLLER.TeamList [i].PlayerList [j].DefaultPlayer == "1") {
-					CONTROLLER.PlayingTeam.Add(j);
+		if (CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer)
+		{
+			CONTROLLER.PlayingTeam = new ArrayList();
+			for (int i = 0; i < CONTROLLER.TeamList.Length; i++)
+			{
+				for (int j = 0; j < CONTROLLER.TeamList[i].PlayerList.Length; j++)
+				{
+					if (CONTROLLER.TeamList[i].PlayerList[j].DefaultPlayer == "1")
+					{
+						CONTROLLER.PlayingTeam.Add(j);
 					}
 				}
 			}
@@ -2452,7 +2457,7 @@ public void enableBlocker ()
 				CONTROLLER.TeamList[i].PlayerList[j].status = "";
 			}
 		}
-		if(CONTROLLER .gameMode !="multiplayer")
+		if(CONTROLLER .selectedGameMode != GameMode.BattingMultiplayer)
 			BattingScoreCard.instance.ResetBattingCard ();
 		//BatsmanInfo.instance.UpdateStrikerInfo ();
 	}

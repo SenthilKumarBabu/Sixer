@@ -66,7 +66,7 @@ public class StartScreen : Singleton<StartScreen>
 
 	public void StopAnimation()
 	{
-		if (CONTROLLER.gameMode == "multiplayer")
+		if (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
 		{
 			Multiplayer_Hide_this();
 		}

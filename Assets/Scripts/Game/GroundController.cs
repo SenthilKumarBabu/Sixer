@@ -804,31 +804,7 @@ public class GroundController : MonoBehaviour
 		PlayerPrefs.SetInt("loft",1);
         loft = true;
 
-		if (CONTROLLER.gameMode != "superover")
-		{
-			if (CONTROLLER.BowlingEnd == "madrasclub")
-			{
-				stadiumGO.transform.eulerAngles = new Vector3(0,180f,0);
-				extrasGO.transform.eulerAngles=new Vector3 (extrasGO.transform.eulerAngles.x,180f,extrasGO.transform.eulerAngles.z);
-				cameraFlashReferences.transform.eulerAngles = new Vector3 (cameraFlashReferences.transform.eulerAngles.x, 0, cameraFlashReferences.transform.eulerAngles.z);
-				stadiumRotationAngle = 0;
-			}
-			else
-			{
-				stadiumGO.transform.eulerAngles = new Vector3(0,0,0);
-				extrasGO.transform.eulerAngles=new Vector3 (extrasGO.transform.eulerAngles.x ,0f,extrasGO.transform.eulerAngles.z ) ;
-				cameraFlashReferences.transform.eulerAngles = new Vector3 (cameraFlashReferences.transform.eulerAngles.x, 180, cameraFlashReferences.transform.eulerAngles.z);
-				stadiumRotationAngle = 180;
-			}
-		}
-		else
-		{
-			stadiumGO.transform.eulerAngles = new Vector3(0,180f,0);
-			extrasGO.transform.eulerAngles =new Vector3 (extrasGO.transform.eulerAngles.x,180f,extrasGO.transform.eulerAngles.z);
-			cameraFlashReferences.transform.eulerAngles = new Vector3 (cameraFlashReferences.transform.eulerAngles.x, 0f, cameraFlashReferences.transform.eulerAngles.z);
-			stadiumRotationAngle = 0;
-		}
-
+		SetStadiumEnd();      
 
 #if UNITY_ANDROID
         bowlingSpotMovementSpeed = 2000;
@@ -3300,7 +3276,7 @@ public class GroundController : MonoBehaviour
 		{
 			if(currentBatsmanHand == "right")
 			{
-				if (CONTROLLER.gameMode == "multiplayer")
+				if (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
 				{
 					bowlingSpotGO.transform.position = Multiplayer.oversData [CONTROLLER.currentMatchBalls / 6].bowlingSpotR [CONTROLLER.currentMatchBalls % 6];
 				}
@@ -3313,7 +3289,7 @@ public class GroundController : MonoBehaviour
 			}
 			else if(currentBatsmanHand == "left")
 			{
-				if (CONTROLLER.gameMode == "multiplayer") 
+				if (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer) 
 				{
 					bowlingSpotGO.transform.position = Multiplayer.oversData [CONTROLLER.currentMatchBalls / 6].bowlingSpotL [CONTROLLER.currentMatchBalls % 6];
 				} 
@@ -4367,7 +4343,7 @@ public class GroundController : MonoBehaviour
 
 	public void FindBowlingParameters ()
 	{
-		if ( CONTROLLER.gameMode != "multiplayer")
+		if ( CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer)
 		{
 			Vector3 relative = ballOriginGO.transform.InverseTransformPoint(bowlingSpotGO.transform.position);
 			ballAngle = 90 - Mathf.Atan2(relative.x, relative.z) * RAD2DEG;
@@ -5745,7 +5721,7 @@ public class GroundController : MonoBehaviour
 		ballProjectileAnglePerSecond = 82.7023f;
 		ballProjectileHeight = 7.180584f;
 */
-        Debug.LogError($"[Ball Debug] Horizontal Speed: {horizontalSpeed}, " + $"Angle: {ballProjectileAngle}, Height: {ballProjectileHeight}, " + $"First Bounce Distance: {ballTimingFirstBounceDistance}, " + $"Angle Per Second: {ballProjectileAnglePerSecond} " + $"First Bounce Distance: {ballTimingFirstBounceDistance}"+ $"shotPlayed: {shotPlayed}");
+        DebugLogger.PrintWithColor($"[Ball Debug] Horizontal Speed: {horizontalSpeed}, " + $"Angle: {ballProjectileAngle}, Height: {ballProjectileHeight}, " + $"First Bounce Distance: {ballTimingFirstBounceDistance}, " + $"Angle Per Second: {ballProjectileAnglePerSecond} " + $"First Bounce Distance: {ballTimingFirstBounceDistance}"+ $"shotPlayed: {shotPlayed}");
 
         nextPitchDistance = ballTimingFirstBounceDistance;
 
@@ -5895,7 +5871,7 @@ public class GroundController : MonoBehaviour
 		{
 			GameModelScript.EnableShotSelection (true);
 		}
-		if(CONTROLLER.gameMode!="multiplayer")
+		if(CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer)
 			Scoreboard.instance.HideButtonsWhenShotMade();
 	}
     void GetComputerBattingKeyInput()
@@ -7842,7 +7818,7 @@ public class GroundController : MonoBehaviour
 			Scoreboard.instance.HidePause (true);
 		}
 
-		if (CONTROLLER .gameMode !="multiplayer")
+		if (CONTROLLER .selectedGameMode != GameMode.BattingMultiplayer)
 		{
 			BowledReplayCamera.transform.RotateAround (batsman.transform.position, -Vector3.up, 25 * Time.deltaTime);
 			BowledReplayCamera.transform.LookAt(midpoint);
@@ -8238,7 +8214,7 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 		batColliderHolder.transform.localScale = GetBatColliderSize();
 
 
-        if (CONTROLLER.gameMode == "multiplayer")
+        if (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
 		{
 			currentBowlerHand = Multiplayer.oversData[CONTROLLER.currentMatchBalls / 6].bowlerHand;
 			if (Multiplayer.oversData[CONTROLLER.currentMatchBalls / 6].bowlerType == "fast")
@@ -8287,45 +8263,37 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 		ResetAll ();
 	}
 
-
+	void SetStadiumEnd()
+	{
+        if (CONTROLLER.gameMode != "superover")
+        {
+            if (CONTROLLER.BowlingEnd == "madrasclub")
+            {
+                stadiumGO.transform.eulerAngles = new Vector3(0, 180f, 0);
+                extrasGO.transform.eulerAngles = new Vector3(extrasGO.transform.eulerAngles.x, 180f, extrasGO.transform.eulerAngles.z);
+                cameraFlashReferences.transform.eulerAngles = new Vector3(cameraFlashReferences.transform.eulerAngles.x, 0, cameraFlashReferences.transform.eulerAngles.z);
+                stadiumRotationAngle = 0;
+            }
+            else
+            {
+                stadiumGO.transform.eulerAngles = new Vector3(0, 0, 0);
+                extrasGO.transform.eulerAngles = new Vector3(extrasGO.transform.eulerAngles.x, 0f, extrasGO.transform.eulerAngles.z);
+                cameraFlashReferences.transform.eulerAngles = new Vector3(cameraFlashReferences.transform.eulerAngles.x, 180, cameraFlashReferences.transform.eulerAngles.z);
+                stadiumRotationAngle = 180;
+            }
+        }
+        else
+        {
+            stadiumGO.transform.eulerAngles = new Vector3(0, 180f, 0);
+            extrasGO.transform.eulerAngles = new Vector3(extrasGO.transform.eulerAngles.x, 180f, extrasGO.transform.eulerAngles.z);
+            cameraFlashReferences.transform.eulerAngles = new Vector3(cameraFlashReferences.transform.eulerAngles.x, 0f, cameraFlashReferences.transform.eulerAngles.z);
+            stadiumRotationAngle = 0;
+        }
+    }
 
 	public void NewOver ()
-	{	
-		if (CONTROLLER.gameMode != "superover")
-		{
-			if (CONTROLLER.BowlingEnd == "madrasclub")
-			{
-				//stadiumGO.transform.eulerAngles.y = 180;
-//				stadium180GO.SetActiveRecursively(true);
-//				stadiumGO.SetActiveRecursively(false);
-				stadiumGO.transform.eulerAngles = new Vector3(0,180f,0);
-				extrasGO.transform.eulerAngles = new Vector3 (extrasGO.transform.eulerAngles.x, 180, extrasGO.transform.eulerAngles.z);
-				cameraFlashReferences.transform.eulerAngles = new Vector3 (cameraFlashReferences.transform.eulerAngles.x, 0, cameraFlashReferences.transform.eulerAngles.z);
-				stadiumRotationAngle = 0;
-			}
-			else
-			{
-				//		stadiumGO.transform.eulerAngles.y = 0;
-//				stadium180GO.SetActiveRecursively(false);
-//				stadiumGO.SetActiveRecursively(true);
-				stadiumGO.transform.eulerAngles = new Vector3(0,0,0);
-				extrasGO.transform.eulerAngles = new Vector3 (extrasGO.transform.eulerAngles.x, 0, extrasGO.transform.eulerAngles.z);
-				cameraFlashReferences.transform.eulerAngles = new Vector3 (cameraFlashReferences.transform.eulerAngles.x, 180, cameraFlashReferences.transform.eulerAngles.z);
-				stadiumRotationAngle = 180;
-			}
-		}
-		else
-		{
-//			stadium180GO.SetActiveRecursively(true);
-//			stadiumGO.SetActiveRecursively(false);	
-			stadiumGO.transform.eulerAngles = new Vector3(0,180f,0);
-			extrasGO.transform.eulerAngles = new Vector3 (extrasGO.transform.eulerAngles.x, 180, extrasGO.transform.eulerAngles.z);
-			cameraFlashReferences.transform.eulerAngles = new Vector3 (cameraFlashReferences.transform.eulerAngles.x, 0, cameraFlashReferences.transform.eulerAngles.z);
-
-			stadiumRotationAngle = 0;
-		}
-
-		if(bowlingBy == "computer")
+	{
+        if (bowlingBy == "computer")
 		{
 			if(Random.Range(0.0f, 10.0f) > 5.0)
 			{

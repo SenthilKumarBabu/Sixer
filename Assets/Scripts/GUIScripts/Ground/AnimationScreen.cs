@@ -77,7 +77,7 @@ public class AnimationScreen : Singleton<AnimationScreen>
 		{
 			GameModel.instance.AnimationCompleted();
 		}
-		if (animType == 5 && CONTROLLER.gameMode != "multiplayer" && CONTROLLER.currentMatchWickets < 10)
+		if (animType == 5 && CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer && CONTROLLER.currentMatchWickets < 10)
 		{
 			if (CONTROLLER.gameMode == "superover")
 			{

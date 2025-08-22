@@ -80,7 +80,7 @@ public class Scoreboard : Singleton<Scoreboard>
 		if (AdIntegrate.instance.CurrentSceneIndex == 2 && !isRTUpdated )
 		{
             isRTUpdated = true;
-            if (CONTROLLER.gameMode != "multiplayer")
+            if (CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer)
 			{
 				if (CONTROLLER.isAdRemoved )
 				{
@@ -151,7 +151,7 @@ public class Scoreboard : Singleton<Scoreboard>
 
 	public void  ShowTargetScreen (bool  boolean)
 	{
-		if (CONTROLLER.gameMode == "superover" || CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode || (CONTROLLER.gameMode == CONTROLLER.BATBOWLMODE && CONTROLLER.currentInnings ==1 ))
+		if (CONTROLLER.gameMode == "superover" || CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode || ( CONTROLLER.isBatBowlMode() && CONTROLLER.currentInnings ==1 ))
 		{
 			if(boolean == true)
 			{
@@ -247,7 +247,7 @@ public class Scoreboard : Singleton<Scoreboard>
 	public void  Hide (bool  boolean)
 	{
 		//DebugLogger.PrintWithColor("Scoreboard Hide called::::: "+boolean);
-		if(CONTROLLER.gameMode == "multiplayer" && !boolean)
+		if(CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer && !boolean)
 		{
             scoreBoard.SetActive(false);
             ProfileDatas.SetActive(false);

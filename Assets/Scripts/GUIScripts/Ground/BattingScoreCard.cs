@@ -648,7 +648,7 @@ public class BattingScoreCard : Singleton<BattingScoreCard>
 				GameModel.instance.ShowIntroAnimation ();
 			}
 		}
-		else if (CONTROLLER.gameMode == "slogover" || CONTROLLER.gameMode == CONTROLLER.BATBOWLMODE)
+		else if (CONTROLLER.gameMode == "slogover" || CONTROLLER.isBatBowlMode())
 		{
 			GameModel.instance.ShowIntroAnimation ();
         }
@@ -723,7 +723,7 @@ public class BattingScoreCard : Singleton<BattingScoreCard>
 
 		if (CONTROLLER.InningsCompleted == true)
 		{
-			if(CONTROLLER.currentInnings == 0 && CONTROLLER.gameMode== CONTROLLER.BATBOWLMODE)
+			if(CONTROLLER.currentInnings == 0 && CONTROLLER.isBatBowlMode())
 			{
 				GameModel.instance.ShowMatchTargetScreen();
             }

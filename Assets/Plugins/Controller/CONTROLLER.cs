@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 public class CONTROLLER
 {
-    public static int totalOversPracticeMode=5;
+    public static int totalOversPracticeMode=2;
     public static string CURRENT_MULTIPLAYER_VERSION = "0.1";
     public static int MP_RoomType = 0;       //0-public  1-private
     public static string MP_OpponentName = string.Empty; // Unique Username
@@ -17,10 +17,14 @@ public class CONTROLLER
 
     public static int meFirstBatting = 1;       //	0 --> NO, 1 --> YES.
 
-	public const string BATBOWLMODE = "BatBowlmode";
     public static GameMode selectedGameMode;
 	public static bool isBotNeeded= true;
 
+	public static bool isBatBowlMode()
+	{
+		return selectedGameMode == GameMode.BatBowlMultiplayer || selectedGameMode == GameMode.BatBowlWithAI;
+    }
+	
     public static bool isUserSyncCalled = false;
 	public static bool isAdminUser = false;
 

@@ -23,11 +23,11 @@ public class MainMenuPage : UIPage
     
     private void QuickPlayButtonClicked()
     {
-        gameModeSelector.SelectGameMode(2);
+        gameModeSelector.SelectGameMode(0);
     }
     
     private void ChooseModeButtonClicked()
     {
-        gameModeSelector.SelectGameMode(4);
+        gameModeSelector.SelectGameMode(2);
     }
 }

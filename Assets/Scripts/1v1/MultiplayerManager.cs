@@ -910,7 +910,7 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(UnityEngine.Random.Range(2f,5f)); // wait for others to join
 
-        if (PhotonNetwork.CurrentRoom.PlayerCount < 2 && PhotonNetwork.IsMasterClient && !botsSpawned)
+        if (isConnectedWithPhoton() && PhotonNetwork.CurrentRoom.PlayerCount < 2 && PhotonNetwork.IsMasterClient && !botsSpawned)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
