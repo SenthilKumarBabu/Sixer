@@ -204,7 +204,8 @@ public class GameModeSelector : MonoBehaviour
 				XMLReader.ParseXML(PlayerPrefsManager.instance.xmlAsset.text);
 				PlayerPrefsManager.SetTeamList();
 			}
-			if (!PlayerPrefs.HasKey("SlogOverDetail"))
+			newGame();
+			/*if (!PlayerPrefs.HasKey("SlogOverDetail"))
 			{
 				ShowLandingPage(false);
 				modeInstruction.SetActive(true);
@@ -217,7 +218,7 @@ public class GameModeSelector : MonoBehaviour
 			{
 				displayMsg.SetActive(true);
 				CONTROLLER.CurrentPage = "dispMsg";
-			}
+			}*/
 		}
 		else if(index ==1 ) // Batting bowling mode with AI
 		{
