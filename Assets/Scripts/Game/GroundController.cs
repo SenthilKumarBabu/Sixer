@@ -14,7 +14,7 @@ public class GroundController : MonoBehaviour
     const float bowlerSkill = 40;
 
 
-	public MoveBannerTexture moveBannerTextureScript;
+	//public MoveBannerTexture moveBannerTextureScript;
     public InGroundDebugCanvas inGroundDebugScript;
 
 
@@ -108,9 +108,9 @@ public class GroundController : MonoBehaviour
 
 	private GameObject stump1Collider;
 
-	private GameObject boardCollider ;
-	private GameObject billBoardCollider ;
-	private MeshCollider stadiumCollider;
+	//private GameObject boardCollider ;
+	//private GameObject billBoardCollider ;
+	//private MeshCollider stadiumCollider;
 
 	private GameObject RHBatsmanMaxBowlLimitGO;
 	private GameObject RHBatsmanMinBowlLimitGO;
@@ -549,7 +549,7 @@ public class GroundController : MonoBehaviour
 		dummyBall = GameObject.Find ("DummyBall");
 		dummyBall.GetComponent<Renderer>().enabled = false;
 
-		batCollider_Left = GameObject.Find("Batsman/metarig/hips/spine/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/BatBone_LeftHand/BatColliderHolder/BatCollider");
+		/*batCollider_Left = GameObject.Find("Batsman/metarig/hips/spine/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/BatBone_LeftHand/BatColliderHolder/BatCollider");
 		batColliderHolder_Left = GameObject.Find("Batsman/metarig/hips/spine/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/BatBone_LeftHand/BatColliderHolder");
 
 		batCollider_Right = GameObject.Find("Batsman/metarig/hips/spine/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/BatBone/BatColliderHolder/BatCollider");
@@ -560,12 +560,25 @@ public class GroundController : MonoBehaviour
 		leftUpperLegObject = GameObject.Find("Batsman/metarig/hips/thigh.L/LeftUpperLeg");
 		rightUpperLegObject = GameObject.Find("Batsman/metarig/hips/thigh.R/RightUpperLeg");
 		upperBodyObject = GameObject.Find("Batsman/metarig/hips/spine/chest/UpperBody");
-		headObject = GameObject.Find("Batsman/metarig/hips/spine/chest/neck/head/Head");
+		headObject = GameObject.Find("Batsman/metarig/hips/spine/chest/neck/head/Head");*/
+		
+		batCollider_Left = GameObject.Find("Batsman/Batsman/hips/spine/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/BatBone_LeftHand/BatColliderHolder/BatCollider");
+		batColliderHolder_Left = GameObject.Find("Batsman/Batsman/hips/spine/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/BatBone_LeftHand/BatColliderHolder");
+
+		batCollider_Right = GameObject.Find("Batsman/Batsman/hips/spine/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/BatBone/BatColliderHolder/BatCollider");
+		batColliderHolder_Right = GameObject.Find("Batsman/Batsman/hips/spine/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/BatBone/BatColliderHolder");
+
+		leftLowerLegObject = GameObject.Find("Batsman/Batsman/hips/thigh.L/shin.L/LeftLowerLeg");
+		rightLowerLegObject = GameObject.Find("Batsman/Batsman/hips/thigh.R/shin.R/RightLowerLeg");
+		leftUpperLegObject = GameObject.Find("Batsman/Batsman/hips/thigh.L/LeftUpperLeg");
+		rightUpperLegObject = GameObject.Find("Batsman/Batsman/hips/thigh.R/RightUpperLeg");
+		upperBodyObject = GameObject.Find("Batsman/Batsman/hips/spine/chest/UpperBody");
+		headObject = GameObject.Find("Batsman/Batsman/hips/spine/chest/neck/head/Head");
 
 		stump1Collider = GameObject.Find("Stump1Collider");
-		boardCollider = GameObject.Find("Board");
-		billBoardCollider = GameObject.Find("BillBoard");
-		stadiumCollider = GameObject.Find ("Props").GetComponent<MeshCollider>();
+		//boardCollider = GameObject.Find("Board");
+		//billBoardCollider = GameObject.Find("BillBoard");
+		//stadiumCollider = GameObject.Find ("Props").GetComponent<MeshCollider>();
 
 		ballTimingFirstBounce = GameObject.Find("BallTimingFirstBounce");
 		ballCatchingSpot = GameObject.Find("BallCatchingSpot");
@@ -753,7 +766,8 @@ public class GroundController : MonoBehaviour
 			shadowGO = GameObject.Find("BatsmanShadow");
 			ShadowsArray.Add(shadowGO);
 			//shadowRef = GameObject.Find ("Batsman/Armature/Bone/hip/spin/ShadowRef");
-			shadowRef = GameObject.Find("Batsman/metarig/hips/spine/ShadowRef");
+			//shadowRef = GameObject.Find("Batsman/metarig/hips/spine/ShadowRef");
+			shadowRef = GameObject.Find("Batsman/Batsman/hips/spine/ShadowRef");
 
 			ShadowRefArray.Add(shadowRef);
 
@@ -769,7 +783,7 @@ public class GroundController : MonoBehaviour
 
 			shadowGO = GameObject.Find("RunnerShadow");
 			ShadowsArray.Add(shadowGO);
-			shadowRef = GameObject.Find ("Batsman/metarig/hips/spine/ShadowRef");
+			shadowRef = GameObject.Find ("Runner/metarig/hips/spine/ShadowRef");
 			ShadowRefArray.Add(shadowRef);
 
 			UpdateShadow ();
@@ -820,9 +834,9 @@ public class GroundController : MonoBehaviour
 		ResetAll();
 		ResetFielders ();
 		ActivateColliders (false);
-		boardCollider.SetActive (false);
-		billBoardCollider.SetActive (false);
-		stadiumCollider.enabled = false;
+		//boardCollider.SetActive (false);
+		//billBoardCollider.SetActive (false);
+		//stadiumCollider.enabled = false;
 		LoadingScreen.instance.Hide();
 
     }
@@ -994,9 +1008,9 @@ public class GroundController : MonoBehaviour
 		stump1.GetComponent<Animation>().Play("idle");
 		//stump2.animation.Play("idle");
 
-		boardCollider.SetActive (false);
-		billBoardCollider.SetActive (false);
-		stadiumCollider.enabled = false;
+		//boardCollider.SetActive (false);
+		//billBoardCollider.SetActive (false);
+		//stadiumCollider.enabled = false;
 		//canActivateBowler = false;	 //====changes 
 		fielder10Action = "";
 
@@ -1406,7 +1420,7 @@ public class GroundController : MonoBehaviour
 	public void NewInnings ()
 	{
 		
-		moveBannerTextureScript.Reset();
+		//moveBannerTextureScript.Reset();
 
 		InitCamera();
 		ActivateColliders(false);
@@ -7198,9 +7212,9 @@ public class GroundController : MonoBehaviour
 			ballOnboundaryLine = true;
 			canTakeRun = false;
 			CheckForRopeLineBallPhysics();
-			boardCollider.SetActive (true);
-			billBoardCollider.SetActive (true);
-			stadiumCollider.enabled = true;
+			//boardCollider.SetActive (true);
+			//billBoardCollider.SetActive (true);
+			//stadiumCollider.enabled = true;
 			//ball.rigidbody.WakeUp();
 			CustomRayCastForBowlingBallMovement ();
 
@@ -11451,9 +11465,9 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 		canBe4or6 = 6;
 		isBallTouchedTheRope = false;
 		stump1.GetComponent<Animation>().Play("idle");
-		boardCollider.SetActive(false);
-		billBoardCollider.SetActive(false);
-		stadiumCollider.enabled = false;
+		//boardCollider.SetActive(false);
+		//billBoardCollider.SetActive(false);
+		//stadiumCollider.enabled = false;
 		fielder10Action = "";
 		
 		mainUmpire.GetComponent<Animation>().Play("foldidle");

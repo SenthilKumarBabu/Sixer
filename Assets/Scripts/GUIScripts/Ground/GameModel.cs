@@ -654,7 +654,7 @@ public class GameModel : Singleton<GameModel>
 		BattingScoreCard.instance.UpdateScoreCard ();
 		GroundController.instance.NewInnings ();
 		GroundController.instance.ResetFielders ();
-		GroundController.instance.moveBannerTextureScript.Reset();
+		//GroundController.instance.moveBannerTextureScript.Reset();
 	}
 
     private void SetTeamIndex()
@@ -2365,7 +2365,7 @@ public void enableBlocker ()
 		{
 			MultiplayerManager.Instance.ResetMyStatus ();
 		}
-            GroundController.instance.moveBannerTextureScript.Reset();
+            //GroundController.instance.moveBannerTextureScript.Reset();
 	}
 
 	public int getInstalledBuildNumber()
