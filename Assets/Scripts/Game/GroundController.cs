@@ -783,7 +783,8 @@ public class GroundController : MonoBehaviour
 
 			shadowGO = GameObject.Find("RunnerShadow");
 			ShadowsArray.Add(shadowGO);
-			shadowRef = GameObject.Find ("Runner/metarig/hips/spine/ShadowRef");
+			//shadowRef = GameObject.Find ("Runner/metarig/hips/spine/ShadowRef");
+			shadowRef = GameObject.Find ("Runner/Batsman/hips/spine/ShadowRef");
 			ShadowRefArray.Add(shadowRef);
 
 			UpdateShadow ();
