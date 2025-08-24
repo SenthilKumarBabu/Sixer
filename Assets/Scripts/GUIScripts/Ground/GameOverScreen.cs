@@ -98,7 +98,7 @@ public class GameOverScreen : Singleton<GameOverScreen>
 	{
 		bool canShowBlasteffect = true;
 		int  randNumber ;
-		if (CONTROLLER.gameMode == "chasetarget")
+		if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 		{
 			if (CONTROLLER.currentMatchScores >= CONTROLLER.TargetToChase)
 			{
@@ -271,13 +271,13 @@ public class GameOverScreen : Singleton<GameOverScreen>
 			}
 		}
 		
-		if (CONTROLLER.gameMode == "slogover")
+		if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting)
 		{
 			continueButton.SetActive (false);
 			SetButtonAnim(1);
 		}
 
-		if (CONTROLLER.gameMode == "chasetarget")
+		if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 		{
 			int  _currentLevel  = GameModel.instance.GetCurrentSubLevel ();
 

@@ -30,7 +30,7 @@ public class HelpPanel : MonoBehaviour
 	public void OnEnable()
 	{
 
-		if (CONTROLLER.gameMode == string.Empty)
+		if (CONTROLLER.selectedGameMode == GameMode.None)
 		{
 			bottomButtons.SetActive(true);
 			OnButtonClick(0);
@@ -39,7 +39,7 @@ public class HelpPanel : MonoBehaviour
 		{
 			bottomButtons.SetActive(false);
 
-			if (CONTROLLER.gameMode == "multiplayer")
+			if (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
 			{
 				Dot.SetActive(false);
 				Wicket.SetActive(false);
@@ -51,9 +51,9 @@ public class HelpPanel : MonoBehaviour
 				Dot.SetActive(true);
 				Wicket.SetActive(true);
 				MultiplayerBonusHolder.SetActive(false);
-				if (CONTROLLER.gameMode == "slogover")
+				if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting)
 					Title.text = "SUPER SLOG";
-				else if (CONTROLLER.gameMode == "superover")
+				else if (CONTROLLER.selectedGameMode == GameMode.SuperOver)
 					Title.text = "SUPER CHASE & SUPER SLOG";
 				else
 					Title.text = "SUPER CHASE";

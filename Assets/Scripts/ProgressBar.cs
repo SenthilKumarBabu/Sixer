@@ -55,7 +55,7 @@ public class ProgressBar : Singleton<ProgressBar>
 		if (glowSeq != null)
 			glowSeq.Kill();
 
-		if (CONTROLLER.gameMode == "superover")
+		if (CONTROLLER.selectedGameMode == GameMode.SuperOver)
 			SO_Cancel_ButtonEvent ();
 		else
 		{
@@ -78,7 +78,7 @@ public class ProgressBar : Singleton<ProgressBar>
 		FillerStartTime = Time.realtimeSinceStartup ;
 		GamePauseScreen.instance.playerDetails.SetActive (false);
 		GamePauseScreen.instance.SetLoftState(false); 
-		if (CONTROLLER.gameMode == "superover") 
+		if (CONTROLLER.selectedGameMode == GameMode.SuperOver) 
 		{
 			Title.text = "You've lost 2 wickets\nin this over";
 			ButtonText .text ="FACE THE BALL AGAIN";
@@ -218,7 +218,7 @@ public class ProgressBar : Singleton<ProgressBar>
 		int  swapStriker = CONTROLLER.StrikerIndex;
 		CONTROLLER.StrikerIndex = CONTROLLER.NonStrikerIndex;
 		CONTROLLER.NonStrikerIndex = swapStriker;
-		if (PlayerPrefs.HasKey ("SuperOverDetail") && CONTROLLER.gameMode == "superover")
+		if (PlayerPrefs.HasKey ("SuperOverDetail") && CONTROLLER.selectedGameMode == GameMode.SuperOver)
 		{
 			PlayerPrefs.DeleteKey ("SuperOverDetail");
 			PlayerPrefs.DeleteKey ("superoverPlayerDetails");

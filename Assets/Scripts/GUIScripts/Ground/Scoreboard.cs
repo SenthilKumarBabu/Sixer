@@ -137,7 +137,7 @@ public class Scoreboard : Singleton<Scoreboard>
 		int  balls ;
 		ScoreTxt.text = GameModel.ScoreStr;
 		OverTxt.text = GameModel.OversStr;
-		if (CONTROLLER.gameMode == "slogover")
+		if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting)
 		{
 			TargetTxt.text = "POINTS : "+CONTROLLER.totalPoints;
 		}
@@ -151,7 +151,7 @@ public class Scoreboard : Singleton<Scoreboard>
 
 	public void  ShowTargetScreen (bool  boolean)
 	{
-		if (CONTROLLER.gameMode == "superover" || CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode || ( CONTROLLER.isBatBowlMode() && CONTROLLER.currentInnings ==1 ))
+		if (CONTROLLER.selectedGameMode == GameMode.SuperOver || CONTROLLER.selectedGameMode == GameMode.ChaseTarget || CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode || ( CONTROLLER.isBatBowlMode() && CONTROLLER.currentInnings ==1 ))
 		{
 			if(boolean == true)
 			{
@@ -174,7 +174,7 @@ public class Scoreboard : Singleton<Scoreboard>
 
 		if (str != "")
 		{
-			if (CONTROLLER.gameMode == "chasetarget")
+			if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 				stripChaseBG.SetActive(true);
 			else
 				stripBG.SetActive (true);
@@ -188,7 +188,7 @@ public class Scoreboard : Singleton<Scoreboard>
 	public void  HideStrip (bool  boolean)
 	{
 		UpdateStripText ("");
-		if (CONTROLLER.gameMode == "superover" || CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode)
+		if (CONTROLLER.selectedGameMode == GameMode.SuperOver || CONTROLLER.selectedGameMode == GameMode.ChaseTarget || CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)
 		{
 			if(boolean == true)
 			{
@@ -197,7 +197,7 @@ public class Scoreboard : Singleton<Scoreboard>
 			}
 			else
 			{
-				if (CONTROLLER.gameMode == "chasetarget")
+				if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 					stripChaseBG.SetActive(true);
 				else
 					stripBG.SetActive (true);
@@ -207,7 +207,7 @@ public class Scoreboard : Singleton<Scoreboard>
 
 	public void  ShowChallengeTitle ()
 	{
-		if (CONTROLLER.gameMode == "superover")
+		if (CONTROLLER.selectedGameMode == GameMode.SuperOver)
 		{
 			UpdateStripText (LevelDescriptionArray[(int )Mathf.Floor(CONTROLLER.LevelId/2)]);
 		}
@@ -220,7 +220,7 @@ public class Scoreboard : Singleton<Scoreboard>
 		int  wkts  = CONTROLLER.totalWickets - CONTROLLER.currentMatchWickets;
 
 		string  str = "Required " + toWin + " runs from " + fromBalls +" balls.";
-		if (CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode)
+		if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget || CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)
 		{
 			UpdateStripText (str);
 		}
@@ -294,7 +294,7 @@ public class Scoreboard : Singleton<Scoreboard>
 			PreviewScreen.instance.Hide(false);
 			if (StripTxt.text != "") 
 			{
-				if (CONTROLLER.gameMode == "chasetarget")
+				if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 					stripChaseBG.SetActive(true);
 				else
 					stripBG.SetActive (true);

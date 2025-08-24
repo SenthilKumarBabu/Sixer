@@ -127,7 +127,7 @@ public class GameModel : Singleton<GameModel>
 		CONTROLLER.StrikerIndex = 0;
 		CONTROLLER.NonStrikerIndex = 1;
 		string  str = GetOverStr ();
-		if (CONTROLLER.gameMode == "superover")
+		if (CONTROLLER.selectedGameMode == GameMode.SuperOver)
 		{
 			if(PlayerPrefs.HasKey ("SuperOverDetail"))
 			{
@@ -166,7 +166,7 @@ public class GameModel : Singleton<GameModel>
 			}
 			str = GetOverStr ();
 		}
-		else if (CONTROLLER.gameMode == "slogover")
+		else if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting)
 		{
 			if(PlayerPrefs.HasKey ("SlogOverDetail"))
 			{
@@ -195,7 +195,7 @@ public class GameModel : Singleton<GameModel>
 			}
 			str = GetOverStr ();
 		}
-		else if (CONTROLLER.gameMode == "chasetarget")
+		else if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 		{
 			if(PlayerPrefs.HasKey ("ChaseTargetDetail"))
 			{
@@ -230,7 +230,7 @@ public class GameModel : Singleton<GameModel>
 			}
 			str = GetOverStr ();
 		}
-        else if (CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode)
+        else if (CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)
         {
             if (PlayerPrefs.HasKey(CONTROLLER.SUPER_Crusade_SavedMatchDetails))
             {
@@ -279,31 +279,31 @@ public class GameModel : Singleton<GameModel>
 	}
 
 	private void  MatchStartingFromSaved ()
-	{
+	{ 
 		string  playerDetailStr = "";
 		int i ;
-		if (CONTROLLER.gameMode == "superover")
+		if (CONTROLLER.selectedGameMode == GameMode.SuperOver)
 		{
 			if(PlayerPrefs.HasKey ("superoverPlayerDetails"))
 			{
 				playerDetailStr = PlayerPrefs.GetString ("superoverPlayerDetails");
 			}
 		}
-		else if (CONTROLLER.gameMode == "slogover")
+		else if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting)
 		{
 			if(PlayerPrefs.HasKey ("slogoverPlayerDetails"))
 			{
 				playerDetailStr = PlayerPrefs.GetString ("slogoverPlayerDetails");
 			}
 		}
-		else if (CONTROLLER.gameMode == "chasetarget")
+		else if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 		{
 			if(PlayerPrefs.HasKey ("chasetargetPlayerDetails"))
 			{
 				playerDetailStr = PlayerPrefs.GetString ("chasetargetPlayerDetails");
 			}
 		}
-        else if (CONTROLLER.gameMode ==CONTROLLER.SUPER_Crusade_GameMode)
+        else if (CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)
         {
             if (PlayerPrefs.HasKey(CONTROLLER.SUPER_Crusade_PlayerDetails))
             {
@@ -342,7 +342,7 @@ public class GameModel : Singleton<GameModel>
 	public void  DetailsSavedBallbyBall ()
 	{
 		string  MatchDetailStr = "";
-		if (CONTROLLER.gameMode == "superover")
+		if (CONTROLLER.selectedGameMode == GameMode.SuperOver)
 		{
 			MatchDetailStr += CONTROLLER.bowlerType + "|";		
 			MatchDetailStr += CONTROLLER.currentMatchScores + "|";
@@ -371,7 +371,7 @@ public class GameModel : Singleton<GameModel>
 
             PlayerPrefs.SetString ("SuperOverDetail", MatchDetailStr);
 		}
-		else if (CONTROLLER.gameMode == "slogover")
+		else if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting)
 		{
 			MatchDetailStr += CONTROLLER.bowlerType + "|";
 			MatchDetailStr += CONTROLLER.totalOvers + "|";
@@ -395,7 +395,7 @@ public class GameModel : Singleton<GameModel>
             MatchDetailStr += CONTROLLER.currentAIUniformColor + "|"; //arun
             PlayerPrefs.SetString ("SlogOverDetail", MatchDetailStr);
 		}
-		else if (CONTROLLER.gameMode == "chasetarget")
+		else if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 		{
 			MatchDetailStr += CONTROLLER.bowlerType + "|";
 			MatchDetailStr += CONTROLLER.totalPoints + "|";
@@ -420,7 +420,7 @@ public class GameModel : Singleton<GameModel>
             MatchDetailStr += CONTROLLER.currentAIUniformColor + "|"; //arun
             PlayerPrefs.SetString ("ChaseTargetDetail", MatchDetailStr);
 		}
-        else if (CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode)
+        else if (CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)
         {
             MatchDetailStr += CONTROLLER.bowlerType + "|";
             MatchDetailStr += CONTROLLER.totalPoints + "|";
@@ -465,19 +465,19 @@ public class GameModel : Singleton<GameModel>
 				playerDetailStr += CONTROLLER.TeamList[0].PlayerList[_batsmanIndex].status + "|";
 			}
 		}
-		if (CONTROLLER.gameMode == "superover")
+		if (CONTROLLER.selectedGameMode == GameMode.SuperOver)
 		{
 			PlayerPrefs.SetString ("superoverPlayerDetails", playerDetailStr);
 		}
-		else if (CONTROLLER.gameMode == "slogover")
+		else if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting)
 		{
 			PlayerPrefs.SetString ("slogoverPlayerDetails", playerDetailStr);
 		}
-		else if (CONTROLLER.gameMode == "chasetarget")
+		else if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 		{
 			PlayerPrefs.SetString ("chasetargetPlayerDetails", playerDetailStr);
 		}
-        else if (CONTROLLER.gameMode ==CONTROLLER.SUPER_Crusade_GameMode)
+        else if (CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)
         {
             PlayerPrefs.SetString(CONTROLLER.SUPER_Crusade_PlayerDetails, playerDetailStr);
         }
@@ -487,7 +487,7 @@ public class GameModel : Singleton<GameModel>
 	{
 		CONTROLLER.NewInnings = true;
         CONTROLLER.currentInnings = 0;
-        if (CONTROLLER.gameMode == "superover")
+        if (CONTROLLER.selectedGameMode == GameMode.SuperOver)
 		{
 			CONTROLLER.totalOvers = 1;
 			CONTROLLER.totalWickets = 2;
@@ -506,7 +506,7 @@ public class GameModel : Singleton<GameModel>
             CONTROLLER.totalOvers = 1;
             BattingScoreCard.instance.ShowMe();
         }
-		else if (CONTROLLER.gameMode == "slogover" )
+		else if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting )
 		{
             CONTROLLER.totalOvers = CONTROLLER.totalOversPracticeMode;
 			//if (CONTROLLER.EnableHardcodes == 1) //hardcode-gopi  
@@ -515,7 +515,7 @@ public class GameModel : Singleton<GameModel>
 			//}
 			BattingScoreCard.instance.ShowMe ();
 		}
-        else if (CONTROLLER.gameMode == "chasetarget")
+        else if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 		{
          
             if (!PlayerPrefs.HasKey ("ChaseTargetDetail"))
@@ -560,7 +560,7 @@ public class GameModel : Singleton<GameModel>
 
 		CanPauseGame = false;
 		nChaseHeadStrtCount = 0;
-		if (CONTROLLER.gameMode != "chasetarget" || ContinueMatch ) 
+		if (CONTROLLER.selectedGameMode != GameMode.ChaseTarget || ContinueMatch ) 
 		{
 			GameObject prefabGO;
 			GameObject tempGO;
@@ -632,7 +632,7 @@ public class GameModel : Singleton<GameModel>
 
 	public void NewInnings ()
 	{
-		if ((CONTROLLER.isBatBowlMode() && CONTROLLER.currentInnings == 1) || CONTROLLER.gameMode == "slogover" || CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode )
+		if ((CONTROLLER.isBatBowlMode() && CONTROLLER.currentInnings == 1) || CONTROLLER.selectedGameMode == GameMode.OnlyBatting || CONTROLLER.selectedGameMode == GameMode.ChaseTarget || CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode )
 		{
 			Scoreboard.instance.ShowTargetScreen (true);
 		}
@@ -928,7 +928,7 @@ public class GameModel : Singleton<GameModel>
 
 	private void  ChangeBowlerType ()
 	{
-		if(CONTROLLER.gameMode == "slogover" || CONTROLLER.gameMode == "chasetarget" )//|| CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode)
+		if(CONTROLLER.selectedGameMode == GameMode.OnlyBatting || CONTROLLER.selectedGameMode == GameMode.ChaseTarget )//|| CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)
 		{
 			if (UnityEngine .Random.Range (0, 2) == 0)
 			{
@@ -986,7 +986,7 @@ public class GameModel : Singleton<GameModel>
 		{
 			return;
 		}
-        //if (CONTROLLER.gameMode == "slogover" && !PlayerPrefs.HasKey("slogovermatchid"))
+        //if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting && !PlayerPrefs.HasKey("slogovermatchid"))
         //{
         //    DBTracking.instance.GetSlogModeMatchID();
         //}
@@ -1131,22 +1131,23 @@ public class GameModel : Singleton<GameModel>
         }
     }
 
-	public void ScoreSyncedAndMoveToNextBall()
+	public void ScoreSyncedAndMoveToNextBall(bool isFromBot=false)
 	{
 		if (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer && MultiplayerManager.Instance.isConnectedWithPhoton())
 		{
 			int _msi = MultiplayerManager.Instance.GetPhotonHashInt(RoomVariables.masterScorePushStatus, -1);
 			int _csi = MultiplayerManager.Instance.GetPhotonHashInt(RoomVariables.clientScorePushStatus, -1);
 
-			//DebugLogger.PrintWithColor("ScoreSynced and moved to next ball:::: " + _msi + " :: _csi::: " + _csi);
+			//DebugLogger.PrintWithColor("ScoreSynced and moved to next ball:::: " + _msi + " :: _csi::: " + _csi + " :: isFromBot:: " + isFromBot);
 			if (_msi == 1 && _csi == 1)
 			{
 				MultiplayerManager.Instance.ResetMyScorePushStatus();
 				BattingMultiplayerMoveToNextBall();
             }
 
-            if (MultiplayerManager.Instance.botsSpawned)
+            if ( isFromBot && MultiplayerManager.Instance.botsSpawned)
             {
+                MultiplayerManager.Instance.ResetMyScorePushStatus();
                 Invoke("BattingMultiplayerMoveToNextBall", UnityEngine.Random.Range(1f, 1.5f));
             }
         }
@@ -1213,12 +1214,12 @@ public class GameModel : Singleton<GameModel>
 	public void CheckForOverComplete ()
 	{
 		UpdateBallCompleteResult();
-		if (CONTROLLER.gameMode != "superover")
+		if (CONTROLLER.selectedGameMode != GameMode.SuperOver)
 		{
 			inningsCompleted = CheckForInningsComplete ();
 			if(inningsCompleted == true)
 			{
-				//if (CONTROLLER.gameMode == "slogover")
+				//if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting)
     //            {
     //                DBTracking.instance.SuperSlogLevelCompletion(CONTROLLER.currentMatchScores.ToString(), CONTROLLER.currentMatchWickets.ToString(),GetOverStr());
     //            }
@@ -1237,7 +1238,7 @@ public class GameModel : Singleton<GameModel>
 					CanPauseGame = false;
 				}
 				CONTROLLER.NewInnings = true;
-				if (CONTROLLER.gameMode != "chasetarget")
+				if (CONTROLLER.selectedGameMode != GameMode.ChaseTarget)
 					NewOver();
 				GroundController.instance.ResetAll ();	
 
@@ -1292,7 +1293,7 @@ public class GameModel : Singleton<GameModel>
 					AdIntegrate.instance.SetTimeScale(0f);
 					BowlNextBall();
 					GroundController.instance.ChangePlayerLeftRightTextures ();
-                    if (PlayerPrefs.HasKey("SuperOverDetail") && CONTROLLER.gameMode == "superover")
+                    if (PlayerPrefs.HasKey("SuperOverDetail") && CONTROLLER.selectedGameMode == GameMode.SuperOver)
                     {
                         PlayerPrefs.DeleteKey("SuperOverDetail");
                         PlayerPrefs.DeleteKey("superoverPlayerDetails");
@@ -1310,7 +1311,7 @@ public class GameModel : Singleton<GameModel>
 					int  swapStriker = CONTROLLER.StrikerIndex;
 					CONTROLLER.StrikerIndex = CONTROLLER.NonStrikerIndex;
 					CONTROLLER.NonStrikerIndex = swapStriker;
-					if (PlayerPrefs.HasKey ("SuperOverDetail") && CONTROLLER.gameMode == "superover")
+					if (PlayerPrefs.HasKey ("SuperOverDetail") && CONTROLLER.selectedGameMode == GameMode.SuperOver)
 					{
 						PlayerPrefs.DeleteKey ("SuperOverDetail");
 						PlayerPrefs.DeleteKey ("superoverPlayerDetails");
@@ -1359,7 +1360,7 @@ public class GameModel : Singleton<GameModel>
 				CONTROLLER.LevelFailed = 0;
 				SaveSOLevelDetails ();
 			}
-			if (PlayerPrefs.HasKey ("SuperOverDetail") && CONTROLLER.gameMode == "superover")
+			if (PlayerPrefs.HasKey ("SuperOverDetail") && CONTROLLER.selectedGameMode == GameMode.SuperOver)
 			{
 				PlayerPrefs.DeleteKey ("SuperOverDetail");
 				PlayerPrefs.DeleteKey ("superoverPlayerDetails");
@@ -1450,7 +1451,7 @@ public class GameModel : Singleton<GameModel>
 
 	public void UpdateChaseTargetLevel()
 	{
-		if (CONTROLLER.gameMode == "chasetarget")
+		if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 		{
 			if (CONTROLLER.CTSubLevelCompleted < CONTROLLER.SubLevelCompletedArray.Length && CONTROLLER.CTLevelCompleted < CONTROLLER.MainLevelCompletedArray.Length)
 			{
@@ -1515,11 +1516,11 @@ public class GameModel : Singleton<GameModel>
 	}
 	public void SendPointsToLeaderBoard ()
 	{
-		if (CONTROLLER.gameMode == "slogover")
+		if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting)
 		{
 //			UnityPHPConnector.instance.SendPointsToPHP (CONTROLLER.totalPoints);
 		}
-		else if (CONTROLLER.gameMode == "chasetarget")
+		else if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 		{
 			//CONTROLLER.totalPoints = CalculatePointsForMatch ();
 //			UnityPHPConnector.instance.SendPointsToPHP (CONTROLLER.totalPoints);
@@ -1537,20 +1538,20 @@ public class GameModel : Singleton<GameModel>
 	public void ClearLevelDetails ()
 	{
 		CONTROLLER.TempPoint = CONTROLLER.totalPoints;
-		if(PlayerPrefs.HasKey ("SlogOverDetail") && CONTROLLER.gameMode == "slogover")
+		if(PlayerPrefs.HasKey ("SlogOverDetail") && CONTROLLER.selectedGameMode == GameMode.OnlyBatting)
 		{
 			PlayerPrefs.DeleteKey ("SlogOverDetail");
 			PlayerPrefs.DeleteKey ("slogoverPlayerDetails");
             PlayerPrefs.DeleteKey("slogovermatchid");
 
         }
-        if (PlayerPrefs.HasKey ("ChaseTargetDetail") && CONTROLLER.gameMode == "chasetarget")
+        if (PlayerPrefs.HasKey ("ChaseTargetDetail") && CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 		{
 			PlayerPrefs.DeleteKey ("ChaseTargetDetail");
 			PlayerPrefs.DeleteKey ("chasetargetPlayerDetails");
 		}
 
-        if (PlayerPrefs.HasKey(CONTROLLER.SUPER_Crusade_SavedMatchDetails) && CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode)
+        if (PlayerPrefs.HasKey(CONTROLLER.SUPER_Crusade_SavedMatchDetails) && CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)
         {
             PlayerPrefs.DeleteKey(CONTROLLER.SUPER_Crusade_SavedMatchDetails);
             PlayerPrefs.DeleteKey(CONTROLLER.SUPER_Crusade_PlayerDetails);
@@ -1732,7 +1733,7 @@ public class GameModel : Singleton<GameModel>
 		currentBall = -1; 
 		CONTROLLER.currentBallNumber = 0;
 		runsScoredInOver = 0;
-		if (CONTROLLER.gameMode != "superover" && CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer)
+		if (CONTROLLER.selectedGameMode != GameMode.SuperOver && CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer)
 		{ 
 			if(!AnimationScreen .instance .isLastBallWicket && !ExtraBall.instance.holder.activeSelf)
 				BattingScoreCard.instance.ShowMe ();
@@ -2299,7 +2300,7 @@ public void enableBlocker ()
 
 	private void  SetOverRange ()
 	{
-		if (CONTROLLER.gameMode != "chasetarget")
+		if (CONTROLLER.selectedGameMode != GameMode.ChaseTarget)
 		{
 			return;
 		}
@@ -2322,7 +2323,7 @@ public void enableBlocker ()
 		BattingScoreCard.instance.ResetPlayerImages ();
 		SetOverRange ();
 		AdIntegrate.instance.SetTimeScale(1f);
-		if (CONTROLLER.gameMode== "chasetarget")
+		if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 		    CONTROLLER.GetRandomScoreForOppTeam (CONTROLLER.StartRangeArray[CONTROLLER.CTSubLevelId], CONTROLLER.EndRangeArray[CONTROLLER.CTSubLevelId]);
 		CONTROLLER.InningsCompleted = false;//30march
 		GroundController.instance.ResetAll ();
@@ -2339,24 +2340,24 @@ public void enableBlocker ()
 		SetTeamIndex();
 
         //gopi - for removing data while user clicks replay
-        if (CONTROLLER.gameMode == "superover")
+        if (CONTROLLER.selectedGameMode == GameMode.SuperOver)
 		{ 
 			PlayerPrefs.DeleteKey ("SuperOverDetail");
 			PlayerPrefs.DeleteKey ("superoverPlayerDetails");
 			PlayerPrefs.SetInt("SOwicketGainUsed", 0);
 		}
-		else if (CONTROLLER.gameMode == "slogover")
+		else if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting)
 		{
 			PlayerPrefs.DeleteKey ("SlogOverDetail");
 			PlayerPrefs.DeleteKey ("slogoverPlayerDetails");
             PlayerPrefs.DeleteKey("slogovermatchid");
         }
-        else if (CONTROLLER.gameMode == "chasetarget")
+        else if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 		{
 			PlayerPrefs.DeleteKey ("ChaseTargetDetail");
 			PlayerPrefs.DeleteKey ("chasetargetPlayerDetails");
 		}
-        else if (CONTROLLER.gameMode ==CONTROLLER.SUPER_Crusade_GameMode)
+        else if (CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)
         {
             PlayerPrefs.DeleteKey(CONTROLLER.SUPER_Crusade_SavedMatchDetails);
             PlayerPrefs.DeleteKey(CONTROLLER.SUPER_Crusade_PlayerDetails);
@@ -2479,7 +2480,7 @@ public void enableBlocker ()
 			{
 				GoogleAnalyticsBinder.instance.PostEvent ("CSK_Anthem_"+CONTROLLER.BGMLanguage);
 			}*/
-			if (CONTROLLER.gameMode == "slogover")
+			if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting)
 			{
 				/*if (GoogleAnalyticsBinder.instance != null)
 				{

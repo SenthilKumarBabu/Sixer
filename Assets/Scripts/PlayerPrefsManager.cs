@@ -442,23 +442,23 @@ public class PlayerPrefsManager : MonoBehaviour
 			teamlist += "</team>";
 		}
 		teamlist += "</cricket>";
-		if (CONTROLLER.gameMode == "superover")
+		if (CONTROLLER.selectedGameMode == GameMode.SuperOver)
 		{
 			PlayerPrefs.SetString("superoverteamlist", teamlist);
 		}
-		else if (CONTROLLER.gameMode == "slogover")
+		else if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting)
 		{
 			PlayerPrefs.SetString("slogoverteamlist", teamlist);
 		}
-		else if (CONTROLLER.gameMode == "chasetarget")
+		else if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 		{
 			PlayerPrefs.SetString("chasetargetteamlist", teamlist);
 		}
-		else if (CONTROLLER.gameMode == "multiplayer")
+		else if (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
 		{
 			PlayerPrefs.SetString("multiplayerteamlist", teamlist);
 		}
-		else if (CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode)
+		else if (CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)
 		{
 			PlayerPrefs.SetString(CONTROLLER.SUPER_Crusade_Teamlist, teamlist);
 		}

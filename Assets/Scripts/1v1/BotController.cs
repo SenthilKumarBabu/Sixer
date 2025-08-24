@@ -54,7 +54,7 @@ public class BotController : MonoBehaviour
 
 
         MultiplayerManager.Instance.ReceiveScoreUpdate(totalMatchScore, currentRunScored, currentMatchWickets);
-        GameModel.instance.ScoreSyncedAndMoveToNextBall();
+        GameModel.instance.ScoreSyncedAndMoveToNextBall(true);
     }
 
     /// <summary>
