@@ -105,7 +105,6 @@ public class GameModeSelector : MonoBehaviour
 	{
 		DebugLogger.PrintWithColor("Reset Variables Called:::: ");
         CONTROLLER.selectedGameMode = GameMode.None;
-        CONTROLLER.gameMode = "";
 
         if (MultiplayerManager.Instance != null)
 			MultiplayerManager.Instance.DestroyBot();
@@ -193,7 +192,6 @@ public class GameModeSelector : MonoBehaviour
 
         if (index == 0)
 		{
-			CONTROLLER.gameMode = "slogover";
 			if (PlayerPrefs.HasKey("slogoverteamlist"))
 			{
 				dataStr = PlayerPrefs.GetString("slogoverteamlist");
@@ -323,23 +321,23 @@ public class GameModeSelector : MonoBehaviour
 	public void newGame() 
 	{
 		isNewGame = true;
-		if (CONTROLLER.gameMode == "superover")
+		if (CONTROLLER.selectedGameMode == GameMode.SuperOver)
 		{
 			PlayerPrefs.DeleteKey ("SuperOverDetail");
 			PlayerPrefs.DeleteKey ("superoverPlayerDetails");
 		}
-		else if (CONTROLLER.gameMode == "slogover")
+		else if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting)
 		{
 			PlayerPrefs.DeleteKey ("SlogOverDetail");
 			PlayerPrefs.DeleteKey ("slogoverPlayerDetails");
             PlayerPrefs.DeleteKey("slogovermatchid");
         }
-		else if (CONTROLLER.gameMode == "chasetarget")
+		else if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 		{
 			PlayerPrefs.DeleteKey ("ChaseTargetDetail");
 			PlayerPrefs.DeleteKey ("chasetargetPlayerDetails");
 		}
-        else if (CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode)
+        else if (CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)
         {
             PlayerPrefs.DeleteKey(CONTROLLER.SUPER_Crusade_SavedMatchDetails);
             PlayerPrefs.DeleteKey(CONTROLLER.SUPER_Crusade_PlayerDetails);
@@ -351,7 +349,7 @@ public class GameModeSelector : MonoBehaviour
 		modeInstruction.SetActive (true);
         //Scoreboard.instance.NewOver ();
 
-        if (CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode)
+        if (CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)
             ShowInstructionPage (5);
         else
 		{
@@ -388,7 +386,6 @@ public class GameModeSelector : MonoBehaviour
 		{
 			CONTROLLER.tempCurrentPage = CONTROLLER.CurrentPage;
 			CONTROLLER.CurrentPage = "settingspage";
-			CONTROLLER.gameMode = "";
 
 			settings.SetActive(true);
 			ShowLandingPage(false);
@@ -615,7 +612,6 @@ public class GameModeSelector : MonoBehaviour
 
 		if (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
 		{
-			CONTROLLER.gameMode = "multiplayer";
 			if (PlayerPrefs.HasKey("multiplayerteamlist"))
 			{
 				string dataStr;

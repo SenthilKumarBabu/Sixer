@@ -102,14 +102,14 @@ public class UIAnimation : Singleton<UIAnimation>
 
 	private void  ShowLevelScreen ()
 	{
-		if (CONTROLLER.gameMode == "superover" && SOLevelSelectionPage.instance == null)
+		if (CONTROLLER.selectedGameMode == GameMode.SuperOver && SOLevelSelectionPage.instance == null)
 		{
 			HideBackBtn ();
 			prefabGO = Resources.Load ("Prefabs/SOLevelSelection")as GameObject;
 			tempGO = Instantiate (prefabGO)as GameObject;
 			tempGO.name = "SOLevelSelection";
 		}
-		else if (CONTROLLER.gameMode == "chasetarget" && CTMenuScreen.instance == null)
+		else if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget && CTMenuScreen.instance == null)
 		{
 			//if (CONTROLLER.InningsCompleted == false)
 			{
@@ -159,7 +159,7 @@ public class UIAnimation : Singleton<UIAnimation>
 
 	private void  OnAnimationComplete ()
 	{
-		if (CONTROLLER.gameMode == "superover")
+		if (CONTROLLER.selectedGameMode == GameMode.SuperOver)
 		{
 			int mod = CONTROLLER.LevelId%2;
 			if (mod == 0)

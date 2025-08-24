@@ -86,7 +86,6 @@ public class CONTROLLER
 
     public static bool GameIsOnFocus = true;
 
-    public static string gameMode = "slogover";		//superover, slogover, chasetarget,supercards
 	public static bool isPlayingChallenge = true;
 	public static string CurrentPage = "";
 	public static bool canShowMainCamera = true;
@@ -419,8 +418,11 @@ public enum ShotStatus : byte
 public enum GameMode
 {
 	None=-1,
-	OnlyBatting=0,
+	OnlyBatting=0, //slogover
 	BatBowlWithAI=1,
 	BattingMultiplayer=2,
-	BatBowlMultiplayer=3
+	BatBowlMultiplayer=3,
+	ChaseTarget=4,
+	SuperOver=5,
+    SUPER_Crusade_GameMode=6
 }

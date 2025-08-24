@@ -885,7 +885,7 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
 
     }
 
-    private int oppBallIndex = 0;
+    [HideInInspector] public int oppBallIndex = 0;
     [HideInInspector] public int userBallIndex = 0;
     [PunRPC]
     public void ReceiveScoreUpdate(int totalScore, string currentRunScored, int currentWicket)
@@ -893,8 +893,9 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
        // Debug.Log($"[CLIENT] Received Score Update → Total: {totalScore}, Runs This Ball: {currentRunScored}, Wickets: {currentWicket}");
 
         multiplayerGroundUiHandlerScript.OppScore.text = totalScore + "/" + currentWicket;
-
         CONTROLLER.oppBallbyBallData[oppBallIndex % 6] = currentRunScored;
+
+        multiplayerGroundUiHandlerScript.scorePopupAnimationScript.ShowScore(CONTROLLER.oppBallbyBallData[oppBallIndex], false);
         oppBallIndex++;
 
         // Update UI

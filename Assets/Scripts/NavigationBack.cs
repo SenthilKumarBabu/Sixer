@@ -100,7 +100,7 @@ public class NavigationBack : Singleton<NavigationBack>
                       // MultiplayerPage.instance.ShowGameExitPopup();
 					}
 				}
-				else if (ManageScene.CurScene == Scenes.Ground && CONTROLLER .gameMode !="multiplayer")
+				else if (ManageScene.CurScene == Scenes.Ground && CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer)
 				{
 
 					 if (ProgressBar.instance != null && ProgressBar.instance.holder.activeSelf)

@@ -79,7 +79,7 @@ public class AnimationScreen : Singleton<AnimationScreen>
 		}
 		if (animType == 5 && CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer && CONTROLLER.currentMatchWickets < 10)
 		{
-			if (CONTROLLER.gameMode == "superover")
+			if (CONTROLLER.selectedGameMode == GameMode.SuperOver)
 			{
 				if (CONTROLLER.currentMatchBalls != 0 && CONTROLLER.currentMatchWickets < 2)
 				{
@@ -87,10 +87,10 @@ public class AnimationScreen : Singleton<AnimationScreen>
 					BattingScoreCard.instance.DisplayNextPlayer();
 				}
 			}
-			else if (CONTROLLER.gameMode != "superover" && !GameModel.instance.CheckForInningsComplete())
+			else if (CONTROLLER.selectedGameMode != GameMode.SuperOver && !GameModel.instance.CheckForInningsComplete())
 			{
 				AdIntegrate.instance.SetTimeScale(0f);
-				if ((CONTROLLER.currentBallNumber == 0 && (CONTROLLER.gameMode == "slogover" || CONTROLLER.gameMode == "chasetarget" || CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode)))
+				if ((CONTROLLER.currentBallNumber == 0 && (CONTROLLER.selectedGameMode == GameMode.OnlyBatting || CONTROLLER.selectedGameMode == GameMode.ChaseTarget || CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)))
 				{
 					if ((CONTROLLER.currentMatchBalls + 1) < CONTROLLER.totalOvers * 6)
 					{

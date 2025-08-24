@@ -99,29 +99,36 @@ public class TeamSelection : Singleton<TeamSelection> {
 	}
 
 	void setModeLogo() {
-		if (CONTROLLER.gameMode == "superover") {
+		if (CONTROLLER.selectedGameMode == GameMode.SuperOver)
+		{
 			//logo.sprite = modeLogos [0];
-            modetext.text = "SUPER OVER";
-            //logo.rectTransform.pivot = new Vector2 (0.25f, 0.75f); 
-        } else if (CONTROLLER.gameMode == "slogover") {
+			modetext.text = "SUPER OVER";
+			//logo.rectTransform.pivot = new Vector2 (0.25f, 0.75f); 
+		}
+		else if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting)
+		{
 			//logo.sprite = modeLogos [1];
-            modetext.text = "SUPER SLOG";
-            //logo.rectTransform.pivot = new Vector2 (0.15f, 1f); 
-        } else if (CONTROLLER.gameMode == "chasetarget") {
+			modetext.text = "SUPER SLOG";
+			//logo.rectTransform.pivot = new Vector2 (0.15f, 1f); 
+		}
+		else if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
+		{
 			//logo.sprite = modeLogos [2];
-            modetext.text = "SUPER CHASE";
-		//	logo.rectTransform.pivot = new Vector2 (0.25f, 1f); 
-		} else if (CONTROLLER.gameMode == "multiplayer") {
+			modetext.text = "SUPER CHASE";
+			//	logo.rectTransform.pivot = new Vector2 (0.25f, 1f); 
+		}
+		else if (CONTROLLER.selectedGameMode == GameMode.BattingMultiplayer)
+		{
 			//logo.sprite = modeLogos [3];
-            modetext.text = "SUPER MULTIPLAYER";
-            //logo.rectTransform.pivot = new Vector2 (0.25f, 0.9f); 
-        }
-        else if (CONTROLLER.gameMode ==CONTROLLER.SUPER_Crusade_GameMode)
-        {       
-            //logo.sprite = modeLogos[4];
-            modetext.text = "SUPER MATCHES";
-           // logo.rectTransform.pivot = new Vector2(0.25f, 0.9f);           
-        }
+			modetext.text = "SUPER MULTIPLAYER";
+			//logo.rectTransform.pivot = new Vector2 (0.25f, 0.9f); 
+		}
+		else if (CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)
+		{
+			//logo.sprite = modeLogos[4];
+			modetext.text = "SUPER MATCHES";
+			// logo.rectTransform.pivot = new Vector2(0.25f, 0.9f);           
+		}
     }
 
 	void ValidatePlayerNames() {
@@ -171,40 +178,43 @@ public class TeamSelection : Singleton<TeamSelection> {
 		}
 		return true;*/
 	}
-		
-	public void Continue() {
-		if (playerCount < 11) {
-			CONTROLLER .CurrentPage ="teamPopup";
-			insufficientPlayers.SetActive (true);
-		}
-		if (foreignPlayerCount > 4) {
-			CONTROLLER .CurrentPage ="teamPopup";
-			excessForeignPlayers.SetActive (true);
-		}
-		if (playerCount == 11 && foreignPlayerCount <=4) {
-			PlayerPrefsManager.SetTeamList ();
-			if (CONTROLLER.gameMode != "multiplayer") {
-				
-				StartCoroutine (LoadGroundScene ());
 
+	public void Continue()
+	{
+		if (playerCount < 11)
+		{
+			CONTROLLER.CurrentPage = "teamPopup";
+			insufficientPlayers.SetActive(true);
+		}
+		if (foreignPlayerCount > 4)
+		{
+			CONTROLLER.CurrentPage = "teamPopup";
+			excessForeignPlayers.SetActive(true);
+		}
+		if (playerCount == 11 && foreignPlayerCount <= 4)
+		{
+			PlayerPrefsManager.SetTeamList();
+			if (CONTROLLER.selectedGameMode != GameMode.BattingMultiplayer)
+			{
+				StartCoroutine(LoadGroundScene());
 			}
 			else
 			{
-				battingOrder.SetActive (true);
-				CONTROLLER.PlayingTeam = new ArrayList ();
-                //Debug.LogError(CONTROLLER.TeamList.Length);
-				for(int i = 0; i < CONTROLLER.TeamList.Length; i++)
+				battingOrder.SetActive(true);
+				CONTROLLER.PlayingTeam = new ArrayList();
+				//Debug.LogError(CONTROLLER.TeamList.Length);
+				for (int i = 0; i < CONTROLLER.TeamList.Length; i++)
 				{
-					for(int j = 0; j < CONTROLLER.TeamList[i].PlayerList.Length; j++)
+					for (int j = 0; j < CONTROLLER.TeamList[i].PlayerList.Length; j++)
 					{
-						if(CONTROLLER.TeamList[i].PlayerList[j].DefaultPlayer == "1")
+						if (CONTROLLER.TeamList[i].PlayerList[j].DefaultPlayer == "1")
 						{
 							CONTROLLER.PlayingTeam.Add(j);
 						}
 					}
 				}
-				BattingLineup.instance.ResetBattingCard ();
-				this.gameObject.SetActive (false);
+				BattingLineup.instance.ResetBattingCard();
+				this.gameObject.SetActive(false);
 
 				CONTROLLER.CurrentPage = "battinglineup";
 			}

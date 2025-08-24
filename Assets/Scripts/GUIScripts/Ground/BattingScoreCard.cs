@@ -277,7 +277,8 @@ public class BattingScoreCard : Singleton<BattingScoreCard>
 
 	public void RegainWicket() 
 	{
-		if (CONTROLLER.gameMode == "superover") 
+		
+		if (CONTROLLER.selectedGameMode == GameMode.SuperOver) 
 			PlayerPrefs.SetInt("SOwicketGainUsed", 1);	//for do not use the option again
 
 		CONTROLLER.currentMatchWickets--;
@@ -637,7 +638,7 @@ public class BattingScoreCard : Singleton<BattingScoreCard>
     }
     public void StartGame ()
 	{
-		if (CONTROLLER.gameMode == "superover")
+		if (CONTROLLER.selectedGameMode == GameMode.SuperOver)
 		{
 			if(!PlayerPrefs.HasKey ("SuperOverDetail"))
 			{
@@ -648,11 +649,11 @@ public class BattingScoreCard : Singleton<BattingScoreCard>
 				GameModel.instance.ShowIntroAnimation ();
 			}
 		}
-		else if (CONTROLLER.gameMode == "slogover" || CONTROLLER.isBatBowlMode())
+		else if (CONTROLLER.selectedGameMode == GameMode.OnlyBatting || CONTROLLER.isBatBowlMode())
 		{
 			GameModel.instance.ShowIntroAnimation ();
         }
-        else if (CONTROLLER.gameMode == "chasetarget")
+        else if (CONTROLLER.selectedGameMode == GameMode.ChaseTarget)
 		{
 			if (!PlayerPrefs.HasKey ("ChaseTargetDetail"))
 			{
@@ -663,7 +664,7 @@ public class BattingScoreCard : Singleton<BattingScoreCard>
 				GameModel.instance.ShowIntroAnimation ();
 			}
 		}
-        else if (CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode)
+        else if (CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)
         {
             if (!PlayerPrefs.HasKey(CONTROLLER.SUPER_Crusade_SavedMatchDetails))
             {
@@ -680,7 +681,7 @@ public class BattingScoreCard : Singleton<BattingScoreCard>
 
 	public void ShowMe ()
 	{
-		if (CONTROLLER.InningsCompleted && CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode)
+		if (CONTROLLER.InningsCompleted && CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)
 		{
 			CloseButtonClicked();
 			return;
@@ -689,7 +690,7 @@ public class BattingScoreCard : Singleton<BattingScoreCard>
 		CONTROLLER.CurrentPage = "battingscorecard";
 		//AdIntegrate.instance.SetTimeScale(0f);
 		GamePauseScreen.instance.Hide (true);
-        if(CONTROLLER.gameMode == CONTROLLER.SUPER_Crusade_GameMode)            //arun
+        if(CONTROLLER.selectedGameMode == GameMode.SUPER_Crusade_GameMode)            //arun
         {
             //CSKUIText.enabled = true;
             //VSoppUIText.text = "CSK vs " + oppTeamName[GetOppTeamNameIndex()];

@@ -479,8 +479,6 @@ public class GroundController : MonoBehaviour
 	public Text sixDistanceGO;
 
 	private bool isTrailOn = false;
-	public Mesh batsmanHighPolyMesh;
-	public Mesh batsmanLowPolyMesh;
 	private GameObject lensFlareHolder;
 	private GameObject groundFlashGO;
 	//private GameObject groundTreesGO ;
@@ -5303,18 +5301,18 @@ public class GroundController : MonoBehaviour
 		}
 		// slip catch, when power shot and ball has swing...
 		//	if(maySlip == true && Random.Range (0.0f,100.0f) < 30.0f && UltraSlow == false && playedUltraSlowMotion == false)
-		if ((maySlip == true && randomVal < slipCatchChances && playedUltraSlowMotion == false) && DistanceBetweenTwoGameObjects(batsman, bowlingSpotGO) < 3.0f && UltraCatch == false)
-		{
-			slipShot = true;
-			if (currentBatsmanHand == "right")
-			{
-				ballAngle = 105;
-			}
-			else
-			{
-				ballAngle = 75;
-			}
-		}
+		//if ((maySlip == true && randomVal < slipCatchChances && playedUltraSlowMotion == false) && DistanceBetweenTwoGameObjects(batsman, bowlingSpotGO) < 3.0f && UltraCatch == false)
+		//{
+		//	slipShot = true;
+		//	if (currentBatsmanHand == "right")
+		//	{
+		//		ballAngle = 105;
+		//	}
+		//	else
+		//	{
+		//		ballAngle = 75;
+		//	}
+		//}
 
 		float customBallSpeed = 1.0f;
 
@@ -5328,7 +5326,9 @@ public class GroundController : MonoBehaviour
 		float fielderDodgeDistance = 13f;
 
 		bool isGoodOrPerfectShot = false;
-		if (slipShot == true)
+        slipShot = false;
+
+        if (slipShot == true)
 		{
 			float val = 5;
 			if (UltraCatch)
@@ -5460,23 +5460,23 @@ public class GroundController : MonoBehaviour
 				edgeCatch = false;
 			}
 			//Top edge & ball angle change...
-			else if (battingTimingMeter > 30 && (shotPlayed == "LoftedPullShot" || shotPlayed == "PullShot" || shotPlayed == "HookShot"))
-			{
-				//topEdgeCatch = true;
-				//CONTROLLER.sndController.EnqueueCommentary(6, 12, 0.1f);
-				ballProjectileAnglePerSecondFactor = 2.0f;
-				ballTimingFirstBounceDistance = 40;
-				if (currentBowlerType == "fast" || currentBowlerType == "medium")
-				{
-					ballProjectileHeight = Random.Range(11.0f, 13.0f); //12;
-				}
-				else
-				{
-					ballProjectileHeight = Random.Range(7.0f, 9.0f);
-				}
-				horizontalSpeed = 15;
-				ballAngle = ballAngle + 180 + Random.Range(35.0f, -35.0f);
-			}
+			//else if (battingTimingMeter > 30 && (shotPlayed == "LoftedPullShot" || shotPlayed == "PullShot" || shotPlayed == "HookShot"))
+			//{
+			//	//topEdgeCatch = true;
+			//	//CONTROLLER.sndController.EnqueueCommentary(6, 12, 0.1f);
+			//	ballProjectileAnglePerSecondFactor = 2.0f;
+			//	ballTimingFirstBounceDistance = 40;
+			//	if (currentBowlerType == "fast" || currentBowlerType == "medium")
+			//	{
+			//		ballProjectileHeight = Random.Range(11.0f, 13.0f); //12;
+			//	}
+			//	else
+			//	{
+			//		ballProjectileHeight = Random.Range(7.0f, 9.0f);
+			//	}
+			//	horizontalSpeed = 15;
+			//	ballAngle = ballAngle + 180 + Random.Range(35.0f, -35.0f);
+			//}
 			//Early power shot...
 			//			-7 -15
 			else if (battingTimingMeter <= -btmPerfectValue)//AI Improve
@@ -5736,7 +5736,7 @@ public class GroundController : MonoBehaviour
 		ballProjectileAnglePerSecond = 82.7023f;
 		ballProjectileHeight = 7.180584f;
 */
-        DebugLogger.PrintWithColor($"[Ball Debug] Horizontal Speed: {horizontalSpeed}, " + $"Angle: {ballProjectileAngle}, Height: {ballProjectileHeight}, " + $"First Bounce Distance: {ballTimingFirstBounceDistance}, " + $"Angle Per Second: {ballProjectileAnglePerSecond} " + $"First Bounce Distance: {ballTimingFirstBounceDistance}"+ $"shotPlayed: {shotPlayed}");
+      //  DebugLogger.PrintWithColor($"[Ball Debug] Horizontal Speed: {horizontalSpeed}, " + $"Angle: {ballProjectileAngle}, Height: {ballProjectileHeight}, " + $"First Bounce Distance: {ballTimingFirstBounceDistance}, " + $"Angle Per Second: {ballProjectileAnglePerSecond} " + $"First Bounce Distance: {ballTimingFirstBounceDistance}"+ $"shotPlayed: {shotPlayed}");
 
         nextPitchDistance = ballTimingFirstBounceDistance;
 
@@ -8280,31 +8280,21 @@ For Wicket Keeper Index						-	CONTROLLER.wickerKeeperIndex
 
 	void SetStadiumEnd()
 	{
-        if (CONTROLLER.gameMode != "superover")
-        {
-            if (CONTROLLER.BowlingEnd == "madrasclub")
-            {
-                stadiumGO.transform.eulerAngles = new Vector3(0, 180f, 0);
-                extrasGO.transform.eulerAngles = new Vector3(extrasGO.transform.eulerAngles.x, 180f, extrasGO.transform.eulerAngles.z);
-                cameraFlashReferences.transform.eulerAngles = new Vector3(cameraFlashReferences.transform.eulerAngles.x, 0, cameraFlashReferences.transform.eulerAngles.z);
-                stadiumRotationAngle = 0;
-            }
-            else
-            {
-                stadiumGO.transform.eulerAngles = new Vector3(0, 0, 0);
-                extrasGO.transform.eulerAngles = new Vector3(extrasGO.transform.eulerAngles.x, 0f, extrasGO.transform.eulerAngles.z);
-                cameraFlashReferences.transform.eulerAngles = new Vector3(cameraFlashReferences.transform.eulerAngles.x, 180, cameraFlashReferences.transform.eulerAngles.z);
-                stadiumRotationAngle = 180;
-            }
-        }
-        else
-        {
-            stadiumGO.transform.eulerAngles = new Vector3(0, 180f, 0);
-            extrasGO.transform.eulerAngles = new Vector3(extrasGO.transform.eulerAngles.x, 180f, extrasGO.transform.eulerAngles.z);
-            cameraFlashReferences.transform.eulerAngles = new Vector3(cameraFlashReferences.transform.eulerAngles.x, 0f, cameraFlashReferences.transform.eulerAngles.z);
-            stadiumRotationAngle = 0;
-        }
-    }
+		if (CONTROLLER.BowlingEnd == "madrasclub")
+		{
+			stadiumGO.transform.eulerAngles = new Vector3(0, 180f, 0);
+			extrasGO.transform.eulerAngles = new Vector3(extrasGO.transform.eulerAngles.x, 180f, extrasGO.transform.eulerAngles.z);
+			cameraFlashReferences.transform.eulerAngles = new Vector3(cameraFlashReferences.transform.eulerAngles.x, 0, cameraFlashReferences.transform.eulerAngles.z);
+			stadiumRotationAngle = 0;
+		}
+		else
+		{
+			stadiumGO.transform.eulerAngles = new Vector3(0, 0, 0);
+			extrasGO.transform.eulerAngles = new Vector3(extrasGO.transform.eulerAngles.x, 0f, extrasGO.transform.eulerAngles.z);
+			cameraFlashReferences.transform.eulerAngles = new Vector3(cameraFlashReferences.transform.eulerAngles.x, 180, cameraFlashReferences.transform.eulerAngles.z);
+			stadiumRotationAngle = 180;
+		}
+	}
 
 	public void NewOver ()
 	{

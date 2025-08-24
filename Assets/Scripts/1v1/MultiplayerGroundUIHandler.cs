@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class MultiplayerGroundUIHandler : MonoBehaviour
 {
+    public ScorePopupAnimation scorePopupAnimationScript;
     public GameObject WaitingPanel;
     public void Awake()
     {
@@ -92,6 +93,7 @@ public class MultiplayerGroundUIHandler : MonoBehaviour
         {
             UserBallInfo[i].text = CONTROLLER.userBallbyBallData[i];
         }
+        scorePopupAnimationScript.ShowScore(CONTROLLER.userBallbyBallData[MultiplayerManager.Instance.userBallIndex], true);
     }
     #endregion
 
