@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MultiplayerGroundUIHandler : MonoBehaviour
+public class MultiplayerGroundUIHandler : UIPage
 {
     public ScorePopupAnimation scorePopupAnimationScript;
     public GameObject WaitingPanel;
@@ -46,52 +48,49 @@ public class MultiplayerGroundUIHandler : MonoBehaviour
     #endregion
 
     #region SCOREBOARD
+
     public GameObject ScoreBoards;
-    public Text Overs;
-    public Text UserName;
-    public Text UserScore;
-    public Text[] UserBallInfo;
-
-
-    public Text OppName;
-    public Text OppScore;
-    public Text[] OppBallInfo;
-
+    public UserScorecardUI userScorecard, opponentScorecard;
+    [SerializeField] private TMP_Text oversText;
 
     public void resetScoreBoardData()
     {
         ScoreBoards.SetActive(true);
 
-        Overs.text = "0(1)";
-        UserName.text = CONTROLLER.UserName;
-        UserScore.text = "0/0";
-        OppName.text = CONTROLLER.MP_OpponentName;
-        OppScore.text = "0/0";
+        oversText.text = "0(1)";
+        userScorecard.userNameText.text = CONTROLLER.UserName;
+        userScorecard.scoreText.text = "0/0";
+        opponentScorecard.userNameText.text = CONTROLLER.MP_OpponentName;
+        opponentScorecard.scoreText.text = "0/0";
 
         // Reset user ball data
         CONTROLLER.userBallbyBallData = new string[6];
-        for (int i = 0; i < UserBallInfo.Length; i++)
+        for (int i = 0; i < userScorecard.runsEachBallList.Count; i++)
         {
-            UserBallInfo[i].text = "";
+            userScorecard.runsEachBallList[i].text = "";
+            userScorecard.BGEachBallList[i].SetActive(false);
         }
 
         // Reset opponent ball data
         CONTROLLER.oppBallbyBallData = new string[6];
-        for (int i = 0; i < OppBallInfo.Length; i++)
+        for (int i = 0; i < opponentScorecard.runsEachBallList.Count; i++)
         {
-            OppBallInfo[i].text = "";
+            opponentScorecard.runsEachBallList[i].text = "";
+            opponentScorecard.BGEachBallList[i].SetActive(false);
         }
     }
 
 
     public void UpdateScoreCard()
     {
-        UserScore.text = GameModel.ScoreStr;
-        Overs.text = GameModel.OversStr;
+        userScorecard.scoreText.text = GameModel.ScoreStr;
+        oversText.text = GameModel.OversStr;
 
         for (int i = 0; i < 6; i++)
         {
-            UserBallInfo[i].text = CONTROLLER.userBallbyBallData[i];
+            userScorecard.runsEachBallList[i].text = CONTROLLER.userBallbyBallData[i];
+            if (i <= MultiplayerManager.Instance.userBallIndex)
+                userScorecard.BGEachBallList[i].SetActive(true);
         }
         scorePopupAnimationScript.ShowScore(CONTROLLER.userBallbyBallData[MultiplayerManager.Instance.userBallIndex], true);
     }
@@ -121,30 +120,34 @@ public class MultiplayerGroundUIHandler : MonoBehaviour
 
     public void UpdateGameOverScreen()
     {
-        GameOverPanel.SetActive(true);
+        //GameOverPanel.SetActive(true);
+        
 
         // Parse user score
-        ParseScore(UserScore.text, out int userRuns, out int userWickets);
+        ParseScore(userScorecard.scoreText.text, out int userRuns, out int userWickets);
 
         // Parse opponent score
-        ParseScore(OppScore.text, out int oppRuns, out int oppWickets);
+        ParseScore(opponentScorecard.scoreText.text, out int oppRuns, out int oppWickets);
 
+        string headertext, desc;
         // Determine result
         if (userRuns > oppRuns)
         {
-            GO_Title.text = "YOU WON";
-            GO_Desc.text = $"You scored {userRuns}/{userWickets} and defended it against {oppRuns}/{oppWickets}.\n Great win!";
+            headertext = "YOU WON";
+            desc = $"You scored {userRuns}/{userWickets} and defended it against {oppRuns}/{oppWickets}.\n Great win!";
         }
         else if (userRuns < oppRuns)
         {
-            GO_Title.text = "YOU LOST";
-            GO_Desc.text = $"Opponent chased your {userRuns}/{userWickets} with a score of {oppRuns}/{oppWickets}.\n Try again!";
+            headertext = "YOU LOST";
+            desc = $"Opponent chased your {userRuns}/{userWickets} with a score of {oppRuns}/{oppWickets}.\n Try again!";
         }
         else
         {
-            GO_Title.text = "MATCH TIED";
-            GO_Desc.text = $"Both scored {userRuns}/{userWickets}.\n It’s a draw!";
+            headertext = "MATCH TIED";
+            desc = $"Both scored {userRuns}/{userWickets}.\n It’s a draw!";
         }
+        UIManager.Instance.OpenPopup<GenericPopup>(new GenericPopupData( headertext, desc,()=>OnButtonClickofGameOverScreen(1),()=>OnButtonClickofGameOverScreen(0) ));
+
     }
 
     // Utility method to parse score string in format "runs/wickets"
@@ -162,4 +165,13 @@ public class MultiplayerGroundUIHandler : MonoBehaviour
     }
 
     #endregion
+}
+
+[System.Serializable]
+public class UserScorecardUI
+{
+    public TMP_Text scoreText, userNameText;
+    public List<TMP_Text> runsEachBallList;
+    public List<GameObject> BGEachBallList;
+    public Image userImage;
 }

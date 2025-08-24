@@ -290,7 +290,7 @@ public class GroundController : MonoBehaviour
 	private Camera mainCamera;
 	// pitch camera
 
-	private Vector3 mainCameraPitchPosition = new Vector3(-0.4f,  2f, 14.5f);//Vector3(0,  2, 15) //2013
+	private Vector3 mainCameraPitchPosition = new Vector3(-0.4f,  2.75f, 14.5f);//Vector3(0,  2, 15) //2013
 	private Vector3 mainCameraBatterViewInitRotation =new  Vector3 (0f, 178f, 0f);//Vector3 (0, 180, 0) //2013
     protected Vector3 mainCameraZoomInPosition = new Vector3(0, 10.5f, -53);
     protected Vector3 mainCameraBolwerViewInitRotation = new Vector3(9, 0, 0);
@@ -1515,24 +1515,16 @@ public class GroundController : MonoBehaviour
 		if (currentBatsmanHand == "left")
 		{
 			bowlerSide = "left";
-			//mainCameraPitchPosition = new Vector3(0.4f, 2f, 15.5f);
-			//mainCameraInitRotation = new Vector3(0f, 182f, 0f);
-			//ManojAdded
-			mainCameraPitchPosition = new Vector3(0.0f, 2f, 14.5f);
+			mainCameraPitchPosition = new Vector3(0.25f, 2.75f, 14.5f);
 			mainCameraBatterViewInitRotation = new Vector3(0f, 180f, 0f);
 			mainCamera.fieldOfView = 60;
-			//ManojAdded
 		}
 		else if (currentBatsmanHand == "right")
 		{
 			bowlerSide = "right";
-			//mainCameraPitchPosition = new Vector3(-0.4f, 2f, 15.5f);
-			//mainCameraInitRotation = new Vector3(0, 178, 0);
-			//ManojAdded
-			mainCameraPitchPosition = new Vector3(0.0f, 2f, 14.5f);
+			mainCameraPitchPosition = new Vector3(-0.25f, 2.75f, 14.5f);
 			mainCameraBatterViewInitRotation = new Vector3(0f, 180f, 0f);
 			mainCamera.fieldOfView = 60;
-			//ManojAdded
 		}	
 
 		

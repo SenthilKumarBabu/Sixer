@@ -55,7 +55,8 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
             Application.runInBackground = true;
             AdIntegrate.instance.SystemSleepSettings(0);
             BattingScoreCard.instance.HideMe();
-            if (multiplayerGroundUiHandlerScript == null)
+            UIManager.Instance.OpenPage<MultiplayerGroundUIHandler>();
+            if (multiplayerGroundUiHandlerScript == null)               
                 multiplayerGroundUiHandlerScript = GameObject.FindFirstObjectByType<MultiplayerGroundUIHandler>();
 
             multiplayerGroundUiHandlerScript.WaitingPanel.SetActive(true);
@@ -892,17 +893,20 @@ public partial class MultiplayerManager : MonoBehaviourPunCallbacks
     {
        // Debug.Log($"[CLIENT] Received Score Update → Total: {totalScore}, Runs This Ball: {currentRunScored}, Wickets: {currentWicket}");
 
-        multiplayerGroundUiHandlerScript.OppScore.text = totalScore + "/" + currentWicket;
+        multiplayerGroundUiHandlerScript.opponentScorecard.scoreText.text = totalScore + "/" + currentWicket;
         CONTROLLER.oppBallbyBallData[oppBallIndex % 6] = currentRunScored;
 
         multiplayerGroundUiHandlerScript.scorePopupAnimationScript.ShowScore(CONTROLLER.oppBallbyBallData[oppBallIndex], false);
-        oppBallIndex++;
 
         // Update UI
         for (int i = 0; i < 6; i++)
         {
-            multiplayerGroundUiHandlerScript.OppBallInfo[i].text = CONTROLLER.oppBallbyBallData[i];
+            multiplayerGroundUiHandlerScript.opponentScorecard.runsEachBallList[i].text = CONTROLLER.oppBallbyBallData[i];
+            if (i <= MultiplayerManager.Instance.oppBallIndex)
+                multiplayerGroundUiHandlerScript.opponentScorecard.BGEachBallList[i].SetActive(true);
         }
+        oppBallIndex++;
+
     }
 
     #region BOT LOGIC

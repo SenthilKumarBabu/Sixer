@@ -240,7 +240,8 @@ public class GameModeSelector : MonoBehaviour
 	{
         LoadingScreen.instance.Hide();
         ShowLandingPage(false);
-		MatchMakingPanel.SetActive(true);
+		//MatchMakingPanel.SetActive(true);
+		UIManager.Instance.OpenPage<MatchMakingPage>(new MatchMakingData(CONTROLLER.UserName.ToUpper(),"25","100",winningAmount:"200"));
 		Timer.enabled = false;
     }
 	public void ShowInstructionPage (int index) 

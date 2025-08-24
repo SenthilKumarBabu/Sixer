@@ -261,7 +261,7 @@ public class Scoreboard : Singleton<Scoreboard>
 		else
 		{
 			scoreBoard.SetActive (true);
-			ProfileDatas.SetActive(true);
+			ProfileDatas.SetActive(false);
 		}
 	}
 
@@ -290,7 +290,7 @@ public class Scoreboard : Singleton<Scoreboard>
 				muteBtn.transform.gameObject.SetActive(true);
 				pauseBtn.gameObject.SetActive(true);
 			}
-			ProfileDatas.SetActive(true);
+			ProfileDatas.SetActive(false);
 			PreviewScreen.instance.Hide(false);
 			if (StripTxt.text != "") 
 			{

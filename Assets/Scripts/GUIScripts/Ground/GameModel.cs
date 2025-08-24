@@ -1431,15 +1431,22 @@ public class GameModel : Singleton<GameModel>
 
 	public void ShowGameOverScreen ()
 	{
-		GameObject prefabGO;
-		GameObject tempGO;
-		prefabGO = Resources.Load ("Prefabs/GameOver")as GameObject ;
-		tempGO = Instantiate (prefabGO);
-		tempGO.name = "GameOver";
-        ShowShotTutorial(false);
+		//GameObject prefabGO;
+		//GameObject tempGO;
+		//prefabGO = Resources.Load ("Prefabs/GameOver")as GameObject ;
+		//tempGO = Instantiate (prefabGO);
+		//tempGO.name = "GameOver";
+  //      ShowShotTutorial(false);
+
+        UIManager.Instance.OpenPopup<GenericPopup>(new GenericPopupData("GAME OVER", "Great! Keep it up and you'll \ndefinitely head the leaderboard!", () => {
+            AudioPlayer.instance.PlayTheIntroSound();
+            CONTROLLER.NewInnings = true;
+            GameModel.instance.ReStartGame();
+        }, () => StartCoroutine(GameModel.instance.GameQuitted())));
+
     }
 
-	public void ShowMatchTargetScreen()
+    public void ShowMatchTargetScreen()
     {
         GameObject prefabGO;
         GameObject tempGO;

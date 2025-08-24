@@ -8,7 +8,7 @@ public class ScorePopupAnimation : MonoBehaviour
     [Header("UI Targets")]
     public RectTransform[] UserScoreTarget;
     public RectTransform[] OppScoreTarget;
-    public Canvas worldCanvas;              
+    public GameObject parentObject;              
 
     [Header("Prefab")]
     public GameObject scorePrefab; 
@@ -16,7 +16,7 @@ public class ScorePopupAnimation : MonoBehaviour
 
     public void ShowScore(string scoreText, bool isUser)
     {
-        GameObject scoreObj = Instantiate(scorePrefab, worldCanvas.transform);
+        GameObject scoreObj = Instantiate(scorePrefab, parentObject.transform);
         Text scoreUI = scoreObj.GetComponent<Text>(); 
         //TMP_Text scoreUI = scoreObj.GetComponent<TMP_Text>();
         RectTransform scoreRect = scoreObj.GetComponent<RectTransform>();
